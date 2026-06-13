@@ -1,0 +1,14 @@
+[versions]
+agp           = "8.13.2"
+kotlin        = "2.0.20"
+serialization = "1.7.3"
+datastore     = "1.1.1"
+
+[libraries]
+kotlinx-serialization-json    = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json",    version.ref = "serialization" }
+androidx-datastore-preferences = { group = "androidx.datastore",   name = "datastore-preferences",          version.ref = "datastore" }
+
+[plugins]
+android-library      = { id = "com.android.library",                       version.ref = "agp" }
+kotlin-android       = { id = "org.jetbrains.kotlin.android",              version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
