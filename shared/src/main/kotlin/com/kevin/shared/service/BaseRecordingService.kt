@@ -5,6 +5,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
 import android.content.Intent
+import android.os.Build
 import android.os.IBinder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -14,17 +15,22 @@ import kotlinx.coroutines.launch
 
 abstract class BaseRecordingService : Service() {
 
-    protected val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
+    protected val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
     abstract val notificationChannelId: String
     abstract val notificationChannelName: String
     abstract val notificationId: Int
 
+    // Override with ServiceInfo.FOREGROUND_SERVICE_TYPE_* constant; 0 = no explicit type
+    open val fgsType: Int = 0
+
     abstract fun buildNotification(label: String, elapsed: String): Notification
 
     // Called inside a coroutine on serviceScope — subclass can launch additional children
     abstract suspend fun onRecordingStart(label: String)
-    abstract fun onRecordingStop()
+
+    // suspend so stopSelf() waits until this completes before service is destroyed
+    abstract suspend fun onRecordingStop()
 
     override fun onCreate() {
         super.onCreate()
@@ -36,12 +42,19 @@ abstract class BaseRecordingService : Service() {
         when (intent?.action) {
             RecordingServiceContract.ACTION_START -> {
                 val label = intent.getStringExtra(RecordingServiceContract.EXTRA_LABEL) ?: "Training"
-                startForeground(notificationId, buildNotification(label, "00:00"))
+                val notification = buildNotification(label, "00:00")
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && fgsType != 0) {
+                    startForeground(notificationId, notification, fgsType)
+                } else {
+                    startForeground(notificationId, notification)
+                }
                 serviceScope.launch { onRecordingStart(label) }
             }
             RecordingServiceContract.ACTION_STOP -> {
-                onRecordingStop()
-                stopSelf()
+                serviceScope.launch {
+                    onRecordingStop()
+                    stopSelf()
+                }
             }
         }
         return START_STICKY
