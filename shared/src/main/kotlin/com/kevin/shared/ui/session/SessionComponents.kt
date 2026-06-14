@@ -109,8 +109,8 @@ data class TrashSessionItem(val id: Long, val label: String, val startedAt: Long
 @Composable
 fun TrashTab(items: List<TrashSessionItem>, onRestore: (Long) -> Unit) {
     LazyColumn(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-        item {
-            if (items.isNotEmpty()) {
+        if (items.isNotEmpty()) {
+            item {
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     colors = CardDefaults.cardColors(
@@ -159,4 +159,30 @@ fun TrashTab(items: List<TrashSessionItem>, onRestore: (Long) -> Unit) {
         }
         item { Spacer(Modifier.height(16.dp)) }
     }
+}
+
+@Composable
+fun SoftDeleteConfirmationDialog(
+    pendingIds: List<Long>?,
+    onConfirm: (List<Long>) -> Unit,
+    onDismiss: () -> Unit
+) {
+    pendingIds ?: return
+    val count = pendingIds.size
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("In Papierkorb verschieben?") },
+        text = {
+            Text(
+                "$count ${if (count == 1) "Eintrag wird" else "Einträge werden"} in den Papierkorb " +
+                    "verschoben und beim nächsten App-Start endgültig gelöscht."
+            )
+        },
+        confirmButton = {
+            TextButton(onClick = { onConfirm(pendingIds) }) { Text("Verschieben") }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) { Text("Abbrechen") }
+        }
+    )
 }
