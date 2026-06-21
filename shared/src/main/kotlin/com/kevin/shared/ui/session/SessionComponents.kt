@@ -15,6 +15,30 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+fun CategoryFilterRow(
+    categories: List<String>,
+    selected: Set<String>,
+    onToggle: (String) -> Unit
+) {
+    if (categories.isEmpty()) return
+    FlowRow(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 12.dp, vertical = 8.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        categories.forEach { category ->
+            FilterChip(
+                selected = selected.isEmpty() || category in selected,
+                onClick = { onToggle(category) },
+                label = { Text(category) }
+            )
+        }
+    }
+}
+
 fun durationString(seconds: Long): String {
     val h = seconds / 3600
     val m = (seconds % 3600) / 60
