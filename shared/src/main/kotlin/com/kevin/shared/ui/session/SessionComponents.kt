@@ -186,6 +186,30 @@ fun TrashTab(items: List<TrashSessionItem>, onRestore: (Long) -> Unit) {
 }
 
 @Composable
+fun LeaveSessionDialog(
+    onSave: () -> Unit,
+    onDiscard: () -> Unit,
+    onDismiss: () -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("Session verlassen?") },
+        text = { Text("Was soll mit der laufenden Aufzeichnung passieren?") },
+        confirmButton = {
+            TextButton(onClick = onSave) { Text("Speichern") }
+        },
+        dismissButton = {
+            Row {
+                TextButton(onClick = onDiscard) {
+                    Text("Verwerfen", color = MaterialTheme.colorScheme.error)
+                }
+                TextButton(onClick = onDismiss) { Text("Weiter messen") }
+            }
+        }
+    )
+}
+
+@Composable
 fun SoftDeleteConfirmationDialog(
     pendingIds: List<Long>?,
     onConfirm: (List<Long>) -> Unit,
