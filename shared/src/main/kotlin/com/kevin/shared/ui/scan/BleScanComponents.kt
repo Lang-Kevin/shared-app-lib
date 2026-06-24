@@ -15,6 +15,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.kevin.shared.ble.ConnectionState
@@ -32,8 +34,12 @@ fun BleStatusCard(
     onToggleAutoConnect: () -> Unit
 ) {
     val statusText = when (connectionState) {
-        is ConnectionState.Reconnecting -> "Verbindung verloren — reconnecting…"
+        is ConnectionState.Reconnecting -> "Verbindung verloren — verbinde neu…"
         is ConnectionState.Error -> "Fehler: ${connectionState.reason}"
+        is ConnectionState.Disconnected -> "Getrennt"
+        is ConnectionState.Connecting -> "Verbinde…"
+        is ConnectionState.Connected -> "Verbunden"
+        is ConnectionState.Ready -> "Bereit"
         else -> connectionState::class.simpleName ?: ""
     }
     val statusColor = if (connectionState is ConnectionState.Error)
@@ -67,7 +73,10 @@ fun BleStatusCard(
                 modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Box(modifier = Modifier.size(8.dp).background(dotColor, CircleShape))
+                Box(modifier = Modifier
+                    .size(8.dp)
+                    .background(dotColor, CircleShape)
+                    .semantics { contentDescription = "Status: $statusText" })
                 Spacer(Modifier.width(8.dp))
                 Text(
                     "Status: $statusText",
@@ -130,7 +139,7 @@ fun DiscoveredDeviceItem(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Icon(icon, contentDescription = null)
+            Icon(icon, contentDescription = subtitle)
             Column {
                 Text(device.displayName, style = MaterialTheme.typography.bodyLarge)
                 Text(subtitle, style = MaterialTheme.typography.bodySmall)
