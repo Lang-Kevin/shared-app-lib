@@ -4,3 +4,8 @@ build/
 *.iml
 local.properties
 
+# JVM heap dumps
+*.hprof
+# Kotlin incremental build cache
+.kotlin/
+
