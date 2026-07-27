@@ -2,6 +2,7 @@ package com.kevin.shared.ui.chart
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.IconToggleButton
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.runtime.Composable
@@ -23,12 +24,9 @@ fun ChartToggleButton(
     IconToggleButton(
         checked = checked,
         onCheckedChange = onCheckedChange,
-        modifier = modifier.size(48.dp)
+        modifier = modifier.size(48.dp),
+        colors = IconButtonDefaults.iconToggleButtonColors(contentColor = contentColor)
     ) {
-        Icon(
-            imageVector = icon,
-            contentDescription = contentDescription,
-            tint = contentColor
-        )
+        Icon(imageVector = icon, contentDescription = contentDescription)
     }
 }
