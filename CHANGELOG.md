@@ -1,5 +1,11 @@
 # Changelog — shared-android-lib
 
+## [Unreleased]
+
+### Removed
+- `ui/chart/ChartScaleMode` — der einzige Konsument (ArmSwing) nutzt jetzt ein persistiertes `Boolean`; von den drei Modi hatten `SHOW_ALL` und `AUTO_FIT` ohnehin identisches Verhalten
+- `ui/chart/VelocityChart` — bereits zuvor entfernt, hier nachgetragen; ArmSwing zeichnet mit seinem eigenen `LiveVelocityChart`
+
 ## [0.2.0] — 2026-06-14
 
 ### Added
