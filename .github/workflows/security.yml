@@ -1,0 +1,63 @@
+name: CVE check
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  schedule:
+    # Weekly, so newly published CVEs show up without a code change.
+    - cron: "17 5 * * 1"
+  workflow_dispatch:
+
+concurrency:
+  group: security-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  osv-scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      # Resolves the full dependency tree (transitive libs and build plugins included) into
+      # lockfiles. They are not committed; they only feed the scan.
+      - name: Resolve dependencies (lockfiles)
+        run: |
+          chmod +x gradlew
+          ./gradlew -I .github/security/dependency-locking.init.gradle \
+            :shared:dependencies buildEnvironment --write-locks --no-configuration-cache -q > deps.txt
+          # Unresolvable dependencies would otherwise silently drop out of the scan.
+          if grep -n 'FAILED' deps.txt; then echo "::error::Unresolvable dependencies"; exit 1; fi
+          for f in $(find . -name '*gradle.lockfile'); do echo "::group::$f"; cat "$f"; echo "::endgroup::"; done
+          # osv-scanner only warns about missing lockfiles; fail hard here instead.
+          test -s shared/gradle.lockfile || { echo "::error::shared/gradle.lockfile missing"; exit 1; }
+
+      # Fails as soon as a dependency has a known vulnerability. Record deliberately accepted
+      # findings with a reason in osv-scanner.toml ([[IgnoredVulns]] id = "GHSA-…", reason = "…").
+      # --no-ignore: the lockfiles are gitignored, osv-scanner would skip them otherwise.
+      - name: OSV scan
+        uses: google/osv-scanner-action/osv-scanner-action@v2.6.0
+        with:
+          scan-args: |-
+            --recursive
+            --no-ignore
+            ./
+
+      - name: Upload lockfiles
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gradle-lockfiles
+          path: "**/*gradle.lockfile"
+          if-no-files-found: ignore

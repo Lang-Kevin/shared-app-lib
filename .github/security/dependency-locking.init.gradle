@@ -1,0 +1,7 @@
+// CI CVE check only: writes Gradle lockfiles (gradle.lockfile, buildscript-gradle.lockfile)
+// that osv-scanner then checks against the OSV database. Covers every resolved configuration,
+// including transitive dependencies, KSP processors and the plugin classpath.
+allprojects {
+    buildscript.dependencyLocking.lockAllConfigurations()
+    dependencyLocking.lockAllConfigurations()
+}
