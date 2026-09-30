@@ -19,7 +19,7 @@ jobs:
         with:
           distribution: temurin
           java-version: "21"
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@v5
       - name: Hardcoded UI strings
         run: python3 tools/check_hardcoded_strings.py shared/src/main/kotlin
       # Lint covers the resource side of i18n: MissingTranslation, plurals, format args.
@@ -91,7 +91,7 @@ jobs:
         with:
           distribution: temurin
           java-version: "21"
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@v5
         if: env.CAN_CHECKOUT == 'true'
       - name: Build and unit tests
         if: env.CAN_CHECKOUT == 'true'
