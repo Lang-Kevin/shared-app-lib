@@ -39,7 +39,7 @@ jobs:
             :shared:dependencies buildEnvironment --write-locks --no-configuration-cache -q > deps.txt
           # Unresolvable dependencies would otherwise silently drop out of the scan.
           if grep -n 'FAILED' deps.txt; then echo "::error::Unresolvable dependencies"; exit 1; fi
-          find . -name '*gradle.lockfile' -print
+          for f in $(find . -name '*gradle.lockfile'); do echo "::group::$f"; cat "$f"; echo "::endgroup::"; done
           # osv-scanner only warns about missing lockfiles; fail hard here instead.
           test -s shared/gradle.lockfile || { echo "::error::shared/gradle.lockfile missing"; exit 1; }
 
