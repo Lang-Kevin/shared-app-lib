@@ -1,0 +1,58 @@
+name: Release tag
+
+# Creates the tag v<version> for the version in shared/build.gradle.kts whenever master changes
+# and that tag doesn't exist yet. A release is: bump the version, merge. The apps pin these tags
+# in code/shared-app-lib.ref.
+# Run manually with `tag` + `sha` to (back)fill a tag for an older release commit.
+
+on:
+  push:
+    branches: [master]
+    paths: [shared/build.gradle.kts, .github/workflows/release-tag.yml]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag to create (e.g. v0.3.1). Empty = v<version> from shared/build.gradle.kts"
+        required: false
+      sha:
+        description: "Commit to tag. Empty = head of the selected branch"
+        required: false
+
+concurrency:
+  group: release-tag
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Create tag if missing
+        env:
+          INPUT_TAG: ${{ inputs.tag }}
+          INPUT_SHA: ${{ inputs.sha }}
+        run: |
+          sha="${INPUT_SHA:-$GITHUB_SHA}"
+          if [ -n "$INPUT_TAG" ]; then
+            tag="$INPUT_TAG"
+          else
+            version=$(git show "$sha:shared/build.gradle.kts" | sed -n 's/^version *= *"\(.*\)"/\1/p')
+            [ -n "$version" ] || { echo "::error::No version found in shared/build.gradle.kts at $sha"; exit 1; }
+            tag="v$version"
+          fi
+          if git ls-remote --exit-code --tags origin "refs/tags/$tag" > /dev/null; then
+            echo "Tag $tag already exists - nothing to do."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git tag -a "$tag" "$sha" -m "shared-app-lib ${tag#v}"
+          git push origin "refs/tags/$tag"
+          echo "Created $tag at $sha" >> "$GITHUB_STEP_SUMMARY"

@@ -1,5 +1,10 @@
 # Changelog — shared-android-lib
 
+## [Unreleased]
+
+### Added
+- Release tags are created by CI (`.github/workflows/release-tag.yml`): on every change to `shared/build.gradle.kts` on master, the tag `v<version>` is created if it doesn't exist; a manual run with `tag` + `sha` backfills older releases. A release is now: bump the version, merge.
+
 ## [0.3.2] — 2026-09-30
 
 ### Security
