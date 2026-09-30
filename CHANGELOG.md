@@ -14,12 +14,16 @@ as-tracker (ArmSwing) is deprecated and no longer built against this lib.
 - `domain/ZoneTextError` + `ZoneTextError.message()`
 - Localization: all lib texts are Android string resources, English default (`values/`), German (`values-de/`); resources carry the `shared_` prefix
 
+### Fixed
+- Google-Fonts certificates were corrupt (copied from hr), so Space Grotesk never loaded; replaced with the official dev/prod certificates
+
 ### Changed (breaking)
 - `TrashTab` and `SoftDeleteConfirmationDialog` take a required `retention` parameter
 - `validateZoneTexts` returns `List<ZoneTextError?>` instead of German strings
 - `Long.toDateString()` uses the device locale's short date/time format
 - `DiscoveredDevice.Real.displayName` falls back to the MAC address instead of a German text
 - Compose UI/Material3/icons, google fonts, activity-compose, coroutines and serialization are now `api` dependencies
+- `compileSdk` 37 (matches the apps and the 2026 Compose BOM)
 - Apps locate the lib via `sharedLibPath` in `code/local.properties` (default `../../shared-app-lib`)
 
 ### Removed
