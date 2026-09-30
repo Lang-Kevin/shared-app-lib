@@ -27,6 +27,9 @@ jobs:
         run: |
           chmod +x gradlew
           ./gradlew :shared:testDebugUnitTest :shared:lintDebug --stacktrace
+      - name: Print lint report
+        if: failure()
+        run: find shared/build -name 'lint-results-*.txt' -exec cat {} + || true
       - name: Upload reports
         if: failure()
         uses: actions/upload-artifact@v4
