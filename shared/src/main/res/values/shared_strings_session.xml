@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- SessionListItem -->
+    <string name="shared_session_duration">Duration: %s</string>
+    <string name="shared_session_in_progress">In progress…</string>
+
+    <!-- LeaveSessionDialog -->
+    <string name="shared_leave_session_title">Leave session?</string>
+    <string name="shared_leave_session_message">What should happen to the running recording?</string>
+    <string name="shared_leave_session_save">Save</string>
+    <string name="shared_leave_session_discard">Discard</string>
+    <string name="shared_leave_session_keep_recording">Keep recording</string>
+
+    <!-- TrashTab -->
+    <string name="shared_trash_hint_next_app_start">Items are permanently deleted the next time the app starts.</string>
+    <string name="shared_trash_hint_manual">Items stay here until you restore them or delete them permanently.</string>
+    <string name="shared_trash_empty">Trash is empty.</string>
+    <string name="shared_trash_restore">Restore</string>
+    <string name="shared_trash_cancel">Cancel</string>
+
+    <!-- SoftDeleteConfirmationDialog -->
+    <string name="shared_soft_delete_title">Move to trash?</string>
+    <plurals name="shared_soft_delete_message">
+        <item quantity="one">%d item will be moved to the trash.</item>
+        <item quantity="other">%d items will be moved to the trash.</item>
+    </plurals>
+    <string name="shared_soft_delete_retention_next_app_start">Items in the trash are permanently deleted the next time the app starts.</string>
+    <string name="shared_soft_delete_retention_manual">You can restore items from the trash at any time.</string>
+    <string name="shared_soft_delete_confirm">Move</string>
+
+    <!-- DeleteForeverConfirmationDialog -->
+    <string name="shared_delete_forever_title">Delete permanently?</string>
+    <string name="shared_delete_forever_message">This item will be deleted permanently. This cannot be undone.</string>
+    <string name="shared_delete_forever_action">Delete permanently</string>
+</resources>
