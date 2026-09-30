@@ -11,7 +11,7 @@ version = "0.3.0"
 
 android {
     namespace   = "com.kevin.shared"
-    compileSdk  = 35
+    compileSdk  = 37
     // All lib resources carry this prefix so they never collide with app resources.
     resourcePrefix = "shared_"
     defaultConfig {
