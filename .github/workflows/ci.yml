@@ -32,7 +32,7 @@ jobs:
         run: find shared/build -name 'lint-results-*.txt' -exec cat {} + || true
       - name: Upload reports
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: lib-reports
           path: shared/build/reports/
