@@ -28,7 +28,7 @@ jobs:
           distribution: temurin
           java-version: "21"
 
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@v5
 
       # Resolves the full dependency tree (transitive libs and build plugins included) into
       # lockfiles. They are not committed; they only feed the scan.
