@@ -1,0 +1,98 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lib:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Hardcoded UI strings
+        run: python3 tools/check_hardcoded_strings.py shared/src/main/kotlin
+      # Lint covers the resource side of i18n: MissingTranslation, plurals, format args.
+      - name: Unit tests and lint
+        run: |
+          chmod +x gradlew
+          ./gradlew :shared:testDebugUnitTest :shared:lintDebug --stacktrace
+      - name: Upload reports
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lib-reports
+          path: shared/build/reports/
+          if-no-files-found: ignore
+
+  # Builds every app against this lib change, so a breaking change shows up before it is merged.
+  # Uses the app branch with the same name when it exists (app fixes for a breaking lib change),
+  # otherwise the app's default branch.
+  apps:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - app: hr-tracker
+            default_branch: master
+            private: false
+          - app: jump-tracker-app
+            default_branch: main
+            private: true
+    env:
+      # Private app repos need a token with read access (repo secret APP_REPO_TOKEN).
+      CAN_CHECKOUT: ${{ !matrix.private || secrets.APP_REPO_TOKEN != '' }}
+      REPO_TOKEN: ${{ matrix.private && secrets.APP_REPO_TOKEN || github.token }}
+    steps:
+      - name: Skip notice
+        if: env.CAN_CHECKOUT != 'true'
+        run: echo "::warning::${{ matrix.app }} skipped - add a repo secret APP_REPO_TOKEN with read access to Lang-Kevin/${{ matrix.app }}"
+      - uses: actions/checkout@v4
+        if: env.CAN_CHECKOUT == 'true'
+        with:
+          path: ws/shared-app-lib
+      - name: Resolve app ref
+        id: app
+        if: env.CAN_CHECKOUT == 'true'
+        env:
+          BRANCH: ${{ github.head_ref || github.ref_name }}
+          APP: ${{ matrix.app }}
+          DEFAULT_BRANCH: ${{ matrix.default_branch }}
+        run: |
+          if git ls-remote --exit-code --heads "https://x-access-token:${REPO_TOKEN}@github.com/Lang-Kevin/${APP}" "$BRANCH" > /dev/null; then
+            echo "ref=$BRANCH" >> "$GITHUB_OUTPUT"
+          else
+            echo "ref=$DEFAULT_BRANCH" >> "$GITHUB_OUTPUT"
+          fi
+      - uses: actions/checkout@v4
+        if: env.CAN_CHECKOUT == 'true'
+        with:
+          repository: Lang-Kevin/${{ matrix.app }}
+          ref: ${{ steps.app.outputs.ref }}
+          token: ${{ env.REPO_TOKEN }}
+          path: ws/${{ matrix.app }}
+      - uses: actions/setup-java@v4
+        if: env.CAN_CHECKOUT == 'true'
+        with:
+          distribution: temurin
+          java-version: "21"
+      - uses: gradle/actions/setup-gradle@v4
+        if: env.CAN_CHECKOUT == 'true'
+      - name: Build and unit tests
+        if: env.CAN_CHECKOUT == 'true'
+        working-directory: ws/${{ matrix.app }}/code
+        run: |
+          chmod +x gradlew
+          ./gradlew :app:assembleDebug :app:testDebugUnitTest --stacktrace
