@@ -9,3 +9,7 @@ local.properties
 # Kotlin incremental build cache
 .kotlin/
 
+
+# Written by the CI CVE check only (.github/security/dependency-locking.init.gradle)
+gradle.lockfile
+buildscript-gradle.lockfile
