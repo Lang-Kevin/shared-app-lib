@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- BLE scan components -->
+    <string name="shared_ble_status_reconnecting">Verbindung verloren — verbinde neu…</string>
+    <string name="shared_ble_status_error">Fehler: %1$s</string>
+    <string name="shared_ble_status_disconnected">Getrennt</string>
+    <string name="shared_ble_status_connecting">Verbinde…</string>
+    <string name="shared_ble_status_connected">Verbunden</string>
+    <string name="shared_ble_status_ready">Bereit</string>
+    <string name="shared_ble_status_label">Status: %1$s</string>
+    <string name="shared_ble_disconnect">Trennen</string>
+    <string name="shared_ble_auto_connect">Auto-Connect</string>
+    <string name="shared_ble_forget">Vergessen</string>
+    <string name="shared_ble_simulated_device">Simuliertes Testgerät</string>
+    <string name="shared_ble_chest_strap">Brustgurt</string>
+
+    <!-- Label picker -->
+    <string name="shared_label_picker_delete">Löschen</string>
+
+    <!-- Zones -->
+    <string name="shared_zone_dialog_title">Ziel-Zone wählen</string>
+    <string name="shared_zone_short">Z%1$d</string>
+    <string name="shared_zone_dialog_close">Schließen</string>
+    <string name="shared_zone_error_invalid_number">Ungültige Zahl</string>
+    <string name="shared_zone_error_min_not_below_max">Min muss kleiner als Max sein</string>
+    <string name="shared_zone_error_overlaps">Überlappt mit Z%1$d</string>
+</resources>

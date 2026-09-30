@@ -9,7 +9,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.kevin.shared.R
 
 @Composable
 fun TargetZoneDialog(
@@ -21,7 +23,7 @@ fun TargetZoneDialog(
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Ziel-Zone wählen") },
+        title = { Text(stringResource(R.string.shared_zone_dialog_title)) },
         text = {
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 (1..zoneCount).forEach { z ->
@@ -30,7 +32,7 @@ fun TargetZoneDialog(
                     FilterChip(
                         selected = selected,
                         onClick = { onSelect(z) },
-                        label = { Text("Z$z") },
+                        label = { Text(stringResource(R.string.shared_zone_short, z)) },
                         colors = FilterChipDefaults.filterChipColors(
                             selectedContainerColor = zoneColor,
                             selectedLabelColor = Color.White
@@ -40,7 +42,7 @@ fun TargetZoneDialog(
             }
         },
         confirmButton = {
-            TextButton(onClick = onDismiss) { Text("Schließen") }
+            TextButton(onClick = onDismiss) { Text(stringResource(R.string.shared_zone_dialog_close)) }
         }
     )
 }

@@ -13,18 +13,18 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.kevin.shared.R
 import com.kevin.shared.ble.ConnectionState
 import com.kevin.shared.domain.DeviceType
 import com.kevin.shared.domain.DiscoveredDevice
 import com.kevin.shared.domain.SavedDevice
-
-private val ConnectedGreenDot = Color(0xFF4CAF82)
+import com.kevin.shared.ui.theme.ConnectedGreen
 
 @Composable
 fun BleStatusCard(
@@ -34,20 +34,20 @@ fun BleStatusCard(
     onToggleAutoConnect: () -> Unit
 ) {
     val statusText = when (connectionState) {
-        is ConnectionState.Reconnecting -> "Verbindung verloren — verbinde neu…"
-        is ConnectionState.Error -> "Fehler: ${connectionState.reason}"
-        is ConnectionState.Disconnected -> "Getrennt"
-        is ConnectionState.Connecting -> "Verbinde…"
-        is ConnectionState.Connected -> "Verbunden"
-        is ConnectionState.Ready -> "Bereit"
-        else -> connectionState::class.simpleName ?: ""
+        is ConnectionState.Reconnecting -> stringResource(R.string.shared_ble_status_reconnecting)
+        is ConnectionState.Error -> stringResource(R.string.shared_ble_status_error, connectionState.reason)
+        is ConnectionState.Disconnected -> stringResource(R.string.shared_ble_status_disconnected)
+        is ConnectionState.Connecting -> stringResource(R.string.shared_ble_status_connecting)
+        is ConnectionState.Connected -> stringResource(R.string.shared_ble_status_connected)
+        is ConnectionState.Ready -> stringResource(R.string.shared_ble_status_ready)
     }
+    val statusLabel = stringResource(R.string.shared_ble_status_label, statusText)
     val statusColor = if (connectionState is ConnectionState.Error)
         MaterialTheme.colorScheme.error
     else
         MaterialTheme.colorScheme.onSurface
     val dotColor = when {
-        connectionState is ConnectionState.Ready -> ConnectedGreenDot
+        connectionState is ConnectionState.Ready -> ConnectedGreen
         connectionState is ConnectionState.Error -> MaterialTheme.colorScheme.error
         else -> MaterialTheme.colorScheme.onSurfaceVariant
     }
@@ -76,21 +76,21 @@ fun BleStatusCard(
                 Box(modifier = Modifier
                     .size(8.dp)
                     .background(dotColor, CircleShape)
-                    .semantics { contentDescription = "Status: $statusText" })
+                    .semantics { contentDescription = statusLabel })
                 Spacer(Modifier.width(8.dp))
                 Text(
-                    "Status: $statusText",
+                    statusLabel,
                     style = MaterialTheme.typography.bodyMedium,
                     color = statusColor,
                     modifier = Modifier.weight(1f)
                 )
                 if (connectionState !is ConnectionState.Disconnected) {
-                    TextButton(onClick = onDisconnect) { Text("Trennen") }
+                    TextButton(onClick = onDisconnect) { Text(stringResource(R.string.shared_ble_disconnect)) }
                 }
             }
         }
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Text("Auto-Connect", style = MaterialTheme.typography.bodySmall)
+            Text(stringResource(R.string.shared_ble_auto_connect), style = MaterialTheme.typography.bodySmall)
             Spacer(Modifier.width(4.dp))
             Switch(checked = autoConnect, onCheckedChange = { onToggleAutoConnect() })
         }
@@ -112,7 +112,7 @@ fun SavedDeviceItem(device: SavedDevice, onClick: () -> Unit, onForget: () -> Un
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
-            TextButton(onClick = onForget) { Text("Vergessen") }
+            TextButton(onClick = onForget) { Text(stringResource(R.string.shared_ble_forget)) }
         }
     }
 }
@@ -121,15 +121,16 @@ fun SavedDeviceItem(device: SavedDevice, onClick: () -> Unit, onForget: () -> Un
 fun DiscoveredDeviceItem(
     device: DiscoveredDevice,
     onClick: () -> Unit,
-    iconAndSubtitle: (DiscoveredDevice) -> Pair<ImageVector, String> = { d ->
-        when {
-            d is DiscoveredDevice.Fake -> Icons.Default.Bluetooth to "Simuliertes Testgerät"
-            d.deviceType == DeviceType.CHEST_STRAP -> Icons.Default.Favorite to "Brustgurt"
-            else -> Icons.Default.Bluetooth to d.address
-        }
-    }
+    // ponytail: null = default icon/subtitle; resolved here because stringResource needs a composable scope
+    iconAndSubtitle: ((DiscoveredDevice) -> Pair<ImageVector, String>)? = null
 ) {
-    val (icon, subtitle) = iconAndSubtitle(device)
+    val simulatedText = stringResource(R.string.shared_ble_simulated_device)
+    val chestStrapText = stringResource(R.string.shared_ble_chest_strap)
+    val (icon, subtitle) = iconAndSubtitle?.invoke(device) ?: when {
+        device is DiscoveredDevice.Fake -> Icons.Default.Bluetooth to simulatedText
+        device.deviceType == DeviceType.CHEST_STRAP -> Icons.Default.Favorite to chestStrapText
+        else -> Icons.Default.Bluetooth to device.address
+    }
     Card(
         modifier = Modifier.fillMaxWidth().clickable(onClick = onClick),
         shape = RoundedCornerShape(12.dp)
