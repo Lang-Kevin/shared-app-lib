@@ -13,7 +13,7 @@ sealed class DiscoveredDevice {
         @get:SuppressLint("MissingPermission")
         override val address: String get() = scanResult.device.address
         @get:SuppressLint("MissingPermission")
-        override val displayName: String get() = scanResult.device.name ?: "Unbekanntes Gerät"
+        override val displayName: String get() = scanResult.device.name ?: scanResult.device.address
         @get:SuppressLint("MissingPermission")
         override val deviceType: DeviceType get() = guessDeviceType(scanResult.device.name)
     }

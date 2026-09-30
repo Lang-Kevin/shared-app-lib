@@ -11,7 +11,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.kevin.shared.R
 import com.kevin.shared.domain.LabelItem
 
 // ponytail: gemeinsamer Picker für ArmSwing (BarbellExercise) + TrackerApp (SportLabel)
@@ -57,7 +59,7 @@ fun LabelPickerDialog(
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.Delete,
-                                    contentDescription = "Löschen"
+                                    contentDescription = stringResource(R.string.shared_label_picker_delete)
                                 )
                             }
                         }

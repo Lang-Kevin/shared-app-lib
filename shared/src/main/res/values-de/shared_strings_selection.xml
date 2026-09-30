@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="shared_selection_count">
+        <item quantity="one">%d ausgewählt</item>
+        <item quantity="other">%d ausgewählt</item>
+    </plurals>
+    <string name="shared_selection_cancel">Auswahl abbrechen</string>
+    <string name="shared_selection_delete">Löschen</string>
+</resources>

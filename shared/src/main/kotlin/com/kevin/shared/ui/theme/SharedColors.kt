@@ -2,8 +2,7 @@ package com.kevin.shared.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-// ponytail: eine Palette für TrackerApp + ArmSwing. Themes bleiben app-lokal,
-// nur die Werte sind geteilt.
+// ponytail: one palette for hr-tracker + jump-tracker; the theme built from it lives here too (AppTheme).
 val PrimaryPurple  = Color(0xFFB6A6F2)
 val SecondaryBlue  = Color(0xFF5BA9E6)
 val TertiaryPink   = Color(0xFFF4738E)

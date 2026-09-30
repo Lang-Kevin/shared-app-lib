@@ -7,11 +7,13 @@ plugins {
 }
 
 group   = "com.kevin.shared"
-version = "0.2.0"
+version = "0.3.0"
 
 android {
     namespace   = "com.kevin.shared"
-    compileSdk  = 35
+    compileSdk  = 37
+    // All lib resources carry this prefix so they never collide with app resources.
+    resourcePrefix = "shared_"
     defaultConfig {
         minSdk = 26
     }
@@ -30,13 +32,17 @@ kotlin {
     }
 }
 
+// Types from these libraries appear in the lib's public API (Modifier, Color, ImageVector,
+// Typography, BackHandler, @Serializable, BaseRecordingService.serviceScope), so they are `api` and reach the apps transitively.
 dependencies {
-    implementation(libs.kotlinx.serialization.json)
-    implementation(libs.androidx.datastore.preferences)
+    api(libs.kotlinx.serialization.json)
+    api(libs.kotlinx.coroutines.android)
     val composeBom = platform(libs.compose.bom)
-    implementation(composeBom)
-    implementation(libs.compose.ui)
-    implementation(libs.compose.material3)
-    implementation(libs.compose.material.icons.extended)
+    api(composeBom)
+    api(libs.compose.ui)
+    api(libs.compose.material3)
+    api(libs.compose.material.icons.extended)
+    api(libs.compose.ui.text.google.fonts)
+    api(libs.activity.compose)
     testImplementation(libs.junit)
 }

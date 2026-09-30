@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- SessionListItem -->
+    <string name="shared_session_duration">Dauer: %s</string>
+    <string name="shared_session_in_progress">läuft noch…</string>
+
+    <!-- LeaveSessionDialog -->
+    <string name="shared_leave_session_title">Session verlassen?</string>
+    <string name="shared_leave_session_message">Was soll mit der laufenden Aufzeichnung passieren?</string>
+    <string name="shared_leave_session_save">Speichern</string>
+    <string name="shared_leave_session_discard">Verwerfen</string>
+    <string name="shared_leave_session_keep_recording">Weiter messen</string>
+
+    <!-- TrashTab -->
+    <string name="shared_trash_hint_next_app_start">Elemente werden beim nächsten App-Start endgültig gelöscht.</string>
+    <string name="shared_trash_hint_manual">Elemente bleiben hier, bis du sie wiederherstellst oder endgültig löschst.</string>
+    <string name="shared_trash_empty">Papierkorb ist leer.</string>
+    <string name="shared_trash_restore">Wiederherstellen</string>
+    <string name="shared_trash_cancel">Abbrechen</string>
+
+    <!-- SoftDeleteConfirmationDialog -->
+    <string name="shared_soft_delete_title">In Papierkorb verschieben?</string>
+    <plurals name="shared_soft_delete_message">
+        <item quantity="one">%d Eintrag wird in den Papierkorb verschoben.</item>
+        <item quantity="other">%d Einträge werden in den Papierkorb verschoben.</item>
+    </plurals>
+    <string name="shared_soft_delete_retention_next_app_start">Einträge im Papierkorb werden beim nächsten App-Start endgültig gelöscht.</string>
+    <string name="shared_soft_delete_retention_manual">Du kannst Einträge jederzeit aus dem Papierkorb wiederherstellen.</string>
+    <string name="shared_soft_delete_confirm">Verschieben</string>
+
+    <!-- DeleteForeverConfirmationDialog -->
+    <string name="shared_delete_forever_title">Endgültig löschen?</string>
+    <string name="shared_delete_forever_message">Dieser Eintrag wird endgültig gelöscht. Das kann nicht rückgängig gemacht werden.</string>
+    <string name="shared_delete_forever_action">Endgültig löschen</string>
+</resources>

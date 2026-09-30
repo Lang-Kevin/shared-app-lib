@@ -3,15 +3,15 @@ package com.kevin.shared.ui.session
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import java.text.SimpleDateFormat
+import com.kevin.shared.R
+import java.text.DateFormat
 import java.util.Date
 import java.util.Locale
 
@@ -48,7 +48,7 @@ fun durationString(seconds: Long): String {
 }
 
 fun Long.toDateString(): String =
-    SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault()).format(Date(this))
+    DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.getDefault()).format(Date(this))
 
 @Composable
 fun SummaryCard(stats: List<Pair<String, String>>) {
@@ -114,74 +114,17 @@ fun SessionListItem(
                 )
                 endedAt?.let { end ->
                     Text(
-                        "Dauer: ${durationString((end - startedAt) / 1000)}",
+                        stringResource(R.string.shared_session_duration, durationString((end - startedAt) / 1000)),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 } ?: Text(
-                    "läuft noch…",
+                    stringResource(R.string.shared_session_in_progress),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
         }
-    }
-}
-
-data class TrashSessionItem(val id: Long, val label: String, val startedAt: Long)
-
-@Composable
-fun TrashTab(items: List<TrashSessionItem>, onRestore: (Long) -> Unit) {
-    LazyColumn(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-        if (items.isNotEmpty()) {
-            item {
-                Card(
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.surfaceVariant
-                    )
-                ) {
-                    Text(
-                        "Elemente werden beim nächsten App-Start endgültig gelöscht.",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.padding(12.dp)
-                    )
-                }
-                Spacer(Modifier.height(8.dp))
-            }
-        }
-        if (items.isEmpty()) {
-            item {
-                Text(
-                    "Papierkorb ist leer.",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
-        } else {
-            items(items, key = { it.id }) { entry ->
-                Card(modifier = Modifier.fillMaxWidth()) {
-                    Row(
-                        modifier = Modifier.padding(12.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Column(modifier = Modifier.weight(1f)) {
-                            Text(entry.label, style = MaterialTheme.typography.titleMedium)
-                            Text(
-                                entry.startedAt.toDateString(),
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        }
-                        TextButton(onClick = { onRestore(entry.id) }) {
-                            Text("Wiederherstellen")
-                        }
-                    }
-                }
-            }
-        }
-        item { Spacer(Modifier.height(16.dp)) }
     }
 }
 
@@ -193,44 +136,18 @@ fun LeaveSessionDialog(
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Session verlassen?") },
-        text = { Text("Was soll mit der laufenden Aufzeichnung passieren?") },
+        title = { Text(stringResource(R.string.shared_leave_session_title)) },
+        text = { Text(stringResource(R.string.shared_leave_session_message)) },
         confirmButton = {
-            TextButton(onClick = onSave) { Text("Speichern") }
+            TextButton(onClick = onSave) { Text(stringResource(R.string.shared_leave_session_save)) }
         },
         dismissButton = {
             Row {
                 TextButton(onClick = onDiscard) {
-                    Text("Verwerfen", color = MaterialTheme.colorScheme.error)
+                    Text(stringResource(R.string.shared_leave_session_discard), color = MaterialTheme.colorScheme.error)
                 }
-                TextButton(onClick = onDismiss) { Text("Weiter messen") }
+                TextButton(onClick = onDismiss) { Text(stringResource(R.string.shared_leave_session_keep_recording)) }
             }
-        }
-    )
-}
-
-@Composable
-fun SoftDeleteConfirmationDialog(
-    pendingIds: List<Long>?,
-    onConfirm: (List<Long>) -> Unit,
-    onDismiss: () -> Unit
-) {
-    pendingIds ?: return
-    val count = pendingIds.size
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        title = { Text("In Papierkorb verschieben?") },
-        text = {
-            Text(
-                "$count ${if (count == 1) "Eintrag wird" else "Einträge werden"} in den Papierkorb " +
-                    "verschoben und beim nächsten App-Start endgültig gelöscht."
-            )
-        },
-        confirmButton = {
-            TextButton(onClick = { onConfirm(pendingIds) }) { Text("Verschieben") }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) { Text("Abbrechen") }
         }
     )
 }
