@@ -1,5 +1,14 @@
 # Changelog — shared-android-lib
 
+## [0.3.1] — 2026-09-30
+
+### Added
+- `tools/check_hardcoded_strings.py` — CI check for hardcoded UI text in Compose code (Android lint's HardcodedText only covers XML); `// i18n-ignore` marks deliberate literals
+- CI (`.github/workflows/ci.yml`): lib unit tests, lint and the string check, plus both apps built against every lib change (same-named app branch if present, else the app's default branch)
+
+### Changed
+- Apps pin the lib version their CI builds against in `code/shared-app-lib.ref` (a tag of this repo); bump it to adopt a new lib release
+
 ## [0.3.0] — 2026-09-30
 
 Rule from now on: a feature moves into the lib only when both hr-tracker and jump-tracker use it.
