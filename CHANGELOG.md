@@ -1,5 +1,13 @@
 # Changelog — shared-android-lib
 
+## [0.3.2] — 2026-09-30
+
+### Security
+- Kotlin 2.1.0 → 2.4.20 (Kotlin Gradle plugin, Compose compiler, serialization plugin): fixes CVE-2026-53914 / GHSA-r937-wjx7-w2jp, code execution via unsafe deserialization of Kotlin build cache metadata
+
+### Changed
+- kotlinx-serialization-json 1.7.3 → 1.11.0, matching the newer serialization compiler plugin (reaches the apps via `api`)
+
 ## [0.3.1] — 2026-09-30
 
 ### Added
