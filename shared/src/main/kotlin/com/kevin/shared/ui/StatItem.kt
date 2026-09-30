@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kevin.shared.ui.theme.SurfaceDark
 
-// ponytail: eine Stat-Kachel für TrackerApp + ArmSwing.
+// ponytail: one stat tile for hr-tracker + jump-tracker.
 @Composable
 fun StatItem(
     label: String,
