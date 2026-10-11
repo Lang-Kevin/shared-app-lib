@@ -28,8 +28,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import com.kevin.shared.R
+import com.kevin.shared.ui.theme.AppTheme
 
 /** How long soft-deleted items stay in the trash; UI texts must match the app's actual policy. */
 enum class TrashRetention { ON_NEXT_APP_START, MANUAL }
@@ -47,7 +47,7 @@ fun TrashTab(
 ) {
     var pendingDeleteId by remember { mutableStateOf<Long?>(null) }
 
-    LazyColumn(modifier = modifier, verticalArrangement = Arrangement.spacedBy(6.dp)) {
+    LazyColumn(modifier = modifier, verticalArrangement = Arrangement.spacedBy(AppTheme.spacing.sm)) {
         if (items.isNotEmpty()) {
             item {
                 Card(
@@ -65,10 +65,10 @@ fun TrashTab(
                         ),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.padding(12.dp)
+                        modifier = Modifier.padding(AppTheme.spacing.md)
                     )
                 }
-                Spacer(Modifier.height(8.dp))
+                Spacer(Modifier.height(AppTheme.spacing.sm))
             }
         }
         if (items.isEmpty()) {
@@ -83,7 +83,7 @@ fun TrashTab(
             items(items, key = { it.id }) { entry ->
                 Card(modifier = Modifier.fillMaxWidth()) {
                     Row(
-                        modifier = Modifier.padding(12.dp),
+                        modifier = Modifier.padding(AppTheme.spacing.md),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Column(modifier = Modifier.weight(1f)) {
@@ -110,7 +110,7 @@ fun TrashTab(
                 }
             }
         }
-        item { Spacer(Modifier.height(16.dp)) }
+        item { Spacer(Modifier.height(AppTheme.spacing.lg)) }
     }
 
     val pendingId = pendingDeleteId

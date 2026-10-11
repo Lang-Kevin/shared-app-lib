@@ -9,8 +9,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import com.kevin.shared.R
+import com.kevin.shared.ui.theme.AppTheme
 import java.text.DateFormat
 import java.util.Date
 import java.util.Locale
@@ -26,8 +26,8 @@ fun CategoryFilterRow(
     FlowRow(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 12.dp, vertical = 8.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+            .padding(horizontal = AppTheme.spacing.md, vertical = AppTheme.spacing.sm),
+        horizontalArrangement = Arrangement.spacedBy(AppTheme.spacing.sm)
     ) {
         categories.forEach { category ->
             FilterChip(
@@ -55,7 +55,7 @@ fun SummaryCard(stats: List<Pair<String, String>>) {
     Card(modifier = Modifier.fillMaxWidth()) {
         Row(
             modifier = Modifier
-                .padding(12.dp)
+                .padding(AppTheme.spacing.md)
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
@@ -97,12 +97,12 @@ fun SessionListItem(
             .combinedClickable(onClick = onClick, onLongClick = onLongClick),
         colors = CardDefaults.cardColors(containerColor = containerColor)
     ) {
-        Row(modifier = Modifier.padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
+        Row(modifier = Modifier.padding(AppTheme.spacing.md), verticalAlignment = Alignment.CenterVertically) {
             if (isSelectionMode) {
                 Checkbox(
                     checked = isSelected,
                     onCheckedChange = { onClick() },
-                    modifier = Modifier.padding(end = 8.dp)
+                    modifier = Modifier.padding(end = AppTheme.spacing.sm)
                 )
             }
             Column(modifier = Modifier.weight(1f)) {

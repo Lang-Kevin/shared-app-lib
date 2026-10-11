@@ -15,6 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.kevin.shared.R
 import com.kevin.shared.domain.LabelItem
+import com.kevin.shared.ui.theme.AppTheme
 
 // ponytail: gemeinsamer Picker für ArmSwing (BarbellExercise) + TrackerApp (SportLabel)
 @Composable
@@ -37,19 +38,19 @@ fun LabelPickerDialog(
         onDismissRequest = onDismiss,
         title = { Text(title) },
         text = {
-            LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            LazyColumn(verticalArrangement = Arrangement.spacedBy(AppTheme.spacing.sm)) {
                 items(items, key = { it.id }) { item ->
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clickable { selected = item.name }
-                            .padding(vertical = 4.dp),
+                            .padding(vertical = AppTheme.spacing.xs),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         RadioButton(
                             selected = selected == item.name,
                             onClick = { selected = item.name },
-                            modifier = Modifier.padding(end = 8.dp)
+                            modifier = Modifier.padding(end = AppTheme.spacing.sm)
                         )
                         Text(item.name, modifier = Modifier.weight(1f))
                         if (onDelete != null && !item.isPredefined) {
@@ -67,7 +68,7 @@ fun LabelPickerDialog(
                 }
                 if (onAdd != null && addFieldLabel != null) {
                     item {
-                        Spacer(Modifier.height(8.dp))
+                        Spacer(Modifier.height(AppTheme.spacing.sm))
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             verticalAlignment = Alignment.CenterVertically
@@ -78,7 +79,7 @@ fun LabelPickerDialog(
                                 label = { Text(addFieldLabel) },
                                 modifier = Modifier
                                     .weight(1f)
-                                    .padding(end = 8.dp)
+                                    .padding(end = AppTheme.spacing.sm)
                             )
                             IconButton(
                                 onClick = {
