@@ -8,6 +8,8 @@ local.properties
 *.hprof
 # Kotlin incremental build cache
 .kotlin/
+# Python bytecode (tools/*.py tests)
+__pycache__/
 
 
 # Written by the CI CVE check only (.github/security/dependency-locking.init.gradle)
