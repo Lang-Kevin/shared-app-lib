@@ -35,6 +35,12 @@ internal fun Brand.toColorScheme(): ColorScheme {
         surfaceContainerLowest = NdBackground, surfaceContainerLow = NdSurface,
         surfaceContainer = NdSurface, surfaceContainerHigh = Color(0xFF141417),
         surfaceContainerHighest = NdOutline,
+        primaryFixed = accent, primaryFixedDim = tint,
+        onPrimaryFixed = onAccent, onPrimaryFixedVariant = NdOnSurface,
+        secondaryFixed = NdSecondary, secondaryFixedDim = NdOutlineVariant,
+        onSecondaryFixed = NdBackground, onSecondaryFixedVariant = NdOnSurface,
+        tertiaryFixed = accent, tertiaryFixedDim = tint,
+        onTertiaryFixed = onAccent, onTertiaryFixedVariant = NdOnSurface,
     )
 }
 
