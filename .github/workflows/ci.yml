@@ -22,6 +22,8 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
       - name: Hardcoded UI strings
         run: python3 tools/check_hardcoded_strings.py shared/src/main/kotlin
+      - name: Design token checker tests
+        run: python3 tools/test_check_design_tokens.py
       # Lint covers the resource side of i18n: MissingTranslation, plurals, format args.
       - name: Unit tests and lint
         run: |
