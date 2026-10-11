@@ -33,7 +33,27 @@ Updated: 2026-10-12 · Branch: `design-system-foundation` (not pushed)
 | `d974e2a` | chore: ignore `__pycache__/`, handover update |
 | `78c48e0` | Fix: 12 M3 `*Fixed` slots set + `noSlotKeepsM3Default` / `fixedSlotsFollowAccent` tests (review folded into T8 review) |
 | `3ce92e4` | SP1 T8: `DESIGN.md`, CHANGELOG `[0.4.0]`, version 0.4.0. Reviewed (with `78c48e0`): APPROVE; warning fixed in next row |
+| `d46b965` | Review follow-ups: dark-polarity secondary `*Fixed` + WCAG test, DESIGN.md/CHANGELOG fixes; reviewed: APPROVE |
 | — | SP1 T9 QA: PASS. Lib gate green, checker clean, hr + jump `assembleDebug testDebugUnitTest` BUILD SUCCESSFUL (0 errors; deprecated `w:` hr 104, jump 20), diff scope OK. Visual check is user-only |
+
+## Execution decisions for SP2–4 (Product Owner, 2026-10-12, override the plans)
+
+- **Worktrees.** Each sub-project runs in its own worktree:
+  - `..\shared-android-lib-ds-basics` (branch `ds-basics`)
+  - `..\shared-android-lib-ds-charts` (branch `ds-charts`)
+  - `..\shared-android-lib-ds-media` (branch `ds-media`)
+
+  Each worktree gets a copy of `local.properties`. The main checkout stays on `design-system-foundation`. SP4's "one sub-project at a time" constraint is dropped.
+- **App QA.** The plans' app-QA steps (SP2 T18, SP3 T11, SP4 T8) run only the lib gate and the scope diff in their worktree. The app builds run once, on an integration branch `ds-integration` in the main checkout (design-system-foundation + ds-basics + ds-charts + ds-media merged in that order). Versions 0.5.0 / 0.6.0 / 0.7.0 are assigned there.
+- **SP2 T14–16** (restyle of existing lib components) stay in. The apps' CI pin protects them, and the redesign is the goal.
+- **SP2:** accept the new swipe behaviour (slide-out at 40%, no deprecated overload). The locale stays a required parameter; SP5/SP6 pick it. `CategoryFilterRow` "empty = all" goes to SP5.
+- **SP3:** keep `BarChart`. Decimation uses the mean (SP5 may add a max mode). Mean-line mode is decided in SP5.
+- **SP4:**
+  - phase text uses `titleMedium`
+  - `FramingGuide` out-of-frame stays at **full strength** while recording (override of 0.55)
+  - progress arc off by default
+  - HUD scrim clamp is 0.25
+  - `AccentPillButton` is replaced by SP2 `PrimaryButton` at integration
 
 ## Key documents
 
