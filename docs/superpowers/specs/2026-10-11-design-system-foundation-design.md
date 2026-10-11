@@ -1,6 +1,6 @@
 # Design System Foundation + "Night Drive" Redesign — Design Spec
 
-Date: 2026-10-11 (rev. 2026-10-12) · Status: draft, awaiting review · Target lib version: 0.4.0
+Date: 2026-10-11 (rev. 2026-10-12) · Status: approved 2026-10-12 · Target lib version: 0.4.0 · Visual reference: `docs/design/mockups/00-final-screens.html`
 
 ## 1. Context
 
@@ -276,7 +276,11 @@ Approved in the visual companion on 2026-10-11/12. The mockups are in `docs/desi
 | Scan | Status card shows the **device name plus battery** ("Polar H10 · Ready", "Battery 80%" if the BLE Battery Service is available, otherwise the name only); the primary action is Start workout |
 | Live | Header: "RUNNING" with the elapsed time on the left, a large BPM number and the accent heart on the right. **No** zone-status tag. The chart keeps the **GOAL badge** and the target band. Stat row: **Avg BPM / Target / Total** (unchanged). Pause / Flag / Stop; Stop reacts to a **single tap** as today (no long-press) |
 | History | **Grouped by week** ("This week", "Last week", …); each card shows the weekday and time, **Ø BPM** and a **mini zone-distribution bar** |
-| Detail, Settings, Stats, Form | Restyled with the Night Drive rules; no structural changes |
+| Detail | Chart with a dashed accent mean line and scrubber tooltip; milestones in `highlight`; the nine StatItem cards become **one 3×3 stat grid**; RPE and HRR60 side by side, "Good" in `success`; report button is primary, the exports are secondary |
+| Stats | TRIMP/sRPE as a segmented control; Acute/Chronic/ACWR as large numbers, ACWR status tag; trend with an optimal band (0.8–1.3); current week's bar in the accent |
+| Form | Readiness hero card (RMSSD plus a 7-day baseline delta and trend); Resting HR and HRR60 as compact cards |
+| Settings | Grouped cards; segmented controls for zone model, target zone and widget display; zone preview rows on the accent ramp with the target zone highlighted. **Keep the existing fields** (the mockup's field list is illustrative) |
+| Dialogs | 78% scrim, surface card, primary in the accent, destructive in `error`, dismiss as a text button |
 
 ### 7.3 jump-tracker
 | Screen | Decision |
@@ -284,8 +288,10 @@ Approved in the visual companion on 2026-10-11/12. The mockups are in `docs/desi
 | Record (idle) | Full-bleed video. The resolution chip and camera switch are visible |
 | Record (recording), **layout A2** | Full-bleed video. **No timer, resolution chip or camera switch.** **Last** (left) and **Best** (right, label in the accent) flank the shutter, with no box. A light scrim (≤25%) covers only the bottom 20%. The framing guide is dimmed to 55%. Phase text ("Ready – jump!") is a small uppercase label at the top. **Hint and phase text sit directly on the video** with a text shadow (no pills) |
 | Result | Hero best value, a **"New personal best +x cm" badge** when applicable, **average** in the stat row, and the per-jump table with **inline height bars**. Buttons: **Done only** (no Play clip) |
-| History | Restyled; **no** trend sparkline or PB card |
-| Trim, Detail | Restyled with the Night Drive rules; no structural changes |
+| History | Best height as the large number on each card; swipe-to-delete in `error`; **no** trend sparkline or PB card |
+| Trim | Range slider with the selected range in the accent; usability hint in `success`; Analyze is primary |
+| Result (analyzing) | Large percentage, thin accent progress line, Cancel as a secondary button |
+| Detail | Top bar with play / re-analyze / edit; hero best value; jump list with the **best jump accent-bordered**; Play clip stays here |
 
 ### 7.4 Rejected proposals (do not implement)
 - Zone-status tag in the hr Live header

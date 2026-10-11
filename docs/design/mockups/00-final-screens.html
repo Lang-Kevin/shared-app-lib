@@ -1,0 +1,419 @@
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&display=swap');
+:root{--acc:#E8202E;--base:#26262b;--bg:#000;--s1:#0b0b0d;--line:#1f1f23;--line2:#2a2a2f;--t1:#f2f2f4;--t2:#8d8d94;--t3:#55555c;--err:#FF5A4F;--ok:#3FB27F;--hl:#FFC850;
+ --accTint:color-mix(in srgb,var(--acc) 9%,#0a0a0a);--accSoft:color-mix(in srgb,var(--acc) 40%,transparent);
+ --z1:color-mix(in srgb,var(--acc) 10%,var(--base));--z2:color-mix(in srgb,var(--acc) 28%,var(--base));--z3:color-mix(in srgb,var(--acc) 50%,var(--base));--z4:color-mix(in srgb,var(--acc) 75%,var(--base));--z5:var(--acc)}
+.row{display:flex;gap:24px;flex-wrap:wrap;margin:10px 0 34px;align-items:flex-start}
+.cap{font-size:12px;color:#777;margin-top:8px;max-width:300px}
+.cap b{color:#bbb}
+.ph{width:300px;height:640px;border-radius:36px;padding:9px;background:#1a1a1a;box-shadow:0 8px 30px rgba(0,0,0,.4)}
+.ph.tall{height:1240px}
+.s{width:100%;height:100%;border-radius:28px;overflow:hidden;position:relative;display:flex;flex-direction:column;background:var(--bg);color:var(--t1);font-family:'Space Grotesk',sans-serif;font-size:13px}
+.sb{display:flex;justify-content:space-between;padding:9px 20px 4px;font-size:10px;color:var(--t2);flex:none}
+.pad{padding:0 16px}
+.lbl{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--t2)}
+.h1{font-size:21px;font-weight:500}
+.ttl{font-size:13px;font-weight:500;letter-spacing:.2em;text-transform:uppercase}
+.accl{height:1px;background:linear-gradient(90deg,transparent,var(--accSoft),transparent)}
+.hair{height:1px;background:var(--line)}
+.card{background:var(--s1);border:1px solid var(--line);border-radius:14px}
+.btnP{border-radius:24px;padding:12px;text-align:center;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#fff;background:var(--accTint);border:1px solid var(--acc)}
+.btnO{border-radius:24px;padding:11px;text-align:center;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--t1);border:1px solid var(--line2)}
+.btnT{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--t2)}
+.chip{font-size:10px;letter-spacing:.08em;padding:5px 11px;border-radius:14px;color:var(--t2);border:1px solid var(--line2);white-space:nowrap}
+.chip.on{color:#fff;border-color:var(--acc);background:var(--accTint)}
+.tag{display:inline-block;font-size:9px;letter-spacing:.14em;text-transform:uppercase;padding:3px 8px;border-radius:10px;border:1px solid var(--line2);color:var(--t1)}
+.tag.acc{border-color:var(--acc);background:var(--accTint)}
+.sw{width:32px;height:18px;border-radius:10px;background:#1d1d21;position:relative;border:1px solid var(--line2);flex:none}
+.sw::after{content:"";position:absolute;top:3px;left:3px;width:10px;height:10px;border-radius:50%;background:#666}
+.sw.on{background:var(--accTint);border-color:var(--acc)}.sw.on::after{left:17px;background:#fff}
+.dot{width:7px;height:7px;border-radius:50%;display:inline-block;flex:none}
+.tabs{display:flex;border-bottom:1px solid var(--line);flex:none}
+.tabs div{flex:1;text-align:center;padding:10px 0;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--t3)}
+.tabs .on{color:#fff;box-shadow:inset 0 -2px 0 var(--acc)}
+.seg{display:flex;border:1px solid var(--line2);border-radius:20px;overflow:hidden}
+.seg div{flex:1;text-align:center;padding:7px 0;font-size:10px;letter-spacing:.1em;color:var(--t2);text-transform:uppercase}
+.seg div+div{border-left:1px solid var(--line2)}
+.seg .on{color:#fff;background:var(--accTint);box-shadow:inset 0 0 0 1px var(--acc)}
+.stat{flex:1;padding:9px 4px;text-align:center}
+.stat b{display:block;font-size:19px;font-weight:400;margin-top:3px}
+.stat small{font-size:10px;color:var(--t2)}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr}
+.grid3>div{padding:10px 4px;text-align:center;border-bottom:1px solid var(--line)}
+.grid3>div:not(:nth-child(3n)){border-right:1px solid var(--line)}
+.grid3 b{display:block;font-size:18px;font-weight:400;margin-top:3px}
+.ib{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1px solid var(--line2);background:#0a0a0a}
+.ib.acc{border-color:var(--acc);background:var(--accTint)}
+.li{display:flex;justify-content:space-between;align-items:center;padding:11px 12px}
+.li .t{font-size:13.5px}.li .sub{font-size:10.5px;color:var(--t2);margin-top:3px}
+.mz{display:flex;height:3px;width:58px;gap:1px;margin-top:6px;margin-left:auto}
+.field{border:1px solid var(--line2);border-radius:10px;padding:8px 10px;display:flex;justify-content:space-between;align-items:center}
+.feed{position:absolute;inset:0;background:linear-gradient(180deg,#8a8f96 0%,#6f747b 60%,#4a4d52 60.2%,#3b3d41 100%)}
+.feed::before{content:"";position:absolute;left:8%;top:8%;width:30%;height:36%;background:#a9adb3;border-radius:4px;opacity:.55}
+.hud{color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.75),0 0 12px rgba(0,0,0,.45)}
+.shut{width:64px;height:64px;border-radius:50%;border:3px solid #fff;display:flex;align-items:center;justify-content:center}
+.picker{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:6px 0 22px;font-family:'Space Grotesk';font-size:12px;color:#888}
+.picker button{width:30px;height:30px;border-radius:50%;border:2px solid #444;cursor:pointer}
+svg text{font-family:'Space Grotesk',sans-serif}
+</style>
+
+<h2>Night Drive: final mockups for confirmation</h2>
+<p class="subtitle">Every screen follows spec §7. The accent is red by default and configurable; zones are always derived from the accent. Glow is limited to a 1dp accent border plus a 9% tint. Tall frames show full scroll content.</p>
+<div class="picker">Accent:
+ <button style="background:#E8202E" onclick="document.documentElement.style.setProperty('--acc','#E8202E')"></button>
+ <button style="background:#FF6A13" onclick="document.documentElement.style.setProperty('--acc','#FF6A13')"></button>
+ <button style="background:#2D7FF9" onclick="document.documentElement.style.setProperty('--acc','#2D7FF9')"></button>
+ <button style="background:#1FB86A" onclick="document.documentElement.style.setProperty('--acc','#1FB86A')"></button>
+ <span style="display:flex;gap:3px;margin-left:10px"><span style="width:26px;height:14px;background:var(--z1)"></span><span style="width:26px;height:14px;background:var(--z2)"></span><span style="width:26px;height:14px;background:var(--z3)"></span><span style="width:26px;height:14px;background:var(--z4)"></span><span style="width:26px;height:14px;background:var(--z5)"></span></span> Z1–Z5
+</div>
+
+<h3>hr-tracker</h3>
+<div class="row">
+
+<!-- 1 SCAN -->
+<div><div class="ph"><div class="s">
+ <div class="sb"><span>9:41</span><span>▂▄▆ ▮</span></div>
+ <div class="pad" style="display:flex;align-items:center;justify-content:space-between;padding-top:10px">
+  <span class="h1">HR Tracker</span>
+  <span style="display:flex;gap:16px;align-items:center"><span class="btnT">History</span>
+   <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#8d8d94" stroke-width="1.6"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="8.5" stroke-dasharray="3.2 2.4"/></svg></span></div>
+ <div class="pad" style="display:flex;gap:10px;align-items:center;margin-top:16px">
+  <div class="card" style="flex:1;padding:11px 12px;display:flex;align-items:center;justify-content:space-between">
+   <span style="display:flex;align-items:center;gap:10px"><span class="dot" style="background:var(--acc)"></span><span><div>Polar H10 · Ready</div><div style="font-size:10.5px;color:var(--t2);margin-top:2px">Battery 80%</div></span></span>
+   <span class="btnT" style="font-size:9.5px">Disconnect</span></div>
+  <div style="text-align:center"><div class="lbl" style="font-size:8px;margin-bottom:5px">Auto</div><div class="sw on"></div></div></div>
+ <div class="accl" style="margin:18px 16px"></div>
+ <div class="pad" style="display:flex;flex-direction:column;gap:9px"><div class="btnP">Start workout</div><div class="btnO">Measure HRV</div></div>
+ <div class="hair" style="margin:18px 16px"></div>
+ <div class="pad"><div class="lbl" style="margin-bottom:8px">Saved devices</div>
+  <div class="card li"><div><div class="t">Polar H10 A1B2C3D4</div><div class="sub">C7:2E:91:0A:4F:13</div></div><span class="btnT" style="font-size:9.5px">Forget</span></div></div>
+ <div class="pad" style="margin-top:18px"><div class="lbl" style="margin-bottom:8px">Available HR devices</div>
+  <div class="btnO" style="margin-bottom:8px">Search for devices</div>
+  <div class="card li" style="justify-content:flex-start;gap:12px;margin-bottom:6px"><svg width="18" height="18" viewBox="0 0 24 24" style="fill:var(--acc)"><path d="M12 21s-7-4.4-9.5-9C.8 8.6 3 5 6.5 5c2 0 3.5 1.2 5.5 3.2C14 6.2 15.5 5 17.5 5 21 5 23.2 8.6 21.5 12 19 16.6 12 21 12 21z"/></svg><div><div class="t">Polar H10 A1B2C3D4</div><div class="sub">Chest strap</div></div></div>
+  <div class="card li" style="justify-content:flex-start;gap:12px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8d8d94" stroke-width="1.7"><path d="M7 7l10 10-5 5V2l5 5L7 17"/></svg><div><div class="t">Garmin HRM-Pro</div><div class="sub">E4:11:5B:22:90:AC</div></div></div></div>
+</div></div><div class="cap"><b>Scan.</b> The status card shows the device name and battery. The accent appears only on the status dot, the Auto switch and Start workout.</div></div>
+
+<!-- 2 LIVE -->
+<div><div class="ph"><div class="s">
+ <div class="sb"><span>9:41</span><span>▂▄▆ ▮</span></div>
+ <div class="pad" style="display:flex;justify-content:space-between;align-items:flex-start;padding-top:8px">
+  <div><div class="ttl">Running</div><div class="lbl" style="margin-top:5px">00:24:37</div></div>
+  <div style="text-align:right"><div class="lbl">BPM</div>
+   <div style="display:flex;align-items:center;gap:8px;justify-content:flex-end"><svg width="15" height="15" viewBox="0 0 24 24" style="fill:var(--acc)"><path d="M12 21s-7-4.4-9.5-9C.8 8.6 3 5 6.5 5c2 0 3.5 1.2 5.5 3.2C14 6.2 15.5 5 17.5 5 21 5 23.2 8.6 21.5 12 19 16.6 12 21 12 21z"/></svg><span style="font-size:52px;font-weight:300;line-height:1">142</span></div></div></div>
+ <div class="pad" style="display:flex;justify-content:space-between;align-items:center;margin:8px 0 0">
+  <span style="display:flex;gap:6px;align-items:center"><span class="tag acc">Live</span><span class="lbl">Window 5:00</span></span>
+  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#8d8d94" stroke-width="1.6"><path d="M9 3H3v6M15 3h6v6M9 21H3v-6M15 21h6v-6"/></svg></div>
+ <svg viewBox="0 0 280 210" style="width:100%;flex:1;min-height:0">
+  <rect x="48" y="74" width="228" height="40" style="fill:var(--acc)" opacity=".08"/>
+  <g stroke-width="1"><line x1="48" y1="156" x2="276" y2="156" style="stroke:var(--z1)"/><line x1="48" y1="114" x2="276" y2="114" style="stroke:var(--z2)"/><line x1="48" y1="74" x2="276" y2="74" style="stroke:var(--z3)"/><line x1="48" y1="40" x2="276" y2="40" style="stroke:var(--z4)"/><line x1="48" y1="12" x2="276" y2="12" style="stroke:var(--z5)"/></g>
+  <g font-size="8.5"><text x="4" y="159" fill="#8d8d94">Z1 93</text><text x="4" y="117" fill="#8d8d94">Z2 111</text><text x="4" y="77" fill="#fff">Z3 130</text><text x="4" y="43" fill="#8d8d94">Z4 148</text><text x="4" y="15" fill="#8d8d94">Z5 167</text></g>
+  <rect x="54" y="78" width="32" height="13" rx="6.5" style="fill:var(--accTint);stroke:var(--acc)"/><text x="70" y="87.5" fill="#fff" font-size="7.5" text-anchor="middle" letter-spacing="1">GOAL</text>
+  <line x1="150" y1="12" x2="150" y2="186" style="stroke:var(--hl)" stroke-opacity=".7" stroke-dasharray="3 3"/><text x="153" y="22" font-size="8" style="fill:var(--hl)">M1</text>
+  <polyline fill="none" stroke="#fff" stroke-width="1.5" stroke-linejoin="round" points="48,160 62,150 78,138 94,126 110,110 126,104 142,96 158,92 174,98 190,90 206,84 222,80 238,86 254,78 266,76"/>
+  <circle cx="266" cy="76" r="3.5" style="fill:var(--acc)"/>
+  <text x="262" y="66" fill="#fff" font-size="8.5" text-anchor="end">142 bpm</text>
+  <g fill="#55555c" font-size="8.5" text-anchor="middle"><text x="72" y="202">22:30</text><text x="134" y="202">23:00</text><text x="196" y="202">23:30</text><text x="258" y="202">24:00</text></g>
+ </svg>
+ <div class="pad">
+  <div style="display:flex;justify-content:space-between"><span class="lbl">Time in zone</span><span class="lbl" style="color:#fff">62% in target zone</span></div>
+  <div style="display:flex;height:4px;margin:8px 0;gap:2px"><div style="flex:6;background:var(--z1)"></div><div style="flex:10;background:var(--z2)"></div><div style="flex:62;background:var(--z3)"></div><div style="flex:18;background:var(--z4)"></div><div style="flex:4;background:var(--z5)"></div></div>
+  <div style="display:flex;justify-content:space-between;font-size:9.5px;color:var(--t3);line-height:1.4"><span>Z1<br>01:28</span><span>Z2<br>02:27</span><span style="color:#fff">Z3<br>15:16</span><span>Z4<br>04:26</span><span>Z5<br>01:00</span></div></div>
+ <div class="hair" style="margin:10px 16px 0"></div>
+ <div class="pad" style="display:flex">
+  <div class="stat"><span class="lbl">Avg BPM</span><b>138</b></div>
+  <div class="stat" style="border-left:1px solid var(--line);border-right:1px solid var(--line)"><span class="lbl">Target</span><b>Zone 3</b></div>
+  <div class="stat"><span class="lbl">Total</span><b>24:37</b></div></div>
+ <div style="display:flex;justify-content:space-evenly;padding:8px 0 18px">
+  <div class="ib"><svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/></svg></div>
+  <div class="ib"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M5 21V4h11l-2 4 2 4H5"/></svg></div>
+  <div class="ib acc"><svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><rect x="5" y="5" width="14" height="14" rx="2"/></svg></div></div>
+</div></div><div class="cap"><b>Live.</b> Large BPM, GOAL badge and target band, zone lines on the accent ramp, milestone M1, and Avg / Target / Total. Stop reacts to a single tap.</div></div>
+
+<!-- 3 HISTORY -->
+<div><div class="ph"><div class="s">
+ <div class="sb"><span>9:41</span><span>▂▄▆ ▮</span></div>
+ <div class="pad" style="padding-top:12px;display:flex;align-items:center;gap:12px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M15 5l-7 7 7 7"/></svg><span class="h1">History</span></div>
+ <div class="tabs" style="margin-top:10px"><div class="on">History</div><div>Stats</div><div>Form</div><div>Trash</div></div>
+ <div class="pad" style="margin-top:12px"><div class="card" style="display:flex;padding:3px 0">
+  <div class="stat"><b style="font-size:16px">12</b><span class="lbl" style="font-size:7.5px">Workouts</span></div>
+  <div class="stat"><b style="font-size:16px">08:45</b><span class="lbl" style="font-size:7.5px">Total time</span></div>
+  <div class="stat"><b style="font-size:16px">141</b><span class="lbl" style="font-size:7.5px">Avg BPM</span></div>
+  <div class="stat"><b style="font-size:16px">1:32</b><span class="lbl" style="font-size:7.5px">Longest</span></div></div></div>
+ <div class="pad" style="display:flex;gap:6px;margin:12px 0 4px"><span class="chip on">Workouts</span><span class="chip">HRV</span><span class="chip">Filter by date</span></div>
+ <div class="pad" style="display:flex;flex-direction:column;gap:6px">
+  <div class="lbl" style="font-size:8.5px;margin-top:6px">This week · 3</div>
+  <div class="card li"><div><div class="t">Running</div><div class="sub">Sat 7:42 AM · Ø 141 bpm</div></div><div style="text-align:right"><div style="font-size:15px">45:12</div><div class="mz"><div style="flex:1;background:var(--z1)"></div><div style="flex:2;background:var(--z2)"></div><div style="flex:6;background:var(--z3)"></div><div style="flex:2;background:var(--z4)"></div></div></div></div>
+  <div class="card li"><div><div class="t">Cycling</div><div class="sub">Thu 6:15 PM · Ø 132 bpm</div></div><div style="text-align:right"><div style="font-size:15px">1:32:05</div><div class="mz"><div style="flex:3;background:var(--z1)"></div><div style="flex:6;background:var(--z2)"></div><div style="flex:3;background:var(--z3)"></div></div></div></div>
+  <div class="card li"><div><div class="t">HRV · Lying</div><div class="sub">Thu 6:58 AM · RMSSD 48 ms</div></div><div style="text-align:right"><div style="font-size:15px">5:00</div></div></div>
+  <div class="lbl" style="font-size:8.5px;margin-top:8px">Last week · 4</div>
+  <div style="position:relative;border-radius:14px;overflow:hidden">
+   <div style="position:absolute;inset:0;background:color-mix(in srgb,var(--err) 18%,#000);display:flex;align-items:center;justify-content:flex-end;padding-right:18px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="stroke:var(--err)" stroke-width="1.8"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg></div>
+   <div class="card li" style="transform:translateX(-58px)"><div><div class="t">Running</div><div class="sub">Mon 7:30 AM · Ø 149 bpm</div></div><div style="text-align:right"><div style="font-size:15px">38:55</div><div class="mz"><div style="flex:1;background:var(--z2)"></div><div style="flex:4;background:var(--z3)"></div><div style="flex:4;background:var(--z4)"></div><div style="flex:1;background:var(--z5)"></div></div></div></div></div>
+  <div class="card li"><div><div class="t">Strength</div><div class="sub">Sun 10:05 AM · Ø 118 bpm</div></div><div style="text-align:right"><div style="font-size:15px">52:40</div><div class="mz"><div style="flex:6;background:var(--z1)"></div><div style="flex:3;background:var(--z2)"></div><div style="flex:1;background:var(--z4)"></div></div></div></div>
+ </div>
+</div></div><div class="cap"><b>History.</b> Grouped by week, with Ø BPM and a mini zone bar per workout. Swipe-to-delete uses the error colour, not the accent.</div></div>
+</div>
+<div class="row">
+<!-- 4 DETAIL (tall) -->
+<div><div class="ph tall"><div class="s">
+ <div class="sb"><span>9:41</span><span>▂▄▆ ▮</span></div>
+ <div class="pad" style="padding-top:10px;display:flex;align-items:center;justify-content:space-between">
+  <span style="display:flex;align-items:center;gap:12px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M15 5l-7 7 7 7"/></svg><span class="ttl">Running</span></span>
+  <span class="lbl">10.10.26 · 45:12</span></div>
+ <div class="pad" style="margin-top:16px;display:flex;justify-content:space-between;align-items:center"><span class="lbl">Training zone</span><span class="tag">Zone 3</span></div>
+ <svg viewBox="0 0 280 200" style="width:100%;height:200px;margin-top:6px;flex:none">
+  <rect x="44" y="64" width="232" height="38" style="fill:var(--acc)" opacity=".07"/>
+  <g><line x1="44" y1="140" x2="276" y2="140" style="stroke:var(--z1)"/><line x1="44" y1="102" x2="276" y2="102" style="stroke:var(--z2)"/><line x1="44" y1="64" x2="276" y2="64" style="stroke:var(--z3)"/><line x1="44" y1="32" x2="276" y2="32" style="stroke:var(--z4)"/><line x1="44" y1="8" x2="276" y2="8" style="stroke:var(--z5)"/></g>
+  <g fill="#8d8d94" font-size="8.5"><text x="4" y="143">Z1 93</text><text x="4" y="105">Z2 111</text><text x="4" y="67" fill="#fff">Z3 130</text><text x="4" y="35">Z4 148</text><text x="4" y="11">Z5 167</text></g>
+  <line x1="44" y1="80" x2="276" y2="80" style="stroke:var(--acc)" stroke-dasharray="4 3" stroke-width="1"/><text x="274" y="76" font-size="7.5" text-anchor="end" style="fill:var(--acc)">Ø 141</text>
+  <polyline fill="none" stroke="#fff" stroke-width="1.4" stroke-linejoin="round" points="44,150 58,138 72,120 86,104 100,92 114,86 128,80 142,74 156,82 170,70 184,66 198,74 212,62 226,58 240,70 254,84 268,110 276,128"/>
+  <line x1="170" y1="8" x2="170" y2="172" stroke="#fff" stroke-opacity=".5"/><circle cx="170" cy="70" r="3.5" style="fill:var(--acc)"/>
+  <rect x="118" y="20" width="104" height="20" rx="10" fill="#0b0b0d" fill-opacity=".9" stroke="#2a2a2f"/><text x="170" y="34" fill="#fff" font-size="9" text-anchor="middle">142 bpm · 12:34</text>
+  <g fill="#55555c" font-size="8.5" text-anchor="middle"><text x="60" y="192">0:00</text><text x="120" y="192">15:00</text><text x="180" y="192">30:00</text><text x="250" y="192">45:00</text></g>
+ </svg>
+ <div class="pad" style="margin-top:10px">
+  <div class="lbl" style="margin-bottom:8px">Milestones</div>
+  <div class="card li"><div style="display:flex;gap:10px;align-items:center"><span style="width:3px;height:26px;background:var(--hl);border-radius:2px"></span><div><div class="t">M1 · Interval start</div><div class="sub">12:00 · 138 bpm</div></div></div></div></div>
+ <div class="pad" style="margin-top:16px">
+  <div style="display:flex;justify-content:space-between"><span class="lbl">Time in zone</span><span class="lbl" style="color:#fff">58% in target zone</span></div>
+  <div style="display:flex;height:4px;margin:8px 0;gap:2px"><div style="flex:8;background:var(--z1)"></div><div style="flex:14;background:var(--z2)"></div><div style="flex:58;background:var(--z3)"></div><div style="flex:16;background:var(--z4)"></div><div style="flex:4;background:var(--z5)"></div></div>
+  <div style="display:flex;justify-content:space-between;font-size:9.5px;color:var(--t3);line-height:1.4"><span>Z1<br>03:37</span><span>Z2<br>06:20</span><span style="color:#fff">Z3<br>26:13</span><span>Z4<br>07:14</span><span>Z5<br>01:48</span></div></div>
+ <div class="pad" style="margin-top:16px"><div class="card" style="overflow:hidden"><div class="grid3">
+  <div><span class="lbl">Avg BPM</span><b>141</b></div><div><span class="lbl">Active</span><b>44:50</b></div><div><span class="lbl">Max BPM</span><b>178</b></div>
+  <div><span class="lbl">RMSSD</span><b>42<small style="font-size:10px;color:var(--t2)"> ms</small></b></div><div><span class="lbl">TRIMP</span><b>96</b></div><div><span class="lbl">Min BPM</span><b>88</b></div>
+  <div style="border-bottom:0"><span class="lbl">Calories</span><b>512<small style="font-size:10px;color:var(--t2)"> kcal</small></b></div><div style="border-bottom:0"><span class="lbl">HRmax</span><b>186</b></div><div style="border-bottom:0"><span class="lbl">Resting HR</span><b>55</b></div></div></div></div>
+ <div class="pad" style="margin-top:12px;display:flex;gap:8px">
+  <div class="card" style="flex:1;padding:11px 12px"><div class="lbl">RPE</div><div style="font-size:22px;font-weight:300;margin-top:4px">6 <span style="font-size:12px;color:var(--t2)">· Hard</span></div><div style="font-size:10.5px;color:var(--t2);margin-top:2px">Load 270</div></div>
+  <div class="card" style="flex:1;padding:11px 12px"><div class="lbl">HRR60</div><div style="font-size:22px;font-weight:300;margin-top:4px">32 <span style="font-size:12px;color:var(--t2)">bpm</span></div><span class="tag" style="margin-top:4px;border-color:var(--ok);color:var(--ok)">Good</span></div></div>
+ <div class="pad" style="margin-top:8px"><div class="card" style="padding:11px 12px"><div style="display:flex;justify-content:space-between"><span class="lbl">Note</span><span class="btnT" style="font-size:9.5px">Edit</span></div><div style="margin-top:6px;color:var(--t1);font-size:12.5px">Easy morning run, felt strong in the second half.</div></div></div>
+ <div class="accl" style="margin:18px 16px"></div>
+ <div class="pad" style="display:flex;flex-direction:column;gap:8px"><div class="btnP">Generate report</div>
+  <div style="display:flex;gap:8px"><div class="btnO" style="flex:1">Export JSON</div><div class="btnO" style="flex:1">CSV export</div></div></div>
+</div></div><div class="cap"><b>Detail (full scroll).</b> Chart with a dashed accent mean line and a scrubber tooltip. Milestones are amber. A 3×3 stat grid replaces nine separate cards. RPE and HRR60 sit side by side; the "Good" pill uses the success colour.</div></div>
+
+<!-- 5 STATS + 6 FORM stacked column -->
+<div style="display:flex;flex-direction:column;gap:24px">
+<div><div class="ph"><div class="s">
+ <div class="sb"><span>9:41</span><span>▂▄▆ ▮</span></div>
+ <div class="pad" style="padding-top:12px"><span class="h1">History</span></div>
+ <div class="tabs" style="margin-top:10px"><div>History</div><div class="on">Stats</div><div>Form</div><div>Trash</div></div>
+ <div class="pad" style="margin-top:14px;display:flex;justify-content:space-between;align-items:center"><span class="lbl">Training load</span>
+  <div class="seg" style="width:120px"><div class="on">TRIMP</div><div>sRPE</div></div></div>
+ <div class="pad" style="display:flex;margin-top:10px">
+  <div class="stat"><span class="lbl">Acute</span><b style="font-size:24px;font-weight:300">312</b></div>
+  <div class="stat" style="border-left:1px solid var(--line);border-right:1px solid var(--line)"><span class="lbl">Chronic</span><b style="font-size:24px;font-weight:300">280</b></div>
+  <div class="stat"><span class="lbl">ACWR</span><b style="font-size:24px;font-weight:300">1.11</b><span class="tag" style="margin-top:3px;border-color:var(--ok);color:var(--ok)">Optimal</span></div></div>
+ <svg viewBox="0 0 280 120" style="width:100%;height:120px;margin-top:8px;flex:none">
+  <rect x="16" y="34" width="256" height="40" fill="#fff" opacity=".035"/><text x="20" y="44" fill="#55555c" font-size="7.5">0.8 – 1.3</text>
+  <polyline fill="none" stroke="#fff" stroke-opacity=".45" stroke-width="1.2" points="16,70 50,66 84,62 118,60 152,58 186,56 220,54 272,52"/>
+  <polyline fill="none" stroke="#fff" stroke-width="1.5" points="16,80 50,72 84,56 118,64 152,46 186,52 220,40 272,44"/>
+  <circle cx="272" cy="44" r="3.5" style="fill:var(--acc)"/>
+  <g fill="#55555c" font-size="8" text-anchor="middle"><text x="40" y="112">KW 36</text><text x="110" y="112">KW 38</text><text x="180" y="112">KW 40</text><text x="255" y="112">KW 41</text></g></svg>
+ <div class="pad" style="margin-top:4px"><div class="lbl" style="margin-bottom:8px">Weekly load</div>
+  <div style="display:flex;align-items:flex-end;gap:8px;height:80px">
+   <div style="flex:1;height:40%;background:var(--line2);border-radius:3px 3px 0 0"></div><div style="flex:1;height:55%;background:var(--line2);border-radius:3px 3px 0 0"></div><div style="flex:1;height:48%;background:var(--line2);border-radius:3px 3px 0 0"></div><div style="flex:1;height:70%;background:var(--line2);border-radius:3px 3px 0 0"></div><div style="flex:1;height:62%;background:var(--line2);border-radius:3px 3px 0 0"></div><div style="flex:1;height:86%;background:var(--accTint);border:1px solid var(--acc);border-bottom:0;border-radius:3px 3px 0 0"></div></div>
+  <div style="display:flex;gap:8px;font-size:8.5px;color:var(--t3);margin-top:5px;text-align:center"><span style="flex:1">36</span><span style="flex:1">37</span><span style="flex:1">38</span><span style="flex:1">39</span><span style="flex:1">40</span><span style="flex:1;color:#fff">41</span></div></div>
+</div></div><div class="cap"><b>Stats.</b> TRIMP/sRPE as a segmented control, and Acute/Chronic/ACWR as large numbers. The ACWR trend shows the optimal band; the current week's bar is in the accent.</div></div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:24px">
+<div><div class="ph"><div class="s">
+ <div class="sb"><span>9:41</span><span>▂▄▆ ▮</span></div>
+ <div class="pad" style="padding-top:12px"><span class="h1">History</span></div>
+ <div class="tabs" style="margin-top:10px"><div>History</div><div>Stats</div><div class="on">Form</div><div>Trash</div></div>
+ <div class="pad" style="margin-top:16px;display:flex;flex-direction:column;gap:10px">
+  <div class="card" style="padding:14px">
+   <div style="display:flex;justify-content:space-between"><span class="lbl">Readiness</span><span class="tag acc">Ready</span></div>
+   <div style="display:flex;align-items:baseline;gap:8px;margin-top:8px"><span style="font-size:44px;font-weight:300;line-height:1">48</span><span style="color:var(--t2)">ms RMSSD</span></div>
+   <div style="font-size:11px;color:var(--t2);margin-top:6px">7-day baseline 44 ms · +9%</div>
+   <svg viewBox="0 0 240 34" style="width:100%;height:34px;margin-top:8px"><rect x="0" y="10" width="240" height="14" fill="#fff" opacity=".04"/><polyline fill="none" stroke="#fff" stroke-opacity=".75" stroke-width="1.3" points="0,22 40,18 80,24 120,16 160,20 200,14 236,10"/><circle cx="236" cy="10" r="3" style="fill:var(--acc)"/></svg></div>
+  <div style="display:flex;gap:10px">
+   <div class="card" style="flex:1;padding:12px"><div class="lbl">Resting HR</div><div style="font-size:28px;font-weight:300;margin-top:6px">55 <span style="font-size:11px;color:var(--t2)">bpm</span></div><div style="font-size:10.5px;color:var(--t2);margin-top:2px">−2 vs. 7 days</div></div>
+   <div class="card" style="flex:1;padding:12px"><div class="lbl">HRR60</div><div style="font-size:28px;font-weight:300;margin-top:6px">32 <span style="font-size:11px;color:var(--t2)">bpm</span></div><div style="font-size:10.5px;color:var(--t2);margin-top:2px">Last workout</div></div></div>
+  <div class="btnO">Measure HRV</div>
+ </div>
+</div></div><div class="cap"><b>Form.</b> A Readiness hero card with the baseline trend, then Resting HR and HRR60 as compact cards.</div></div>
+</div>
+
+<!-- 7 SETTINGS (tall) -->
+<div><div class="ph tall"><div class="s">
+ <div class="sb"><span>9:41</span><span>▂▄▆ ▮</span></div>
+ <div class="pad" style="padding-top:10px;display:flex;align-items:center;gap:12px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M15 5l-7 7 7 7"/></svg><span class="h1">Settings</span></div>
+ <div class="pad" style="margin-top:16px;display:flex;flex-direction:column;gap:10px">
+  <div class="card" style="padding:14px"><div class="lbl" style="margin-bottom:10px">Heart rate</div>
+   <div style="display:flex;gap:8px;align-items:center"><div class="field" style="flex:1"><span style="color:var(--t2);font-size:11px">Age</span><span>34</span></div><div class="btnO" style="padding:8px 16px">OK</div></div>
+   <div style="display:flex;justify-content:space-between;margin-top:12px"><span style="color:var(--t2)">HRmax (Tanaka)</span><span style="font-size:16px">184</span></div>
+   <div class="lbl" style="margin:14px 0 6px">Zone model</div><div class="seg"><div class="on">% HRmax</div><div>Karvonen</div></div></div>
+  <div class="card" style="padding:14px"><div class="lbl" style="margin-bottom:10px">Body data</div>
+   <div style="display:flex;gap:8px"><div class="field" style="flex:1"><span style="color:var(--t2);font-size:11px">Weight</span><span>78 kg</span></div><div class="field" style="flex:1"><span style="color:var(--t2);font-size:11px">Resting HR</span><span>55</span></div></div>
+   <div class="lbl" style="margin:12px 0 6px">Sex</div><div class="seg"><div class="on">Male</div><div>Female</div></div></div>
+  <div class="card" style="padding:14px"><div class="lbl" style="margin-bottom:8px">Target zone</div>
+   <div class="seg"><div>Z1</div><div>Z2</div><div class="on">Z3</div><div>Z4</div><div>Z5</div></div>
+   <div class="lbl" style="margin:14px 0 4px">Zone preview</div>
+   <div style="display:flex;flex-direction:column">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--line)"><span style="display:flex;gap:8px;align-items:center"><span style="width:14px;height:4px;background:var(--z1)"></span>Z1</span><span style="color:var(--t2)">93 – 111 BPM</span></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--line)"><span style="display:flex;gap:8px;align-items:center"><span style="width:14px;height:4px;background:var(--z2)"></span>Z2</span><span style="color:var(--t2)">111 – 130 BPM</span></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:7px 8px;margin:0 -8px;border-bottom:1px solid var(--line);background:var(--accTint);border-radius:6px"><span style="display:flex;gap:8px;align-items:center"><span style="width:14px;height:4px;background:var(--z3)"></span>Z3 · target</span><span>130 – 148 BPM</span></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--line)"><span style="display:flex;gap:8px;align-items:center"><span style="width:14px;height:4px;background:var(--z4)"></span>Z4</span><span style="color:var(--t2)">148 – 167 BPM</span></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0"><span style="display:flex;gap:8px;align-items:center"><span style="width:14px;height:4px;background:var(--z5)"></span>Z5</span><span style="color:var(--t2)">167 – 184 BPM</span></div></div></div>
+  <div class="card" style="padding:4px 14px">
+   <div style="display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid var(--line)"><span>Auto-scale chart</span><div class="sw on"></div></div>
+   <div style="display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid var(--line)"><span>Keep screen on</span><div class="sw on"></div></div>
+   <div style="padding:11px 0;border-bottom:1px solid var(--line)"><div style="margin-bottom:8px">Widget display</div><div class="seg"><div class="on">BPM</div><div>Zone</div><div>Both</div></div></div>
+   <div style="display:flex;justify-content:space-between;align-items:center;padding:11px 0"><span style="color:var(--t2)">Debug logging</span><div class="sw"></div></div></div>
+  <div style="text-align:center;font-size:10px;color:var(--t3);margin-top:4px">HR Tracker 1.8.0 · lib 0.4.0</div>
+ </div>
+</div></div><div class="cap"><b>Settings (full scroll).</b> Grouped cards, segmented controls with an accent-tinted selection, and the zone preview on the accent ramp with the target zone highlighted.</div></div>
+
+<!-- 8 DIALOG -->
+<div><div class="ph"><div class="s">
+ <div style="position:absolute;inset:0;opacity:.35;filter:blur(1px)">
+  <div class="sb"><span>9:41</span><span>▂▄▆ ▮</span></div>
+  <div class="pad" style="display:flex;justify-content:space-between;padding-top:8px"><div class="ttl">Running</div><span style="font-size:52px;font-weight:300;line-height:1">142</span></div></div>
+ <div style="position:absolute;inset:0;background:rgba(0,0,0,.78)"></div>
+ <div style="position:absolute;left:22px;right:22px;top:190px" class="card">
+  <div style="padding:20px 18px 6px"><div style="font-size:17px;font-weight:500">Leave session?</div>
+   <div style="color:var(--t2);font-size:12.5px;margin-top:8px;line-height:1.45">The recording is still running. Save it to your history or discard it.</div></div>
+  <div style="padding:16px 18px 18px;display:flex;flex-direction:column;gap:8px">
+   <div class="btnP">Save</div>
+   <div class="btnO" style="color:var(--err);border-color:color-mix(in srgb,var(--err) 45%,transparent)">Discard</div>
+   <div class="btnT" style="text-align:center;padding:8px">Keep recording</div></div></div>
+</div></div><div class="cap"><b>Dialog.</b> 78% scrim, surface card, accent primary action. The destructive action uses the error colour and the dismiss is a text button.</div></div>
+</div>
+<h3>jump-tracker</h3>
+<div class="row">
+<!-- 9 HISTORY -->
+<div><div class="ph"><div class="s">
+ <div class="sb"><span>9:41</span><span>▂▄▆ ▮</span></div>
+ <div class="pad" style="padding-top:12px;display:flex;justify-content:space-between;align-items:center"><span class="h1">JumpTracker</span>
+  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#8d8d94" stroke-width="1.6"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="8.5" stroke-dasharray="3.2 2.4"/></svg></div>
+ <div class="tabs" style="margin-top:10px"><div class="on">History</div><div>Best</div><div>Trash</div></div>
+ <div class="pad" style="display:flex;gap:6px;margin:12px 0"><span class="chip on">CMJ</span><span class="chip">Weighted Jump</span><span class="chip">Drop Jump</span></div>
+ <div class="pad" style="display:flex;flex-direction:column;gap:6px">
+  <div class="card li"><div><div class="t">11.10.2026 14:32</div><div class="sub">4 jumps</div></div><span style="font-size:22px;font-weight:300">41.3<span style="font-size:10px;color:var(--t2)"> cm</span></span></div>
+  <div class="card li"><div><div class="t">10.10.2026 18:05</div><div class="sub">3 jumps · Import</div></div><span style="font-size:22px;font-weight:300">35.0<span style="font-size:10px;color:var(--t2)"> cm</span></span></div>
+  <div style="position:relative;border-radius:14px;overflow:hidden">
+   <div style="position:absolute;inset:0;background:color-mix(in srgb,var(--err) 18%,#000);display:flex;align-items:center;justify-content:flex-end;padding-right:18px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="stroke:var(--err)" stroke-width="1.8"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg></div>
+   <div class="card li" style="transform:translateX(-58px)"><div><div class="t">Morning session</div><div class="sub">5 jumps</div></div><span style="font-size:22px;font-weight:300">28.4<span style="font-size:10px;color:var(--t2)"> cm</span></span></div></div>
+  <div class="card li"><div><div class="t">08.10.2026 09:12</div><div class="sub">1 jump · no reliable measurement</div></div><span style="font-size:22px;font-weight:300;color:var(--t3)">—</span></div>
+  <div class="card li"><div><div class="t">06.10.2026 17:40</div><div class="sub">6 jumps</div></div><span style="font-size:22px;font-weight:300">39.1<span style="font-size:10px;color:var(--t2)"> cm</span></span></div>
+ </div>
+ <div style="position:absolute;bottom:22px;right:18px;display:flex;flex-direction:column;align-items:center;gap:12px">
+  <div class="ib" style="width:40px;height:40px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7"><rect x="3" y="5" width="14" height="14" rx="2"/><path d="M17 10l4-2v8l-4-2"/></svg></div>
+  <div class="ib acc" style="width:58px;height:58px;border-radius:18px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></div></div>
+</div></div><div class="cap"><b>History.</b> The best height per session is the large number on the right. Swipe-to-delete uses the error colour. The add button is accent-bordered; video import is secondary.</div></div>
+
+<!-- 10 RECORD IDLE -->
+<div><div class="ph"><div class="s">
+ <div class="feed"></div>
+ <svg viewBox="0 0 282 622" style="position:absolute;inset:0;width:100%;height:100%">
+  <g fill="#2b2d31"><circle cx="141" cy="160" r="21"/><rect x="121" y="185" width="40" height="126" rx="15"/><rect x="123" y="307" width="16" height="146" rx="7"/><rect x="143" y="307" width="16" height="146" rx="7"/></g>
+  <g stroke="#fff" stroke-width="2" fill="none" opacity=".85"><path d="M56 118v-18h18M226 118v-18h-18M56 452v18h18M226 452v18h-18"/></g>
+  <line x1="8" y1="470" x2="274" y2="470" stroke="#fff" stroke-width="1.5" opacity=".85"/>
+ </svg>
+ <div style="position:absolute;top:30px;left:16px" class="hud"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></div>
+ <div style="position:absolute;top:32px;left:0;right:0;text-align:center" class="hud ttl" >Get in position</div>
+ <div style="position:absolute;top:478px;left:0;right:0;text-align:center;font-size:11px" class="hud">Feet on the line · whole body in the frame · keep the phone still</div>
+ <div style="position:absolute;left:0;right:0;bottom:0;height:20%;background:linear-gradient(transparent,rgba(0,0,0,.25))"></div>
+ <div style="position:absolute;bottom:22px;left:20px;right:20px;display:flex;align-items:center;justify-content:space-between">
+  <span class="hud" style="font-size:12px;width:70px;display:flex;align-items:center;gap:4px">1080p60 <span style="font-size:9px">▼</span></span>
+  <div class="shut"><div style="width:50px;height:50px;border-radius:50%;background:#fff"></div></div>
+  <span style="width:70px;display:flex;justify-content:flex-end" class="hud"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" style="filter:drop-shadow(0 1px 2px rgba(0,0,0,.7))"><path d="M4 9a8 8 0 0 1 14-3l2 2M20 15a8 8 0 0 1-14 3l-2-2M20 4v4h-4M4 20v-4h4"/></svg></span></div>
+</div></div><div class="cap"><b>Record, idle.</b> Full-bleed feed. The framing guide is at full strength, the hint sits directly under the foot line, and the resolution and camera switch are shown as plain text and icon on the video.</div></div>
+
+<!-- 11 RECORD RECORDING A2 -->
+<div><div class="ph"><div class="s">
+ <div class="feed"></div>
+ <svg viewBox="0 0 282 622" style="position:absolute;inset:0;width:100%;height:100%">
+  <g fill="#2b2d31"><circle cx="141" cy="130" r="21"/><rect x="121" y="155" width="40" height="120" rx="15"/><path d="M123 272 L113 360 L128 362 L139 290Z"/><path d="M159 272 L169 360 L154 362 L143 290Z"/></g>
+  <g stroke="#fff" stroke-width="2" fill="none" opacity=".55"><path d="M56 118v-18h18M226 118v-18h-18M56 452v18h18M226 452v18h-18"/></g>
+  <line x1="8" y1="470" x2="274" y2="470" stroke="#fff" stroke-width="1.5" opacity=".55"/>
+ </svg>
+ <div style="position:absolute;top:30px;left:16px" class="hud"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></div>
+ <div style="position:absolute;top:32px;left:0;right:0;text-align:center" class="hud ttl">Ready – jump!</div>
+ <div style="position:absolute;left:0;right:0;bottom:0;height:20%;background:linear-gradient(transparent,rgba(0,0,0,.25))"></div>
+ <div style="position:absolute;bottom:22px;left:18px;right:18px;display:flex;align-items:center;justify-content:space-between" class="hud">
+  <div style="width:84px"><div class="lbl" style="color:#fff;opacity:.85">Last</div><div style="font-size:32px;font-weight:300;line-height:1.05">38.2<span style="font-size:12px;opacity:.8"> cm</span></div></div>
+  <div class="shut" style="text-shadow:none"><div style="width:22px;height:22px;border-radius:4px;background:var(--acc)"></div></div>
+  <div style="width:84px;text-align:right"><div class="lbl" style="color:var(--acc);text-shadow:0 1px 3px rgba(0,0,0,.9)">Best</div><div style="font-size:32px;font-weight:300;line-height:1.05">41.3<span style="font-size:12px;opacity:.8"> cm</span></div></div></div>
+</div></div><div class="cap"><b>Record, recording (A2).</b> No timer, resolution or camera switch. Last and Best flank the shutter. The guide is dimmed to 55%, the phase text sits on the video, and the scrim is ≤25% over the bottom 20%. Out of frame, the guide turns to the error colour.</div></div>
+</div>
+<div class="row">
+<!-- 12 TRIM -->
+<div><div class="ph"><div class="s">
+ <div class="sb"><span>9:41</span><span>▂▄▆ ▮</span></div>
+ <div class="pad" style="padding-top:10px;display:flex;align-items:center;gap:12px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg><span class="h1">Select range</span></div>
+ <div class="pad" style="display:flex;gap:6px;margin:14px 0 10px"><span class="chip">CMJ</span><span class="chip">Weighted Jump</span><span class="chip on">Drop Jump</span></div>
+ <div class="pad"><div class="field"><span style="color:var(--t2);font-size:11px">Box height</span><span>40 cm</span></div></div>
+ <div class="pad" style="margin-top:12px"><div style="position:relative;height:200px;border-radius:12px;overflow:hidden">
+  <div class="feed" style="position:absolute"></div>
+  <svg viewBox="0 0 268 200" style="position:absolute;inset:0;width:100%;height:100%"><g fill="#2b2d31"><circle cx="134" cy="52" r="11"/><rect x="124" y="64" width="20" height="62" rx="8"/><rect x="125" y="124" width="8" height="58" rx="4"/><rect x="135" y="124" width="8" height="58" rx="4"/></g></svg>
+  <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:44px;height:44px;border-radius:50%;background:rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M7 4l13 8-13 8z"/></svg></div></div></div>
+ <div class="pad" style="margin-top:16px">
+  <div style="position:relative;height:30px">
+   <div style="position:absolute;left:0;right:0;top:14px;height:2px;background:var(--line2)"></div>
+   <div style="position:absolute;left:20%;right:24%;top:14px;height:2px;background:var(--acc)"></div>
+   <div style="position:absolute;left:20%;top:6px;width:18px;height:18px;border-radius:50%;background:#fff;transform:translateX(-50%)"></div>
+   <div style="position:absolute;right:24%;top:6px;width:18px;height:18px;border-radius:50%;background:#fff;transform:translateX(50%)"></div></div>
+  <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:4px"><span style="font-size:15px">1.2 s – 4.8 s</span><span style="color:var(--t2)">3.6 s</span></div>
+  <div style="display:flex;justify-content:space-between;margin-top:10px"><span class="lbl">Frame rate</span><span>60 fps</span></div>
+  <div style="font-size:11px;color:var(--t2);margin-top:12px;line-height:1.45;display:flex;gap:8px"><span style="color:var(--ok)">●</span>Usable: whole body visible, feet on the line.</div></div>
+ <div style="flex:1"></div>
+ <div class="pad" style="padding-bottom:18px"><div class="btnP">Analyze</div></div>
+</div></div><div class="cap"><b>Trim.</b> Jump-type chips, box height, a preview with a play overlay, and a range slider whose selected range is in the accent. The usability hint uses the success colour. Analyze is the primary action.</div></div>
+
+<!-- 13 RESULT + analyzing -->
+<div style="display:flex;flex-direction:column;gap:24px">
+<div><div class="ph"><div class="s">
+ <div class="sb"><span>9:41</span><span>▂▄▆ ▮</span></div>
+ <div class="pad" style="padding-top:12px;display:flex;justify-content:space-between;align-items:baseline"><span class="h1">Result</span><span class="lbl">Weighted Jump · 22.5 kg</span></div>
+ <div style="text-align:center;padding:20px 0 4px"><div class="lbl">Best jump</div>
+  <div style="font-size:64px;font-weight:300;line-height:1.05">41.3<span style="font-size:15px;color:var(--t2)"> cm</span></div>
+  <span class="tag acc" style="margin-top:8px">New personal best · +0.8 cm</span></div>
+ <div class="pad" style="display:flex;margin:12px 0 4px">
+  <div class="stat"><span class="lbl">Jumps</span><b>4</b></div>
+  <div class="stat" style="border-left:1px solid var(--line);border-right:1px solid var(--line)"><span class="lbl">Average</span><b>37.8<small> cm</small></b></div>
+  <div class="stat"><span class="lbl">Frame rate</span><b>60<small> fps</small></b></div></div>
+ <div class="accl" style="margin:6px 16px 4px"></div>
+ <div class="pad" style="flex:1">
+  <div style="display:grid;grid-template-columns:18px 1fr auto auto;gap:0 12px;align-items:center;font-size:12.5px">
+   <span class="lbl">#</span><span class="lbl">Height</span><span class="lbl">Contact</span><span class="lbl">RSI</span>
+   <span style="padding:10px 0;border-bottom:1px solid var(--line)">1</span><span style="padding:10px 0;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px"><span style="height:3px;width:58px;background:#4a4a50;border-radius:2px"></span>38.7</span><span style="padding:10px 0;border-bottom:1px solid var(--line);color:var(--t2)">212 ms</span><span style="padding:10px 0;border-bottom:1px solid var(--line)">1.83</span>
+   <span style="padding:10px 0;border-bottom:1px solid var(--line);color:var(--acc)">2</span><span style="padding:10px 0;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px"><span style="height:3px;width:62px;background:var(--acc);border-radius:2px"></span>41.3</span><span style="padding:10px 0;border-bottom:1px solid var(--line);color:var(--t2)">198 ms</span><span style="padding:10px 0;border-bottom:1px solid var(--line)">2.09</span>
+   <span style="padding:10px 0;border-bottom:1px solid var(--line)">3</span><span style="padding:10px 0;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px"><span style="height:3px;width:54px;background:#4a4a50;border-radius:2px"></span>36.2</span><span style="padding:10px 0;border-bottom:1px solid var(--line);color:var(--t2)">225 ms</span><span style="padding:10px 0;border-bottom:1px solid var(--line)">1.61</span>
+   <span style="padding:10px 0">4</span><span style="padding:10px 0;display:flex;align-items:center;gap:8px"><span style="height:3px;width:52px;background:#4a4a50;border-radius:2px"></span>34.9</span><span style="padding:10px 0;color:var(--t3)">—</span><span style="padding:10px 0;color:var(--t3)">—</span></div>
+  <div style="font-size:10.5px;color:var(--t3);margin-top:8px">— Contact time could not be determined</div></div>
+ <div class="pad" style="padding-bottom:18px"><div class="btnP">Done</div></div>
+</div></div><div class="cap"><b>Result.</b> The best jump is the hero number, with the PB badge (only shown for a new PB). Average sits in the stat row, and the table has inline height bars with the best jump in the accent. The only action is Done.</div></div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:24px">
+<div><div class="ph" style="height:300px"><div class="s" style="justify-content:center">
+ <div class="pad" style="text-align:center"><div class="lbl">Analyzing</div>
+  <div style="font-size:48px;font-weight:300;margin:6px 0 12px">42<span style="font-size:16px;color:var(--t2)"> %</span></div>
+  <div style="height:2px;background:var(--line2);border-radius:2px;overflow:hidden"><div style="width:42%;height:100%;background:var(--acc)"></div></div>
+  <div style="font-size:11px;color:var(--t2);margin:12px 0 20px">Detecting take-off and landing…</div>
+  <div class="btnO" style="width:140px;margin:0 auto">Cancel</div></div>
+</div></div><div class="cap"><b>Result, analyzing state.</b> A large percentage and a thin accent progress line.</div></div>
+
+<!-- 14 DETAIL -->
+<div><div class="ph"><div class="s">
+ <div class="sb"><span>9:41</span><span>▂▄▆ ▮</span></div>
+ <div class="pad" style="padding-top:10px;display:flex;align-items:center;justify-content:space-between">
+  <span style="display:flex;align-items:center;gap:12px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M15 5l-7 7 7 7"/></svg><span style="font-size:15px;font-weight:500">11.10.2026 14:32</span></span>
+  <span style="display:flex;gap:14px"><svg width="17" height="17" viewBox="0 0 24 24" fill="#8d8d94"><path d="M7 4l13 8-13 8z"/></svg><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#8d8d94" stroke-width="1.7"><path d="M20 12a8 8 0 1 1-2.3-5.7M20 4v5h-5"/></svg><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#8d8d94" stroke-width="1.7"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg></span></div>
+ <div class="pad" style="margin-top:8px;font-size:11px;color:var(--t2)">Weighted Jump · 22.5 kg · 10/11/26, 2:32 PM</div>
+ <div style="text-align:center;padding:18px 0 4px"><div class="lbl">Best jump</div><div style="font-size:52px;font-weight:300;line-height:1.05">41.3<span style="font-size:14px;color:var(--t2)"> cm</span></div></div>
+ <div class="pad" style="display:flex;margin:8px 0">
+  <div class="stat"><span class="lbl">Jumps</span><b>4</b></div>
+  <div class="stat" style="border-left:1px solid var(--line);border-right:1px solid var(--line)"><span class="lbl">Average</span><b>37.8</b></div>
+  <div class="stat"><span class="lbl">Frame rate</span><b>60</b></div></div>
+ <div class="pad" style="display:flex;flex-direction:column;gap:6px;margin-top:6px">
+  <div class="card li"><div><div class="lbl">Jump 1</div><div style="font-size:18px;font-weight:300;margin-top:3px">38.7 cm</div></div><div style="text-align:right;font-size:11px;color:var(--t2)">212 ms<br>RSI 1.83</div></div>
+  <div class="card li" style="border-color:var(--acc);background:var(--accTint)"><div><div class="lbl" style="color:#fff">Jump 2 · Best</div><div style="font-size:18px;font-weight:300;margin-top:3px">41.3 cm</div></div><div style="text-align:right;font-size:11px;color:var(--t2)">198 ms<br>RSI 2.09</div></div>
+  <div class="card li"><div><div class="lbl">Jump 3</div><div style="font-size:18px;font-weight:300;margin-top:3px">36.2 cm</div></div><div style="text-align:right;font-size:11px;color:var(--t2)">225 ms<br>RSI 1.61</div></div></div>
+ <div style="flex:1"></div>
+ <div class="pad" style="padding-bottom:18px"><div class="btnO">▶ Play clip</div></div>
+</div></div><div class="cap"><b>Detail.</b> Top bar with play, re-analyze and edit actions, then a meta line, the hero best value and the jump list with the best jump accent-bordered. Play clip stays here (it is only dropped from Result).</div></div>
+</div>
+</div>
