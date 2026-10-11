@@ -27,6 +27,21 @@ BAD = textwrap.dedent("""\
     Text("x", style = MaterialTheme.typography.labelSmall, maxFontSize = style.fontSize)
 """)
 
+MULTI = textwrap.dedent("""\
+    Modifier.padding(
+        horizontal = 16.dp,
+        vertical = 8.dp
+    )
+    Modifier.padding(top = foo(1).dp, bottom = 8.dp)
+    Modifier.size(
+        48.dp
+    )
+    Modifier.padding(
+        horizontal = 16.dp, // design-ignore: legacy
+        vertical = 8.dp
+    )
+""")
+
 EXPECTED = [
     (1, "raw-color"), (2, "raw-color"), (3, "raw-text-size"), (4, "raw-shape"),
     (5, "raw-spacing"), (6, "raw-spacing"), (7, "glow"),
@@ -70,6 +85,31 @@ class CheckDesignTokensTest(unittest.TestCase):
     def test_clean_tree_exits_zero(self):
         clean = self.src / "main/kotlin/app/ui/theme"
         result = subprocess.run([sys.executable, str(SCRIPT), str(clean)], capture_output=True, text=True)
+        self.assertEqual(0, result.returncode)
+
+    def test_clean_non_theme_file_exits_zero(self):
+        path = self.src / "main/kotlin/app/Clean.kt"
+        path.write_text("Modifier.padding(AppTheme.spacing.lg).size(48.dp)\n", encoding="utf-8")
+        result = subprocess.run([sys.executable, str(SCRIPT), str(path)], capture_output=True, text=True)
+        self.assertEqual(0, result.returncode)
+        self.assertIn("No design token violations", result.stdout)
+
+    def test_missing_path_exits_two_even_with_warn(self):
+        missing = str(self.src / "nope")
+        for flags in ([], ["--warn"]):
+            result = subprocess.run([sys.executable, str(SCRIPT), *flags, missing], capture_output=True, text=True)
+            self.assertEqual(2, result.returncode)
+            self.assertIn(f"error: path not found: {missing}", result.stderr)
+
+    def test_multiline_and_nested_spacing(self):
+        path = self.src / "main/kotlin/app/Multi.kt"
+        path.write_text(MULTI, encoding="utf-8")
+        found = [(line, rule) for _, line, rule, _ in check_design_tokens.check([path])]
+        self.assertEqual([(2, "raw-spacing"), (3, "raw-spacing"), (5, "raw-spacing"), (11, "raw-spacing")], found)
+
+    def test_relative_theme_path_excluded(self):
+        theme = self.src / "main/kotlin/app/ui/theme"
+        result = subprocess.run([sys.executable, str(SCRIPT), "."], cwd=theme, capture_output=True, text=True)
         self.assertEqual(0, result.returncode)
 
 
