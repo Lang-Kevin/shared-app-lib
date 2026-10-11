@@ -4,12 +4,35 @@ import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.lerp
+import androidx.compose.ui.graphics.luminance
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class ColorSchemeTest {
     private val s = Brand.Default.toColorScheme()
     private val red = Color(0xFFE8202E)
+
+    // WCAG 2.x contrast ratio.
+    private fun contrast(a: Color, b: Color): Float {
+        val hi = maxOf(a.luminance(), b.luminance())
+        val lo = minOf(a.luminance(), b.luminance())
+        return (hi + 0.05f) / (lo + 0.05f)
+    }
+
+    @Test fun secondaryFixedPairsReadable() {
+        // Variant pairs floor at 4.0 (above AA large text): onSecondaryFixedVariant on secondaryFixed reaches only ~4.33 with Nd* constants.
+        val pairs = listOf(
+            Triple("onSecondaryFixed/secondaryFixed", s.onSecondaryFixed, s.secondaryFixed) to 4.5f,
+            Triple("onSecondaryFixed/secondaryFixedDim", s.onSecondaryFixed, s.secondaryFixedDim) to 4.5f,
+            Triple("onSecondaryFixedVariant/secondaryFixed", s.onSecondaryFixedVariant, s.secondaryFixed) to 4.0f,
+            Triple("onSecondaryFixedVariant/secondaryFixedDim", s.onSecondaryFixedVariant, s.secondaryFixedDim) to 4.0f,
+        )
+        for ((p, min) in pairs) {
+            val ratio = contrast(p.second, p.third)
+            assertTrue("${p.first} contrast $ratio < $min", ratio >= min)
+        }
+    }
 
     @Test fun specSlots() {
         assertEquals(red, s.primary)

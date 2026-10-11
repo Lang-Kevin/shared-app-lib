@@ -43,12 +43,12 @@ Every slot is set explicitly. Unset slots would keep M3's purple baseline.
 | surfaceContainerHigh | #141417 | surfaceContainerHighest | NdOutline |
 | primaryFixed | accent | primaryFixedDim | accentTint |
 | onPrimaryFixed | onAccent | onPrimaryFixedVariant | NdOnSurface |
-| secondaryFixed | NdSecondary | secondaryFixedDim | NdOutlineVariant |
-| onSecondaryFixed | NdBackground | onSecondaryFixedVariant | NdOnSurface |
+| secondaryFixed | NdOutlineVariant | secondaryFixedDim | NdOutline |
+| onSecondaryFixed | NdOnSurface | onSecondaryFixedVariant | NdOnSurfaceVariant |
 | tertiaryFixed | accent | tertiaryFixedDim | accentTint |
 | onTertiaryFixed | onAccent | onTertiaryFixedVariant | NdOnSurface |
 
-The `*Fixed` slots (added in 78c48e0) keep M3 from falling back to its baseline when a component reads fixed roles.
+The `*Fixed` slots keep M3 from falling back to its baseline when a component reads fixed roles.
 
 Neutrals (`Brand.kt`, internal): NdBackground #000000, NdSurface #0B0B0D, NdOutline #1F1F23, NdOutlineVariant #2A2A2F, NdOnSurface #F2F2F4, NdOnSurfaceVariant #8D8D94, NdTextDisabled #55555C, NdSecondary #A3A3AB, NdError #FF5A4F, NdGraphite #26262B (zone ramp start), NdTintBase #0A0A0A (accentTint base).
 
@@ -168,7 +168,7 @@ Lib components on tokens (grows with sub-projects 2–4):
 | `raw-text-size` | `N.sp` literals, `fontSize =` |
 | `raw-shape` | `RoundedCornerShape(` |
 | `raw-spacing` | literal `N.dp` inside `padding(`, `spacedBy(`, `Spacer(` |
-| `glow` | `.shadow(` with primary/accent on the line, `BlurMaskFilter`, `.blur(` |
+| `glow` | `.shadow(` with primary/accent before its first `)`, `BlurMaskFilter`, `.blur(` |
 
 Exit codes: 0 clean (or `--warn`), 1 findings, 2 a path does not exist (even with `--warn`).
 
@@ -177,7 +177,7 @@ Exceptions: `// design-ignore: <reason>` on the line (always with a reason). Ski
 Heuristic limits (line/regex based, no Kotlin parser):
 - `raw-spacing` walks paren depth across lines from each call. Parens in strings or trailing comments can skew it.
 - Only literal `N.dp` inside those calls is seen. `width(8.dp)` or a `val x = 8.dp` is not flagged.
-- `glow` matches `.shadow(` only when primary/accent is on the same line as the call.
+- `glow` matches `.shadow(` only when primary/accent appears on the same line before the first closing `)`; `.shadow(elevation(x), color = primary)` is missed. Reviewers catch the rest.
 - Only `Color.` names in the list are caught; `Color(red, green, blue)` is not.
 - `--warn` for apps until their redesign. CI runs strict on `shared/src/main`.
 

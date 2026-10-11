@@ -8,7 +8,7 @@
 - `DESIGN.md`: rules, tokens, accent usage, component catalog
 - `tools/check_design_tokens.py` (+ fixture tests), strict in lib CI; apps can run it with `--warn`; multi-line spacing detection, exit 2 on missing paths
 
-### Changed
+### Changed (breaking)
 - **Visual:** the theme is now Night Drive (black background, graphite neutrals, red accent). Every M3 color slot is set explicitly. Theme-driven UI in the apps changes immediately; app-hardcoded colors stay until the app redesigns
 - Scope rule: generic UI belongs in the lib even if only one app uses it today
 - Lib components use tokens (StatItem/TargetZoneDialog defaults now come from the theme)

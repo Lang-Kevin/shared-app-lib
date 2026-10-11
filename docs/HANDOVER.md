@@ -6,10 +6,10 @@ Updated: 2026-10-12 · Branch: `design-system-foundation` (not pushed)
 
 | # | Sub-project | Status |
 |---|---|---|
-| 1 | Foundation (tokens, Brand, typography, DESIGN.md, checker) → 0.4.0 | Plan written, execution starting |
-| 2 | Basics & dialogs + formatters + UiText | Plan pending (@architect) |
-| 3 | Chart toolkit | Plan pending (@architect) |
-| 4 | Overlays & media chrome (Record A2 HUD) | Plan pending (@architect) |
+| 1 | Foundation (tokens, Brand, typography, DESIGN.md, checker) → 0.4.0 | T1–T8 committed; T8 review + T9 QA running |
+| 2 | Basics & dialogs + formatters + UiText | Plan being written (@architect) → `plans/2026-10-12-ds-basics.md`, branch `ds-basics` |
+| 3 | Chart toolkit | Plan being written (@architect) → `plans/2026-10-12-ds-charts.md`, branch `ds-charts` |
+| 4 | Overlays & media chrome (Record A2 HUD) | Plan being written (@architect) → `plans/2026-10-12-ds-media.md`, branch `ds-media` |
 | 5 | hr-tracker migration + redesign | Waits for 2–4 |
 | 6 | jump-tracker migration + redesign | Waits for 2–4 |
 | 7 | Remove deprecated SharedColors vals | Waits for 5, 6 |
@@ -30,6 +30,10 @@ Updated: 2026-10-12 · Branch: `design-system-foundation` (not pushed)
 | `ae85e2d` | Checker fix: multi-line/nested spacing, exit 2 on missing path, utf-8 errors=replace, resolved-path exclusion; 9 tests green (trailer says Haiku 5.5, accurate for the subagent) |
 | `a3448aa` | SP1 T6: StatItem, BLE scan, zone dialog on tokens; checker clean for these files; gradle green, 0 `w:`, reviewed: APPROVE |
 | `52a539a` | SP1 T7: session, trash, label picker on tokens; strict `Design tokens` CI step; whole lib checker clean (exit 0) |
+| `d974e2a` | chore: ignore `__pycache__/`, handover update |
+| `78c48e0` | Fix: 12 M3 `*Fixed` slots set + `noSlotKeepsM3Default` / `fixedSlotsFollowAccent` tests (review folded into T8 review) |
+| `3ce92e4` | SP1 T8: `DESIGN.md`, CHANGELOG `[0.4.0]`, version 0.4.0. Reviewed (with `78c48e0`): APPROVE; warning fixed in next row |
+| — | SP1 T9 QA: PASS. Lib gate green, checker clean, hr + jump `assembleDebug testDebugUnitTest` BUILD SUCCESSFUL (0 errors; deprecated `w:` hr 104, jump 20), diff scope OK. Visual check is user-only |
 
 ## Key documents
 
@@ -51,7 +55,8 @@ Updated: 2026-10-12 · Branch: `design-system-foundation` (not pushed)
 - jump `main` has 2 unpushed commits (user's); don't touch them.
 - Merge to `master` and push only with the user's go-ahead.
 - Follow-ups from reviews:
-  - Set the 12 M3 `*Fixed` slots in `toColorScheme` and add a slot-completeness test (queued after T7).
+  - ~~Set the 12 M3 `*Fixed` slots~~ done in `78c48e0`.
+  - Commits `ae85e2d`, `52a539a` carry a "Haiku 5.5" co-author trailer; rewrite before push only if the user wants it.
   - Z5 chip label contrast (~4.0:1 on the accent) is below AA. Address it in SP2 chip/segmented styling, for example with an accent-border selected state instead of a full accent fill.
   - hr LiveScreen still passes the deprecated pastel `ZoneColors` (low contrast). SP5 swaps it to `AppTheme.colors.zones`.
 
