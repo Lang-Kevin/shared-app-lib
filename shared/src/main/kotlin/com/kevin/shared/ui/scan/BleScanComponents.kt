@@ -5,7 +5,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bluetooth
 import androidx.compose.material.icons.filled.Favorite
@@ -24,7 +23,7 @@ import com.kevin.shared.ble.ConnectionState
 import com.kevin.shared.domain.DeviceType
 import com.kevin.shared.domain.DiscoveredDevice
 import com.kevin.shared.domain.SavedDevice
-import com.kevin.shared.ui.theme.ConnectedGreen
+import com.kevin.shared.ui.theme.AppTheme
 
 @Composable
 fun BleStatusCard(
@@ -47,7 +46,7 @@ fun BleStatusCard(
     else
         MaterialTheme.colorScheme.onSurface
     val dotColor = when {
-        connectionState is ConnectionState.Ready -> ConnectedGreen
+        connectionState is ConnectionState.Ready -> AppTheme.colors.success
         connectionState is ConnectionState.Error -> MaterialTheme.colorScheme.error
         else -> MaterialTheme.colorScheme.onSurfaceVariant
     }
@@ -64,20 +63,20 @@ fun BleStatusCard(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Card(
-            modifier = Modifier.weight(1f).padding(end = 8.dp),
-            shape = RoundedCornerShape(12.dp),
+            modifier = Modifier.weight(1f).padding(end = AppTheme.spacing.sm),
+            shape = MaterialTheme.shapes.medium,
             colors = CardDefaults.cardColors(containerColor = cardBg),
             border = cardBorder
         ) {
             Row(
-                modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
+                modifier = Modifier.padding(horizontal = AppTheme.spacing.md, vertical = AppTheme.spacing.sm),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Box(modifier = Modifier
                     .size(8.dp)
                     .background(dotColor, CircleShape)
                     .semantics { contentDescription = statusLabel })
-                Spacer(Modifier.width(8.dp))
+                Spacer(Modifier.width(AppTheme.spacing.sm))
                 Text(
                     statusLabel,
                     style = MaterialTheme.typography.bodyMedium,
@@ -91,7 +90,7 @@ fun BleStatusCard(
         }
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(stringResource(R.string.shared_ble_auto_connect), style = MaterialTheme.typography.bodySmall)
-            Spacer(Modifier.width(4.dp))
+            Spacer(Modifier.width(AppTheme.spacing.xs))
             Switch(checked = autoConnect, onCheckedChange = { onToggleAutoConnect() })
         }
     }
@@ -99,9 +98,12 @@ fun BleStatusCard(
 
 @Composable
 fun SavedDeviceItem(device: SavedDevice, onClick: () -> Unit, onForget: () -> Unit) {
-    Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp)) {
+    Card(modifier = Modifier.fillMaxWidth(), shape = MaterialTheme.shapes.medium) {
         Row(
-            modifier = Modifier.padding(start = 16.dp, top = 8.dp, bottom = 8.dp, end = 4.dp),
+            modifier = Modifier.padding(
+                start = AppTheme.spacing.lg, top = AppTheme.spacing.sm,
+                bottom = AppTheme.spacing.sm, end = AppTheme.spacing.xs
+            ),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(modifier = Modifier.weight(1f).clickable(onClick = onClick)) {
@@ -133,12 +135,12 @@ fun DiscoveredDeviceItem(
     }
     Card(
         modifier = Modifier.fillMaxWidth().clickable(onClick = onClick),
-        shape = RoundedCornerShape(12.dp)
+        shape = MaterialTheme.shapes.medium
     ) {
         Row(
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
+            modifier = Modifier.padding(horizontal = AppTheme.spacing.lg, vertical = AppTheme.spacing.md),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
+            horizontalArrangement = Arrangement.spacedBy(AppTheme.spacing.md)
         ) {
             Icon(icon, contentDescription = subtitle)
             Column {
