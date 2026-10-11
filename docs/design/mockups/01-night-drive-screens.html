@@ -1,0 +1,247 @@
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+:root{
+  --acc:#E8202E; --base:#26262b;
+  --bg:#000; --s1:#0b0b0d; --line:#1f1f23; --line2:#2a2a2f;
+  --t1:#f2f2f4; --t2:#8d8d94; --t3:#55555c;
+  --accSoft:color-mix(in srgb,var(--acc) 40%,transparent);
+  --accTint:color-mix(in srgb,var(--acc) 9%,#0a0a0a);
+  --z1:color-mix(in srgb,var(--acc) 10%,var(--base));
+  --z2:color-mix(in srgb,var(--acc) 28%,var(--base));
+  --z3:color-mix(in srgb,var(--acc) 50%,var(--base));
+  --z4:color-mix(in srgb,var(--acc) 75%,var(--base));
+  --z5:var(--acc);
+}
+.row{display:flex;gap:22px;flex-wrap:wrap;margin:10px 0 30px}
+.cap{font-size:12px;color:#777;margin-top:8px;text-align:center;max-width:290px}
+.ph{width:290px;height:610px;border-radius:34px;padding:9px;background:#1a1a1a;box-shadow:0 8px 30px rgba(0,0,0,.4)}
+.s{width:100%;height:100%;border-radius:26px;overflow:hidden;position:relative;display:flex;flex-direction:column;background:var(--bg);color:var(--t1);font-family:'Space Grotesk',sans-serif;font-size:13px}
+.sb{display:flex;justify-content:space-between;padding:8px 18px 2px;font-size:10px;color:var(--t2)}
+.pad{padding:0 14px}
+.lbl{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--t2)}
+.h1{font-size:20px;font-weight:500;letter-spacing:.02em}
+.ttl{font-size:13px;font-weight:500;letter-spacing:.2em;text-transform:uppercase}
+.accl{height:1px;background:linear-gradient(90deg,transparent,var(--accSoft),transparent)}
+.hair{height:1px;background:var(--line)}
+.card{background:var(--s1);border:1px solid var(--line);border-radius:14px}
+.btnP{border-radius:24px;padding:12px;text-align:center;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#fff;background:var(--accTint);border:1px solid var(--acc)}
+.btnO{border-radius:24px;padding:11px;text-align:center;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--t1);border:1px solid var(--line2)}
+.btnT{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--t2)}
+.chip{font-size:10px;letter-spacing:.1em;padding:5px 11px;border-radius:14px;color:var(--t2);border:1px solid var(--line2);white-space:nowrap}
+.chip.on{color:#fff;border-color:var(--acc)}
+.sw{width:30px;height:16px;border-radius:9px;background:#1d1d21;position:relative;border:1px solid var(--line2)}
+.sw::after{content:"";position:absolute;top:2px;left:2px;width:10px;height:10px;border-radius:50%;background:#666}
+.sw.on{background:var(--accTint);border-color:var(--acc)}.sw.on::after{left:16px;background:#fff}
+.dot{width:7px;height:7px;border-radius:50%;display:inline-block}
+.tabs{display:flex;border-bottom:1px solid var(--line)}
+.tabs div{flex:1;text-align:center;padding:9px 0;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--t3)}
+.tabs .on{color:#fff;box-shadow:inset 0 -2px 0 var(--acc)}
+.stat{flex:1;padding:9px 6px;text-align:center}
+.stat b{display:block;font-size:20px;font-weight:400;margin-top:3px}
+.ib{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1px solid var(--line2);background:#0a0a0a}
+.ib.acc{border-color:var(--acc);background:var(--accTint)}
+.li{display:flex;justify-content:space-between;align-items:center;padding:11px 12px}
+.li .t{font-size:13.5px}.li .sub{font-size:11px;color:var(--t2);margin-top:2px}
+.pill{background:rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:5px 11px;font-size:12px;color:#fff}
+.hud{color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.9)}
+.opt{border:2px solid transparent;border-radius:14px;padding:8px;cursor:pointer}
+.opt.selected{border-color:#c00}
+.sw8{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:6px 0 18px;font-family:'Space Grotesk';font-size:12px}
+.sw8 button{width:34px;height:34px;border-radius:50%;border:2px solid #444;cursor:pointer}
+.sw8 button:hover{border-color:#fff}
+svg text{font-family:'Space Grotesk',sans-serif}
+</style>
+
+<h2>Night Drive v3</h2>
+<p class="subtitle">Changes: the glow is mostly gone. Accents are now thin lines and borders plus a faint tint, with no halos. The Live header keeps the large number. Zones are derived from the accent color. There are two new options for Last/Best in the Record view.</p>
+
+<h3>Accent color: try it (zones and all accents follow)</h3>
+<div class="sw8">
+  <button style="background:#E8202E" onclick="document.documentElement.style.setProperty('--acc','#E8202E')" title="Red"></button>
+  <button style="background:#FF6A13" onclick="document.documentElement.style.setProperty('--acc','#FF6A13')" title="Orange"></button>
+  <button style="background:#2D7FF9" onclick="document.documentElement.style.setProperty('--acc','#2D7FF9')" title="Blue"></button>
+  <button style="background:#1FB86A" onclick="document.documentElement.style.setProperty('--acc','#1FB86A')" title="Green"></button>
+  <button style="background:#B6A6F2" onclick="document.documentElement.style.setProperty('--acc','#B6A6F2')" title="Today's purple"></button>
+  <span style="color:#888">→ in code: <code>AppTheme(brand = Brand(accent = …))</code>. Zones Z1–Z5 are computed as a mix from graphite to the accent.</span>
+</div>
+<div style="display:flex;gap:4px;width:300px;height:22px;margin-bottom:24px"><div style="flex:1;background:var(--z1)"></div><div style="flex:1;background:var(--z2)"></div><div style="flex:1;background:var(--z3)"></div><div style="flex:1;background:var(--z4)"></div><div style="flex:1;background:var(--z5)"></div></div>
+
+<h3>hr-tracker</h3>
+<div class="row">
+
+<!-- HR SCAN -->
+<div><div class="ph"><div class="s">
+  <div class="sb"><span>9:41</span><span>●●● ▮</span></div>
+  <div class="pad" style="display:flex;align-items:center;justify-content:space-between;padding-top:10px">
+    <span class="h1">HR Tracker</span>
+    <span style="display:flex;gap:14px;align-items:center"><span class="btnT">History</span>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8d8d94" stroke-width="1.6"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="8" stroke-dasharray="3 2.3"/></svg></span>
+  </div>
+  <div class="pad" style="display:flex;gap:10px;align-items:center;margin-top:14px">
+    <div class="card" style="flex:1;padding:10px 12px;display:flex;align-items:center;justify-content:space-between">
+      <span style="display:flex;align-items:center;gap:8px"><span class="dot" style="background:var(--acc)"></span><span>Polar H10 · Ready</span></span>
+      <span class="btnT" style="font-size:9.5px">Disconnect</span></div>
+    <div style="text-align:center"><div class="lbl" style="font-size:8px;margin-bottom:4px">Auto</div><div class="sw on"></div></div>
+  </div>
+  <div class="accl" style="margin:16px 14px"></div>
+  <div class="pad" style="display:flex;flex-direction:column;gap:8px">
+    <div class="btnP">Start workout</div><div class="btnO">Measure HRV</div></div>
+  <div class="hair" style="margin:16px 14px"></div>
+  <div class="pad"><div class="lbl" style="margin-bottom:8px">Saved devices</div>
+    <div class="card li"><div><div class="t">Polar H10 A1B2C3D4</div><div class="sub">C7:2E:91:0A:4F:13</div></div><span class="btnT" style="font-size:9.5px">Forget</span></div></div>
+  <div class="pad" style="margin-top:16px"><div class="lbl" style="margin-bottom:8px">Available HR devices</div>
+    <div class="btnO" style="margin-bottom:8px">Search for devices</div>
+    <div class="card li" style="justify-content:flex-start;gap:12px;margin-bottom:6px"><svg width="18" height="18" viewBox="0 0 24 24" fill="var(--acc)"><path d="M12 21s-7-4.4-9.5-9C.8 8.6 3 5 6.5 5c2 0 3.5 1.2 5.5 3.2C14 6.2 15.5 5 17.5 5 21 5 23.2 8.6 21.5 12 19 16.6 12 21 12 21z"/></svg><div><div class="t">Polar H10 A1B2C3D4</div><div class="sub">Chest strap</div></div></div>
+    <div class="card li" style="justify-content:flex-start;gap:12px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8d8d94" stroke-width="1.7"><path d="M7 7l10 10-5 5V2l5 5L7 17"/></svg><div><div class="t">Garmin HRM-Pro</div><div class="sub">E4:11:5B:22:90:AC</div></div></div>
+  </div>
+</div></div><div class="cap">Scan: accent only on the status dot, the switch and the primary button</div></div>
+
+<!-- HR LIVE -->
+<div><div class="ph"><div class="s">
+  <div class="sb"><span>9:41</span><span>●●● ▮</span></div>
+  <div class="pad" style="display:flex;justify-content:space-between;align-items:flex-start;padding-top:8px">
+    <div><div class="ttl">Running</div><div class="lbl" style="margin-top:4px">00:24:37</div>
+      <div style="margin-top:10px;display:inline-block;font-size:9.5px;letter-spacing:.14em;padding:3px 8px;border-radius:10px;border:1px solid var(--acc);color:#fff">ZONE 3 · IN TARGET</div></div>
+    <div style="text-align:right"><div class="lbl">BPM</div>
+      <div style="display:flex;align-items:center;gap:8px;justify-content:flex-end">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="var(--acc)"><path d="M12 21s-7-4.4-9.5-9C.8 8.6 3 5 6.5 5c2 0 3.5 1.2 5.5 3.2C14 6.2 15.5 5 17.5 5 21 5 23.2 8.6 21.5 12 19 16.6 12 21 12 21z"/></svg>
+        <span style="font-size:52px;font-weight:300;line-height:1">142</span></div></div>
+  </div>
+  <svg viewBox="0 0 270 200" style="width:100%;flex:1;min-height:0;margin-top:6px">
+    <rect x="44" y="12" width="4" height="26" style="fill:var(--z5)"/><rect x="44" y="38" width="4" height="32" style="fill:var(--z4)"/><rect x="44" y="70" width="4" height="38" style="fill:var(--z3)"/><rect x="44" y="108" width="4" height="40" style="fill:var(--z2)"/><rect x="44" y="148" width="4" height="32" style="fill:var(--z1)"/>
+    <rect x="48" y="70" width="218" height="38" style="fill:var(--acc)" opacity=".07"/>
+    <g stroke="#fff" stroke-opacity=".07"><line x1="48" y1="148" x2="266" y2="148"/><line x1="48" y1="108" x2="266" y2="108"/><line x1="48" y1="70" x2="266" y2="70"/><line x1="48" y1="38" x2="266" y2="38"/></g>
+    <g fill="#8d8d94" font-size="8.5"><text x="6" y="167">Z1 93</text><text x="6" y="131">Z2 111</text><text x="6" y="93" fill="#fff">Z3 130</text><text x="6" y="57">Z4 148</text><text x="6" y="28">Z5 167</text></g>
+    <line x1="150" y1="12" x2="150" y2="180" stroke="#fff" stroke-opacity=".3" stroke-dasharray="3 3"/><text x="153" y="20" fill="#8d8d94" font-size="8">M1</text>
+    <polyline fill="none" stroke="#fff" stroke-width="1.5" stroke-linejoin="round" points="48,150 60,140 76,128 92,118 108,104 124,98 140,90 156,86 172,92 188,84 204,78 220,74 236,80 252,72 262,70"/>
+    <circle cx="262" cy="70" r="7" style="fill:var(--acc)" opacity=".2"/><circle cx="262" cy="70" r="3.5" style="fill:var(--acc)"/>
+    <g fill="#55555c" font-size="8.5" text-anchor="middle"><text x="70" y="194">22:30</text><text x="130" y="194">23:00</text><text x="190" y="194">23:30</text><text x="250" y="194">24:00</text></g>
+  </svg>
+  <div class="pad" style="margin-top:4px">
+    <div style="display:flex;justify-content:space-between"><span class="lbl">Time in zone</span><span class="lbl" style="color:#fff">62% in target</span></div>
+    <div style="display:flex;height:4px;margin:8px 0;gap:2px"><div style="flex:6;background:var(--z1)"></div><div style="flex:10;background:var(--z2)"></div><div style="flex:62;background:var(--z3);outline:1px solid var(--acc);outline-offset:1px"></div><div style="flex:18;background:var(--z4)"></div><div style="flex:4;background:var(--z5)"></div></div>
+    <div style="display:flex;justify-content:space-between;font-size:9.5px;color:var(--t3)"><span>Z1<br>01:28</span><span>Z2<br>02:27</span><span style="color:#fff">Z3<br>15:16</span><span>Z4<br>04:26</span><span>Z5<br>01:00</span></div>
+  </div>
+  <div class="hair" style="margin:10px 14px 0"></div>
+  <div class="pad" style="display:flex">
+    <div class="stat"><span class="lbl">Avg BPM</span><b>138</b></div>
+    <div class="stat" style="border-left:1px solid var(--line);border-right:1px solid var(--line)"><span class="lbl">Max</span><b>171</b></div>
+    <div class="stat"><span class="lbl">kcal</span><b>312</b></div></div>
+  <div class="pad" style="display:flex;justify-content:space-evenly;padding:10px 0 16px">
+    <div class="ib"><svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/></svg></div>
+    <div class="ib"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M5 21V4h11l-2 4 2 4H5"/></svg></div>
+    <div class="ib acc" title="Long-press to stop"><svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><rect x="5" y="5" width="14" height="14" rx="2"/></svg></div></div>
+</div></div><div class="cap">Live: large number. A zone strip on the axis replaces the GOAL badge, and the zone status sits in the header.</div></div>
+
+<!-- HR HISTORY -->
+<div><div class="ph"><div class="s">
+  <div class="sb"><span>9:41</span><span>●●● ▮</span></div>
+  <div class="pad" style="padding-top:12px"><span class="h1">History</span></div>
+  <div class="tabs" style="margin-top:10px"><div class="on">History</div><div>Stats</div><div>Form</div><div>Trash</div></div>
+  <div class="pad" style="margin-top:12px"><div class="card" style="display:flex;padding:4px 0">
+    <div class="stat"><b style="font-size:16px">12</b><span class="lbl" style="font-size:8px">Workouts</span></div>
+    <div class="stat"><b style="font-size:16px">08:45</b><span class="lbl" style="font-size:8px">Total</span></div>
+    <div class="stat"><b style="font-size:16px">141</b><span class="lbl" style="font-size:8px">Avg BPM</span></div>
+    <div class="stat"><b style="font-size:16px">1:32</b><span class="lbl" style="font-size:8px">Longest</span></div></div></div>
+  <div class="pad" style="display:flex;gap:6px;margin:12px 0"><span class="chip on">Workouts</span><span class="chip">HRV</span><span class="chip">Filter by date</span></div>
+  <div class="pad" style="display:flex;flex-direction:column;gap:6px">
+    <div class="lbl" style="font-size:8.5px;margin:2px 0 0">This week</div>
+    <div class="card li"><div><div class="t">Running</div><div class="sub">Sat 7:42 AM · Ø 141 bpm</div></div><div style="text-align:right"><div style="font-size:15px">45:12</div><div style="display:flex;height:3px;width:56px;gap:1px;margin-top:5px"><div style="flex:1;background:var(--z1)"></div><div style="flex:2;background:var(--z2)"></div><div style="flex:6;background:var(--z3)"></div><div style="flex:2;background:var(--z4)"></div></div></div></div>
+    <div class="card li"><div><div class="t">Cycling</div><div class="sub">Thu 6:15 PM · Ø 132 bpm</div></div><div style="text-align:right"><div style="font-size:15px">1:32:05</div><div style="display:flex;height:3px;width:56px;gap:1px;margin-top:5px"><div style="flex:3;background:var(--z1)"></div><div style="flex:6;background:var(--z2)"></div><div style="flex:3;background:var(--z3)"></div></div></div></div>
+    <div class="card li"><div><div class="t">Strength</div><div class="sub">Wed 7:05 AM · Ø 118 bpm</div></div><div style="text-align:right"><div style="font-size:15px">52:40</div><div style="display:flex;height:3px;width:56px;gap:1px;margin-top:5px"><div style="flex:6;background:var(--z1)"></div><div style="flex:3;background:var(--z2)"></div><div style="flex:1;background:var(--z4)"></div></div></div></div>
+    <div class="lbl" style="font-size:8.5px;margin:6px 0 0">Last week</div>
+    <div class="card li"><div><div class="t">Running</div><div class="sub">Mon 7:30 AM · Ø 149 bpm</div></div><div style="text-align:right"><div style="font-size:15px">38:55</div><div style="display:flex;height:3px;width:56px;gap:1px;margin-top:5px"><div style="flex:1;background:var(--z2)"></div><div style="flex:4;background:var(--z3)"></div><div style="flex:4;background:var(--z4)"></div><div style="flex:1;background:var(--z5)"></div></div></div></div>
+  </div>
+</div></div><div class="cap">History: grouped by week, with average BPM and a mini zone bar per workout (UX proposal)</div></div>
+</div>
+
+<h3>jump-tracker: Record, Last/Best display (click one)</h3>
+<div class="row">
+
+<div class="opt" data-choice="record-hud-bottom" onclick="toggleSelect(this)"><div class="ph"><div class="s">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 40%,#2a2a2e 0%,#111 55%,#050505 100%)"></div>
+  <svg viewBox="0 0 272 592" style="position:absolute;inset:0;width:100%;height:100%">
+    <g fill="#3a3a40"><circle cx="136" cy="200" r="17"/><rect x="120" y="221" width="32" height="92" rx="12"/><rect x="122" y="309" width="12" height="90" rx="6"/><rect x="138" y="309" width="12" height="90" rx="6"/></g>
+    <g stroke="#fff" stroke-opacity=".85" stroke-width="2" fill="none"><path d="M70 140v-20h20M202 140v-20h-20M70 380v20h20M202 380v20h-20"/></g>
+    <line x1="10" y1="400" x2="262" y2="400" stroke="#fff" stroke-opacity=".85" stroke-width="1.5"/>
+  </svg>
+  <div style="position:relative;display:flex;justify-content:space-between;align-items:center;padding:30px 14px 0">
+    <span class="hud" style="font-size:18px">✕</span>
+    <span class="pill" style="display:flex;align-items:center;gap:6px"><span class="dot" style="background:var(--acc)"></span>00:12</span>
+    <span style="width:18px"></span></div>
+  <div style="position:relative;display:flex;justify-content:center;margin-top:20px"><span class="hud ttl" style="font-size:14px">Ready – jump!</span></div>
+  <div style="flex:1"></div>
+  <div style="position:relative;background:linear-gradient(transparent,rgba(0,0,0,.92) 35%);padding:40px 0 18px">
+    <div style="display:flex;justify-content:center;gap:0;margin-bottom:16px">
+      <div style="text-align:center;padding:0 22px"><div class="lbl" style="color:#bbb">Last</div><div style="font-size:34px;font-weight:300;line-height:1.1">38<span style="font-size:13px;color:#aaa"> cm</span></div></div>
+      <div style="width:1px;background:rgba(255,255,255,.18)"></div>
+      <div style="text-align:center;padding:0 22px"><div class="lbl" style="color:var(--acc)">Best</div><div style="font-size:34px;font-weight:300;line-height:1.1">41<span style="font-size:13px;color:#aaa"> cm</span></div></div></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:0 22px">
+      <span class="pill" style="font-size:10.5px">1080p60</span>
+      <div style="width:66px;height:66px;border-radius:50%;border:3px solid #fff;display:flex;align-items:center;justify-content:center"><div style="width:24px;height:24px;border-radius:5px;background:var(--acc)"></div></div>
+      <span class="hud" style="font-size:20px">⟲</span></div></div>
+</div></div><div class="cap">A: Bottom HUD. Last/Best appear as large numbers without a box, directly above the shutter.</div></div>
+
+<div class="opt" data-choice="record-hud-top" onclick="toggleSelect(this)"><div class="ph"><div class="s">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 45%,#2a2a2e 0%,#111 55%,#050505 100%)"></div>
+  <svg viewBox="0 0 272 592" style="position:absolute;inset:0;width:100%;height:100%">
+    <g fill="#3a3a40"><circle cx="136" cy="230" r="17"/><rect x="120" y="251" width="32" height="92" rx="12"/><rect x="122" y="339" width="12" height="90" rx="6"/><rect x="138" y="339" width="12" height="90" rx="6"/></g>
+    <g stroke="#fff" stroke-opacity=".85" stroke-width="2" fill="none"><path d="M70 170v-20h20M202 170v-20h-20M70 410v20h20M202 410v20h-20"/></g>
+    <line x1="10" y1="430" x2="262" y2="430" stroke="#fff" stroke-opacity=".85" stroke-width="1.5"/>
+  </svg>
+  <div style="position:relative;background:linear-gradient(rgba(0,0,0,.9) 55%,transparent);padding:28px 14px 30px">
+    <div style="display:flex;justify-content:space-between;align-items:center"><span class="hud" style="font-size:18px">✕</span>
+      <span class="pill" style="display:flex;align-items:center;gap:6px"><span class="dot" style="background:var(--acc)"></span>00:12</span><span class="pill" style="font-size:10.5px">1080p60</span></div>
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-top:16px">
+      <div><div class="lbl" style="color:#bbb">Jump 3 · Last</div><div style="font-size:46px;font-weight:300;line-height:1">38<span style="font-size:14px;color:#aaa"> cm</span></div></div>
+      <div style="text-align:right;padding-bottom:4px"><div class="lbl" style="color:var(--acc)">Best</div><div style="font-size:20px;font-weight:300">41 cm</div></div></div>
+    <div style="height:2px;background:#333;margin-top:10px;position:relative"><div style="position:absolute;left:0;top:0;bottom:0;width:93%;background:var(--acc)"></div></div>
+  </div>
+  <div style="flex:1"></div>
+  <div style="position:relative;display:flex;justify-content:center;margin-bottom:14px"><span class="hud ttl" style="font-size:13px">Ready – jump!</span></div>
+  <div style="position:relative;display:flex;align-items:center;justify-content:center;padding:0 0 18px">
+    <div style="width:66px;height:66px;border-radius:50%;border:3px solid #fff;display:flex;align-items:center;justify-content:center"><div style="width:24px;height:24px;border-radius:5px;background:var(--acc)"></div></div></div>
+</div></div><div class="cap">B: Top scoreboard. The last jump is large, best is small, and the bar shows last as a % of best.</div></div>
+</div>
+
+<h3>jump-tracker: History &amp; Result</h3>
+<div class="row">
+<div><div class="ph"><div class="s">
+  <div class="sb"><span>9:41</span><span>●●● ▮</span></div>
+  <div class="pad" style="padding-top:12px"><span class="h1">JumpTracker</span></div>
+  <div class="tabs" style="margin-top:10px"><div class="on">History</div><div>Best</div><div>Trash</div></div>
+  <div class="pad" style="display:flex;gap:6px;margin:12px 0"><span class="chip on">CMJ</span><span class="chip">Weighted Jump</span><span class="chip">Drop Jump</span></div>
+  <div class="pad" style="margin-bottom:10px"><div class="card" style="padding:10px 12px"><div style="display:flex;justify-content:space-between"><span class="lbl">CMJ trend · 30 days</span><span class="lbl" style="color:#fff">PB 41.3 cm</span></div>
+    <svg viewBox="0 0 240 40" style="width:100%;height:40px;margin-top:6px"><polyline fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="1.3" points="0,30 30,28 60,32 90,24 120,22 150,25 180,16 210,14 240,8"/><circle cx="240" cy="8" r="3" style="fill:var(--acc)"/></svg></div></div>
+  <div class="pad" style="display:flex;flex-direction:column;gap:6px">
+    <div class="card li"><div><div class="t">Sat 11.10. 14:32</div><div class="sub">4 jumps · <span style="color:var(--acc)">new PB</span></div></div><span style="font-size:20px;font-weight:300">41.3<span style="font-size:10px;color:var(--t2)"> cm</span></span></div>
+    <div class="card li"><div><div class="t">Fri 10.10. 18:05</div><div class="sub">3 jumps</div></div><span style="font-size:20px;font-weight:300">35.0<span style="font-size:10px;color:var(--t2)"> cm</span></span></div>
+    <div class="card li"><div><div class="t">Wed 08.10. 09:12</div><div class="sub">1 jump · no reliable measurement</div></div><span style="font-size:20px;font-weight:300;color:var(--t3)">—</span></div>
+  </div>
+  <div style="position:absolute;bottom:22px;right:18px;display:flex;flex-direction:column;align-items:center;gap:10px">
+    <div class="ib" style="width:38px;height:38px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7"><rect x="3" y="5" width="14" height="14" rx="2"/><path d="M17 10l4-2v8l-4-2"/></svg></div>
+    <div class="ib acc" style="width:56px;height:56px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></div></div>
+</div></div><div class="cap">History: trend sparkline and PB marker per jump type (UX proposal)</div></div>
+
+<div><div class="ph"><div class="s">
+  <div class="sb"><span>9:41</span><span>●●● ▮</span></div>
+  <div class="pad" style="padding-top:14px;display:flex;justify-content:space-between;align-items:baseline"><span class="h1">Result</span><span class="lbl">CMJ</span></div>
+  <div style="text-align:center;padding:22px 0 6px"><div class="lbl">Best jump</div>
+    <div style="font-size:64px;font-weight:300;line-height:1.05">41.3<span style="font-size:15px;color:var(--t2)"> cm</span></div>
+    <div style="display:inline-block;margin-top:6px;font-size:9.5px;letter-spacing:.14em;padding:3px 8px;border-radius:10px;border:1px solid var(--acc)">NEW PERSONAL BEST · +0.8 cm</div></div>
+  <div class="pad" style="display:flex;margin:6px 0">
+    <div class="stat"><span class="lbl">Jumps</span><b>4</b></div>
+    <div class="stat" style="border-left:1px solid var(--line);border-right:1px solid var(--line)"><span class="lbl">Average</span><b>37.8</b></div>
+    <div class="stat"><span class="lbl">fps</span><b>60</b></div></div>
+  <div class="accl" style="margin:4px 14px 6px"></div>
+  <div class="pad" style="flex:1;overflow:hidden">
+    <div style="display:grid;grid-template-columns:auto 1fr auto auto;gap:0 12px;align-items:center">
+      <span class="lbl">#</span><span class="lbl">Height</span><span class="lbl">Contact</span><span class="lbl">RSI</span>
+      <span style="padding:9px 0;border-bottom:1px solid var(--line)">1</span><span style="padding:9px 0;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px"><span style="height:3px;width:52px;background:#555"></span>38.7</span><span style="padding:9px 0;border-bottom:1px solid var(--line);color:var(--t2)">212 ms</span><span style="padding:9px 0;border-bottom:1px solid var(--line)">1.83</span>
+      <span style="padding:9px 0;border-bottom:1px solid var(--line);color:var(--acc)">2</span><span style="padding:9px 0;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px"><span style="height:3px;width:56px;background:var(--acc)"></span>41.3</span><span style="padding:9px 0;border-bottom:1px solid var(--line);color:var(--t2)">198 ms</span><span style="padding:9px 0;border-bottom:1px solid var(--line)">2.09</span>
+      <span style="padding:9px 0;border-bottom:1px solid var(--line)">3</span><span style="padding:9px 0;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px"><span style="height:3px;width:49px;background:#555"></span>36.2</span><span style="padding:9px 0;border-bottom:1px solid var(--line);color:var(--t2)">225 ms</span><span style="padding:9px 0;border-bottom:1px solid var(--line)">1.61</span>
+      <span style="padding:9px 0">4</span><span style="padding:9px 0;display:flex;align-items:center;gap:8px"><span style="height:3px;width:47px;background:#555"></span>34.9</span><span style="padding:9px 0;color:var(--t3)">—</span><span style="padding:9px 0;color:var(--t3)">—</span>
+    </div></div>
+  <div class="pad" style="padding-bottom:18px;display:flex;gap:8px"><div class="btnO" style="flex:1">Play clip</div><div class="btnP" style="flex:1">Done</div></div>
+</div></div><div class="cap">Result: PB badge, average, and inline bars per jump</div></div>
+</div>

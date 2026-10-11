@@ -1,0 +1,148 @@
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&display=swap');
+:root{--acc:#E8202E;--base:#26262b;--s1:#0b0b0d;--line:#1f1f23;--line2:#2a2a2f;--t2:#8d8d94;--t3:#55555c;
+  --accTint:color-mix(in srgb,var(--acc) 9%,#0a0a0a);
+  --z1:color-mix(in srgb,var(--acc) 10%,var(--base));--z2:color-mix(in srgb,var(--acc) 28%,var(--base));
+  --z3:color-mix(in srgb,var(--acc) 50%,var(--base));--z4:color-mix(in srgb,var(--acc) 75%,var(--base));--z5:var(--acc)}
+.prop{margin:0 0 34px}
+.prop h3{margin:0 0 4px}
+.prop p{margin:0 0 10px;color:#888;font-size:13px}
+.pair{display:flex;gap:16px;flex-wrap:wrap}
+.pair .option{flex:0 0 auto;width:300px;cursor:pointer}
+.tag{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#888;margin-bottom:6px}
+.sn{background:#000;color:#f2f2f4;font-family:'Space Grotesk',sans-serif;font-size:13px;border-radius:16px;padding:14px;height:150px;box-sizing:border-box;overflow:hidden;position:relative}
+.lbl{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--t2)}
+.ttl{font-size:13px;font-weight:500;letter-spacing:.2em;text-transform:uppercase}
+.card{background:var(--s1);border:1px solid var(--line);border-radius:12px}
+.li{display:flex;justify-content:space-between;align-items:center;padding:9px 11px}
+.li .sub{font-size:10.5px;color:var(--t2);margin-top:2px}
+.stat{flex:1;text-align:center;padding:4px}.stat b{display:block;font-size:19px;font-weight:400;margin-top:3px}
+.ib{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1px solid var(--line2);background:#0a0a0a}
+.ib.acc{border-color:var(--acc);background:var(--accTint)}
+.btnP{border-radius:22px;padding:10px;text-align:center;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;background:var(--accTint);border:1px solid var(--acc)}
+.btnO{border-radius:22px;padding:10px;text-align:center;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;border:1px solid var(--line2)}
+.tz{display:inline-block;font-size:9px;letter-spacing:.14em;padding:3px 8px;border-radius:10px;border:1px solid var(--acc)}
+.feed{background:linear-gradient(180deg,#8a8f96 0%,#6f747b 60%,#45484d 60.5%,#3b3d41 100%)}
+.hud{text-shadow:0 1px 3px rgba(0,0,0,.75),0 0 10px rgba(0,0,0,.4);color:#fff}
+.mz{display:flex;height:3px;width:54px;gap:1px;margin-top:5px;margin-left:auto}
+svg text{font-family:'Space Grotesk',sans-serif}
+</style>
+
+<h2>UX proposals: without vs. with</h2>
+<p class="subtitle">Each row shows today's layout (already in the new style) on the left and the proposal on the right. Click the side you want; one choice per row.</p>
+
+<!-- 1 -->
+<div class="prop"><h3>1 · hr Live: zone status in the header</h3><p>You can see whether you're in the target zone without reading the chart.</p>
+<div class="options pair">
+ <div class="option" data-choice="p1-without" onclick="toggleSelect(this)"><div class="tag">Without</div><div class="sn">
+  <div style="display:flex;justify-content:space-between"><div><div class="ttl">Running</div><div class="lbl" style="margin-top:4px">00:24:37</div></div>
+  <div style="text-align:right"><div class="lbl">BPM</div><div style="font-size:50px;font-weight:300;line-height:1">142</div></div></div></div></div>
+ <div class="option" data-choice="p1-with" onclick="toggleSelect(this)"><div class="tag">With</div><div class="sn">
+  <div style="display:flex;justify-content:space-between"><div><div class="ttl">Running</div><div class="lbl" style="margin-top:4px">00:24:37</div><div class="tz" style="margin-top:12px">ZONE 3 · IN TARGET</div></div>
+  <div style="text-align:right"><div class="lbl">BPM</div><div style="font-size:50px;font-weight:300;line-height:1">142</div></div></div>
+  <div style="font-size:11px;color:var(--t2);margin-top:14px">Above target: <span class="tz" style="border-color:var(--z5);color:#fff">ZONE 4 · ABOVE ▲</span></div></div></div>
+</div></div>
+
+<!-- 2 -->
+<div class="prop"><h3>2 · hr Live: zone strip on the chart axis instead of the GOAL badge</h3><p>Less clutter in the chart. The zone colours stay visible on the left edge, and the target band remains.</p>
+<div class="options pair">
+ <div class="option" data-choice="p2-without" onclick="toggleSelect(this)"><div class="tag">Without (GOAL badge)</div><div class="sn" style="padding:6px">
+  <svg viewBox="0 0 280 140" width="100%" height="100%"><rect x="44" y="48" width="230" height="34" style="fill:var(--acc)" opacity=".08"/>
+   <g stroke="#fff" stroke-opacity=".07"><line x1="44" y1="20" x2="274" y2="20"/><line x1="44" y1="48" x2="274" y2="48"/><line x1="44" y1="82" x2="274" y2="82"/><line x1="44" y1="112" x2="274" y2="112"/></g>
+   <g fill="#8d8d94" font-size="8.5"><text x="4" y="126">Z1 93</text><text x="4" y="100">Z2 111</text><text x="4" y="68">Z3 130</text><text x="4" y="36">Z4 148</text></g>
+   <rect x="52" y="35" width="30" height="12" rx="3" fill="none" style="stroke:var(--acc)"/><text x="67" y="44" fill="#fff" font-size="7.5" text-anchor="middle">GOAL</text>
+   <polyline fill="none" stroke="#fff" stroke-width="1.5" points="44,120 80,100 110,84 140,72 170,66 200,70 230,60 268,56"/></svg></div></div>
+ <div class="option" data-choice="p2-with" onclick="toggleSelect(this)"><div class="tag">With (zone strip)</div><div class="sn" style="padding:6px">
+  <svg viewBox="0 0 280 140" width="100%" height="100%">
+   <rect x="44" y="4" width="4" height="16" style="fill:var(--z5)"/><rect x="44" y="20" width="4" height="28" style="fill:var(--z4)"/><rect x="44" y="48" width="4" height="34" style="fill:var(--z3)"/><rect x="44" y="82" width="4" height="30" style="fill:var(--z2)"/><rect x="44" y="112" width="4" height="24" style="fill:var(--z1)"/>
+   <rect x="48" y="48" width="226" height="34" style="fill:var(--acc)" opacity=".08"/>
+   <g stroke="#fff" stroke-opacity=".07"><line x1="48" y1="20" x2="274" y2="20"/><line x1="48" y1="48" x2="274" y2="48"/><line x1="48" y1="82" x2="274" y2="82"/><line x1="48" y1="112" x2="274" y2="112"/></g>
+   <g fill="#8d8d94" font-size="8.5"><text x="4" y="126">Z1 93</text><text x="4" y="100">Z2 111</text><text x="4" y="68" fill="#fff">Z3 130</text><text x="4" y="36">Z4 148</text></g>
+   <polyline fill="none" stroke="#fff" stroke-width="1.5" points="48,120 80,100 110,84 140,72 170,66 200,70 230,60 268,56"/><circle cx="268" cy="56" r="3.5" style="fill:var(--acc)"/></svg></div></div>
+</div></div>
+
+<!-- 3 -->
+<div class="prop"><h3>3 · hr Live: long-press to stop</h3><p>A single tap no longer ends the workout by accident (sweaty fingers, the phone in your pocket). Today the Stop button reacts to a single tap.</p>
+<div class="options pair">
+ <div class="option" data-choice="p3-without" onclick="toggleSelect(this)"><div class="tag">Without (tap = stop)</div><div class="sn" style="display:flex;flex-direction:column;justify-content:center">
+  <div style="display:flex;justify-content:space-evenly"><div class="ib">❚❚</div><div class="ib">⚑</div><div class="ib acc">■</div></div></div></div>
+ <div class="option" data-choice="p3-with" onclick="toggleSelect(this)"><div class="tag">With (hold 1 s, ring fills)</div><div class="sn" style="display:flex;flex-direction:column;justify-content:center;align-items:center">
+  <div style="display:flex;justify-content:space-evenly;width:100%;align-items:center"><div class="ib">❚❚</div><div class="ib">⚑</div>
+   <div style="position:relative;width:42px;height:42px"><div class="ib acc" style="position:absolute;inset:0">■</div>
+    <svg viewBox="0 0 48 48" style="position:absolute;inset:-3px;width:48px;height:48px"><circle cx="24" cy="24" r="22" fill="none" style="stroke:var(--acc)" stroke-width="2.5" stroke-dasharray="90 140" transform="rotate(-90 24 24)"/></svg></div></div>
+  <div class="lbl" style="margin-top:14px">Hold to stop</div></div></div>
+</div></div>
+
+<!-- 4 -->
+<div class="prop"><h3>4 · hr Live: Avg / Max / kcal instead of Target / Total</h3><p>Target and time are already in the header (with proposal 1), so the stat row shows new information.</p>
+<div class="options pair">
+ <div class="option" data-choice="p4-without" onclick="toggleSelect(this)"><div class="tag">Without</div><div class="sn" style="display:flex;align-items:center">
+  <div style="display:flex;width:100%"><div class="stat"><span class="lbl">Avg BPM</span><b>138</b></div><div class="stat" style="border-left:1px solid var(--line);border-right:1px solid var(--line)"><span class="lbl">Target</span><b>Zone 3</b></div><div class="stat"><span class="lbl">Total</span><b>24:37</b></div></div></div></div>
+ <div class="option" data-choice="p4-with" onclick="toggleSelect(this)"><div class="tag">With</div><div class="sn" style="display:flex;align-items:center">
+  <div style="display:flex;width:100%"><div class="stat"><span class="lbl">Avg BPM</span><b>138</b></div><div class="stat" style="border-left:1px solid var(--line);border-right:1px solid var(--line)"><span class="lbl">Max</span><b>171</b></div><div class="stat"><span class="lbl">kcal</span><b>312</b></div></div></div></div>
+</div></div>
+
+<!-- 5 -->
+<div class="prop"><h3>5 · hr History: grouped by week, with avg BPM and a mini zone bar</h3><p>The list becomes scannable: how hard each session was, without opening Detail.</p>
+<div class="options pair">
+ <div class="option" data-choice="p5-without" onclick="toggleSelect(this)"><div class="tag">Without</div><div class="sn" style="display:flex;flex-direction:column;gap:6px">
+  <div class="card li"><div><div>Running</div><div class="sub">10/11/26, 7:42 AM</div></div><div>45:12</div></div>
+  <div class="card li"><div><div>Cycling</div><div class="sub">10/09/26, 6:15 PM</div></div><div>1:32:05</div></div></div></div>
+ <div class="option" data-choice="p5-with" onclick="toggleSelect(this)"><div class="tag">With</div><div class="sn" style="display:flex;flex-direction:column;gap:6px">
+  <div class="lbl" style="font-size:8.5px">This week</div>
+  <div class="card li"><div><div>Running</div><div class="sub">Sat 7:42 AM · Ø 141 bpm</div></div><div style="text-align:right">45:12<div class="mz"><div style="flex:1;background:var(--z1)"></div><div style="flex:2;background:var(--z2)"></div><div style="flex:6;background:var(--z3)"></div><div style="flex:2;background:var(--z4)"></div></div></div></div>
+  <div class="card li"><div><div>Cycling</div><div class="sub">Thu 6:15 PM · Ø 132 bpm</div></div><div style="text-align:right">1:32:05<div class="mz"><div style="flex:3;background:var(--z1)"></div><div style="flex:6;background:var(--z2)"></div><div style="flex:3;background:var(--z3)"></div></div></div></div></div></div>
+</div></div>
+
+<!-- 6 -->
+<div class="prop"><h3>6 · hr Scan: device name in the status card</h3><p>Shows which strap is connected, which helps when you own more than one.</p>
+<div class="options pair">
+ <div class="option" data-choice="p6-without" onclick="toggleSelect(this)"><div class="tag">Without</div><div class="sn" style="display:flex;align-items:center">
+  <div class="card" style="width:100%;padding:11px 12px;display:flex;justify-content:space-between;align-items:center"><span style="display:flex;gap:8px;align-items:center"><span style="width:7px;height:7px;border-radius:50%;background:var(--acc)"></span>Status: Ready</span><span class="lbl">Disconnect</span></div></div></div>
+ <div class="option" data-choice="p6-with" onclick="toggleSelect(this)"><div class="tag">With</div><div class="sn" style="display:flex;align-items:center">
+  <div class="card" style="width:100%;padding:11px 12px;display:flex;justify-content:space-between;align-items:center"><span style="display:flex;gap:8px;align-items:center"><span style="width:7px;height:7px;border-radius:50%;background:var(--acc)"></span><span>Polar H10 · Ready<div class="sub" style="font-size:10.5px;color:var(--t2)">Battery 80%</div></span></span><span class="lbl">Disconnect</span></div></div></div>
+</div></div>
+
+<!-- 7 -->
+<div class="prop"><h3>7 · jump History: trend sparkline and PB per jump type</h3><p>Progress over the last 30 days at a glance, plus your personal best for the selected jump type.</p>
+<div class="options pair">
+ <div class="option" data-choice="p7-without" onclick="toggleSelect(this)"><div class="tag">Without</div><div class="sn" style="display:flex;flex-direction:column;gap:6px">
+  <div class="card li"><div><div>11.10.2026 14:32</div><div class="sub">4 jumps · best 41 cm</div></div></div>
+  <div class="card li"><div><div>10.10.2026 18:05</div><div class="sub">3 jumps · best 35 cm</div></div></div></div></div>
+ <div class="option" data-choice="p7-with" onclick="toggleSelect(this)"><div class="tag">With</div><div class="sn">
+  <div class="card" style="padding:9px 11px"><div style="display:flex;justify-content:space-between"><span class="lbl">CMJ · 30 days</span><span class="lbl" style="color:#fff">PB 41.3 cm</span></div>
+  <svg viewBox="0 0 240 40" style="width:100%;height:36px;margin-top:4px"><polyline fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="1.3" points="0,30 30,28 60,32 90,24 120,22 150,25 180,16 210,14 240,8"/><circle cx="236" cy="8" r="3" style="fill:var(--acc)"/></svg></div>
+  <div class="card li" style="margin-top:6px"><div><div>11.10.2026 14:32</div><div class="sub">4 jumps · best 41 cm</div></div></div></div></div>
+</div></div>
+
+<!-- 8 -->
+<div class="prop"><h3>8 · jump Result: PB badge, average and inline bars</h3><p>Rewards a new personal best and makes the jumps comparable without reading every number.</p>
+<div class="options pair">
+ <div class="option" data-choice="p8-without" onclick="toggleSelect(this)"><div class="tag">Without</div><div class="sn" style="text-align:center">
+  <div class="lbl">Best jump</div><div style="font-size:46px;font-weight:300">41.3<span style="font-size:13px;color:var(--t2)"> cm</span></div>
+  <div style="display:flex;font-size:12px;color:var(--t2);justify-content:space-around;margin-top:6px"><span>1 · 38.7</span><span>2 · 41.3</span><span>3 · 36.2</span></div></div></div>
+ <div class="option" data-choice="p8-with" onclick="toggleSelect(this)"><div class="tag">With</div><div class="sn" style="text-align:center">
+  <div class="lbl">Best jump</div><div style="font-size:40px;font-weight:300;line-height:1.1">41.3<span style="font-size:13px;color:var(--t2)"> cm</span></div>
+  <div class="tz" style="margin:4px 0 8px">NEW PERSONAL BEST · +0.8 cm</div>
+  <div style="display:flex;flex-direction:column;gap:4px;font-size:11px;text-align:left">
+   <div style="display:flex;gap:8px;align-items:center"><span style="width:12px">1</span><span style="height:3px;width:94px;background:#555"></span>38.7</div>
+   <div style="display:flex;gap:8px;align-items:center"><span style="width:12px;color:var(--acc)">2</span><span style="height:3px;width:100px;background:var(--acc)"></span>41.3 <span style="color:var(--t2);margin-left:auto">Ø 37.8</span></div></div></div></div>
+</div></div>
+
+<!-- 9 -->
+<div class="prop"><h3>9 · jump Result: "Play clip" next to "Done"</h3><p>Check the attempt straight away. Today the clip is only available from Detail.</p>
+<div class="options pair">
+ <div class="option" data-choice="p9-without" onclick="toggleSelect(this)"><div class="tag">Without</div><div class="sn" style="display:flex;align-items:flex-end"><div class="btnP" style="width:100%">Done</div></div></div>
+ <div class="option" data-choice="p9-with" onclick="toggleSelect(this)"><div class="tag">With</div><div class="sn" style="display:flex;align-items:flex-end;gap:8px"><div class="btnO" style="flex:1">▶ Play clip</div><div class="btnP" style="flex:1">Done</div></div></div>
+</div></div>
+
+<!-- 10 -->
+<div class="prop"><h3>10 · jump Record: no boxes over the camera</h3><p>Phase and hint text sit directly on the video with a text shadow and no pills, so less of the image is covered.</p>
+<div class="options pair">
+ <div class="option" data-choice="p10-without" onclick="toggleSelect(this)"><div class="tag">Without (pills)</div><div class="sn feed" style="display:flex;flex-direction:column;align-items:center;justify-content:space-between">
+  <span style="background:rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:6px 14px;color:#fff">Ready – jump!</span>
+  <span style="background:rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:5px 11px;font-size:10.5px;color:#fff">Feet on the line · whole body in the frame</span></div></div>
+ <div class="option" data-choice="p10-with" onclick="toggleSelect(this)"><div class="tag">With (text on video)</div><div class="sn feed" style="display:flex;flex-direction:column;align-items:center;justify-content:space-between">
+  <span class="hud ttl">Ready – jump!</span>
+  <span class="hud" style="font-size:11px">Feet on the line · whole body in the frame</span></div></div>
+</div></div>

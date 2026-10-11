@@ -1,0 +1,77 @@
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&display=swap');
+:root{--acc:#E8202E}
+.row{display:flex;gap:22px;flex-wrap:wrap;margin:10px 0 30px}
+.cap{font-size:12px;color:#777;margin-top:8px;text-align:center;max-width:290px}
+.ph{width:290px;height:610px;border-radius:34px;padding:9px;background:#1a1a1a;box-shadow:0 8px 30px rgba(0,0,0,.4)}
+.s{width:100%;height:100%;border-radius:26px;overflow:hidden;position:relative;color:#fff;font-family:'Space Grotesk',sans-serif}
+.feed{position:absolute;inset:0;background:
+  linear-gradient(180deg,#8a8f96 0%,#6f747b 58%,#4a4d52 58.2%,#3b3d41 100%)}
+.feed::before{content:"";position:absolute;left:8%;top:6%;width:30%;height:38%;background:#a9adb3;border-radius:4px;opacity:.6}
+.hud{text-shadow:0 1px 3px rgba(0,0,0,.75),0 0 12px rgba(0,0,0,.45)}
+.lbl{font-size:9.5px;letter-spacing:.18em;text-transform:uppercase}
+.pill{background:rgba(0,0,0,.28);border-radius:14px;padding:5px 11px;font-size:11px;backdrop-filter:blur(6px)}
+.shut{width:64px;height:64px;border-radius:50%;border:3px solid #fff;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 1px rgba(0,0,0,.25)}
+.opt{border:2px solid transparent;border-radius:14px;padding:8px;cursor:pointer}
+.opt.selected{border-color:#c00}
+</style>
+
+<h2>Record view v4: full-bleed video</h2>
+<p class="subtitle">The video fills the whole screen, with no dark bands. While recording there is no timer, no resolution chip and no camera-switch button. Values float directly on the image with a text shadow; at most a very light scrim (≈25%) sits under the bottom quarter. Default accent: red.</p>
+
+<div class="row">
+
+<!-- IDLE reference -->
+<div><div class="ph"><div class="s">
+  <div class="feed"></div>
+  <svg viewBox="0 0 272 592" style="position:absolute;inset:0;width:100%;height:100%">
+    <g fill="#2b2d31"><circle cx="136" cy="150" r="20"/><rect x="117" y="174" width="38" height="120" rx="14"/><rect x="119" y="290" width="15" height="140" rx="7"/><rect x="138" y="290" width="15" height="140" rx="7"/></g>
+    <g stroke="#fff" stroke-width="2" fill="none" opacity=".8"><path d="M54 110v-18h18M218 110v-18h-18M54 430v18h18M218 430v18h-18"/></g>
+    <line x1="8" y1="448" x2="264" y2="448" stroke="#fff" stroke-width="1.5" opacity=".8"/>
+  </svg>
+  <div style="position:absolute;top:28px;left:14px;right:14px;display:flex;justify-content:space-between" class="hud"><span style="font-size:18px">✕</span></div>
+  <div style="position:absolute;top:70px;left:0;right:0;text-align:center" class="hud"><span class="pill" style="font-size:11px">Feet on the line · whole body in frame</span></div>
+  <div style="position:absolute;bottom:20px;left:22px;right:22px;display:flex;align-items:center;justify-content:space-between">
+    <span class="pill">1080p60 ▾</span>
+    <div class="shut"><div style="width:50px;height:50px;border-radius:50%;background:#fff"></div></div>
+    <span class="pill" style="font-size:15px;padding:6px 10px">⟲</span></div>
+</div></div><div class="cap">Before recording (reference): the resolution and camera controls are visible here only</div></div>
+
+<!-- A1 stacked -->
+<div class="opt" data-choice="rec-a1-stacked" onclick="toggleSelect(this)"><div class="ph"><div class="s">
+  <div class="feed"></div>
+  <svg viewBox="0 0 272 592" style="position:absolute;inset:0;width:100%;height:100%">
+    <g fill="#2b2d31"><circle cx="136" cy="150" r="20"/><rect x="117" y="174" width="38" height="120" rx="14"/><rect x="119" y="290" width="15" height="140" rx="7"/><rect x="138" y="290" width="15" height="140" rx="7"/></g>
+    <g stroke="#fff" stroke-width="2" fill="none" opacity=".55"><path d="M54 110v-18h18M218 110v-18h-18M54 430v18h18M218 430v18h-18"/></g>
+    <line x1="8" y1="448" x2="264" y2="448" stroke="#fff" stroke-width="1.5" opacity=".55"/>
+  </svg>
+  <div style="position:absolute;left:0;right:0;bottom:0;height:30%;background:linear-gradient(transparent,rgba(0,0,0,.28))"></div>
+  <div style="position:absolute;top:28px;left:14px" class="hud"><span style="font-size:18px">✕</span></div>
+  <div style="position:absolute;top:30px;left:0;right:0;text-align:center" class="hud lbl" style="">Ready – jump!</div>
+  <div style="position:absolute;bottom:100px;left:0;right:0;display:flex;justify-content:center" class="hud">
+    <div style="text-align:center;padding:0 20px"><div class="lbl" style="opacity:.85">Last</div><div style="font-size:34px;font-weight:300;line-height:1.05">38<span style="font-size:13px;opacity:.8"> cm</span></div></div>
+    <div style="width:1px;background:rgba(255,255,255,.45)"></div>
+    <div style="text-align:center;padding:0 20px"><div class="lbl" style="color:var(--acc);text-shadow:0 1px 3px rgba(0,0,0,.9)">Best</div><div style="font-size:34px;font-weight:300;line-height:1.05">41<span style="font-size:13px;opacity:.8"> cm</span></div></div></div>
+  <div style="position:absolute;bottom:20px;left:0;right:0;display:flex;justify-content:center">
+    <div class="shut"><div style="width:22px;height:22px;border-radius:4px;background:var(--acc)"></div></div></div>
+</div></div><div class="cap">A1: Last │ Best stacked above the shutter. Light scrim, video fully visible.</div></div>
+
+<!-- A2 flanking -->
+<div class="opt" data-choice="rec-a2-flank" onclick="toggleSelect(this)"><div class="ph"><div class="s">
+  <div class="feed"></div>
+  <svg viewBox="0 0 272 592" style="position:absolute;inset:0;width:100%;height:100%">
+    <g fill="#2b2d31"><circle cx="136" cy="150" r="20"/><rect x="117" y="174" width="38" height="120" rx="14"/><rect x="119" y="290" width="15" height="140" rx="7"/><rect x="138" y="290" width="15" height="140" rx="7"/></g>
+    <g stroke="#fff" stroke-width="2" fill="none" opacity=".55"><path d="M54 110v-18h18M218 110v-18h-18M54 430v18h18M218 430v18h-18"/></g>
+    <line x1="8" y1="448" x2="264" y2="448" stroke="#fff" stroke-width="1.5" opacity=".55"/>
+  </svg>
+  <div style="position:absolute;left:0;right:0;bottom:0;height:20%;background:linear-gradient(transparent,rgba(0,0,0,.25))"></div>
+  <div style="position:absolute;top:28px;left:14px" class="hud"><span style="font-size:18px">✕</span></div>
+  <div style="position:absolute;top:30px;left:0;right:0;text-align:center" class="hud lbl">Ready – jump!</div>
+  <div style="position:absolute;bottom:20px;left:18px;right:18px;display:flex;align-items:center;justify-content:space-between" class="hud">
+    <div style="width:80px"><div class="lbl" style="opacity:.85">Last</div><div style="font-size:30px;font-weight:300;line-height:1.05">38<span style="font-size:12px;opacity:.8"> cm</span></div></div>
+    <div class="shut" style="text-shadow:none"><div style="width:22px;height:22px;border-radius:4px;background:var(--acc)"></div></div>
+    <div style="width:80px;text-align:right"><div class="lbl" style="color:var(--acc);text-shadow:0 1px 3px rgba(0,0,0,.9)">Best</div><div style="font-size:30px;font-weight:300;line-height:1.05">41<span style="font-size:12px;opacity:.8"> cm</span></div></div></div>
+</div></div><div class="cap">A2: Last and Best on either side of the shutter, in the slots of the hidden controls. The most video is visible.</div></div>
+</div>
+
+<p class="subtitle">In both: the framing guide is dimmed to 55% while recording, and the phase text ("Ready – jump!") sits at the top as a small label. A new PB could briefly flash the Best value in the accent colour.</p>
