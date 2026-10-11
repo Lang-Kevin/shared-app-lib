@@ -1,9 +1,20 @@
 # Changelog — shared-android-lib
 
-## [Unreleased]
+## [0.4.0] — 2026-10-12
 
 ### Added
 - Release tags are created by CI (`.github/workflows/release-tag.yml`): on every change to `shared/build.gradle.kts` on master, the tag `v<version>` is created if it doesn't exist; a manual run with `tag` + `sha` backfills older releases. A release is now: bump the version, merge.
+- Night Drive design system: `Brand` (configurable accent, default red `#E8202E`), `AppTheme(brand)`, `AppTheme.colors` (`AppColors`: accentTint/accentSoft, accent-derived zone ramp, recording, success/warning/highlight, media and chart roles), `AppTheme.spacing` (2–32dp), `MaterialTheme.shapes` 8/14/20dp + `AppTheme.pillShape`, Night Drive type scale (light hero numbers, tracked labels)
+- `DESIGN.md`: rules, tokens, accent usage, component catalog
+- `tools/check_design_tokens.py` (+ fixture tests), strict in lib CI; apps can run it with `--warn`; multi-line spacing detection, exit 2 on missing paths
+
+### Changed
+- **Visual:** the theme is now Night Drive (black background, graphite neutrals, red accent). Every M3 color slot is set explicitly. Theme-driven UI in the apps changes immediately; app-hardcoded colors stay until the app redesigns
+- Scope rule: generic UI belongs in the lib even if only one app uses it today
+- Lib components use tokens (StatItem/TargetZoneDialog defaults now come from the theme)
+
+### Deprecated
+- `SharedColors.kt` vals (`PrimaryPurple`, `ZoneColors`, …) keep their old values; use `MaterialTheme.colorScheme` / `AppTheme.colors`. Removal planned after both app redesigns
 
 ## [0.3.2] — 2026-09-30
 
