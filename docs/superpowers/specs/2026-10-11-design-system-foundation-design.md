@@ -104,6 +104,8 @@ data class Brand(
 | `tertiary` | `brand.accent` | — |
 | `error` | `0xFFFF5A4F` | kept distinct from the accent by a slightly orange hue; error states also always carry text or an icon |
 
+All other M3 slots (`surfaceContainer*`, `secondaryContainer`, `surfaceTint` = transparent, `inverse*`, `on*Container`, …) are also set explicitly from these neutrals, so no component falls back to M3's purple baseline. The exact values are in the plan's Task 4 and in `DESIGN.md`.
+
 ### 4.4 `AppColors.kt`: roles that M3 doesn't have
 
 `@Immutable data class AppColors`, built by `Brand.toAppColors()`:
@@ -138,7 +140,7 @@ The scale is adjusted to the Night Drive rules:
 
 | Style | Change |
 |---|---|
-| `displayLarge` / `displayMedium` | Light (300). Used for hero numbers (BPM 52sp, jump height 64sp) |
+| `displayLarge` / `displayMedium` | Light (300), sizes set in the scale: `displayLarge` 64sp (jump height), `displayMedium` 52sp (BPM), so apps never need `fontSize =` |
 | `headlineSmall` | Regular (400). Used for stat values |
 | `titleMedium` | Medium (500), letterSpacing 0.2em. Used for screen and session titles (shown uppercase) |
 | `labelSmall` | Regular, 9.5sp, letterSpacing 0.16em. Used for uppercase labels |
@@ -256,7 +258,7 @@ Same style and CLI shape as `tools/check_hardcoded_strings.py`. It scans `*.kt` 
 
 ## 6. Risks
 
-- **Mixed look between 0.4.0 and the app redesigns.** Theme-driven parts turn black and red while app-hardcoded parts stay purple. Mitigation: the apps pin 0.3.x until their redesign sub-project starts, then bump to the latest lib release in the same PR.
+- **Mixed look between 0.4.0 and the app redesigns.** Theme-driven parts turn black and red while app-hardcoded parts stay purple. Mitigation: the apps consume the lib via `includeBuild`. Their CI pin is the lib SHA in `code/shared-app-lib.ref`, which stays on the pre-0.4.0 commit until the app's redesign sub-project starts; that PR bumps it. Locally the apps always compile the lib working tree, so a local mixed look is expected in between.
 - **Accent vs. error confusion** with a red accent. Mitigation: a distinct error hue (§4.3), and errors always carry text or an icon, never color alone.
 - **Deprecation warnings break an app build** if warnings are treated as errors. Check before merging.
 - **Checker false positives** on `.dp` in non-spacing contexts. `raw-spacing` only fires inside padding, `spacedBy` and `Spacer`; everything else uses `// design-ignore`.
