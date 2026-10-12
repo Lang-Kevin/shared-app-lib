@@ -1,7 +1,7 @@
 package com.kevin.shared.ui.session
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,14 +11,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DeleteForever
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -28,7 +24,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.kevin.shared.R
+import com.kevin.shared.ui.components.EmptyState
+import com.kevin.shared.ui.components.ListCard
+import com.kevin.shared.ui.components.SecondaryButton
+import com.kevin.shared.ui.components.TextActionButton
+import com.kevin.shared.ui.dialog.AppDialog
 import com.kevin.shared.ui.theme.AppTheme
 
 /** How long soft-deleted items stay in the trash; UI texts must match the app's actual policy. */
@@ -48,66 +50,47 @@ fun TrashTab(
     var pendingDeleteId by remember { mutableStateOf<Long?>(null) }
 
     LazyColumn(modifier = modifier, verticalArrangement = Arrangement.spacedBy(AppTheme.spacing.sm)) {
-        if (items.isNotEmpty()) {
-            item {
-                Card(
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.surfaceVariant
-                    )
-                ) {
-                    Text(
-                        stringResource(
-                            when (retention) {
-                                TrashRetention.ON_NEXT_APP_START -> R.string.shared_trash_hint_next_app_start
-                                TrashRetention.MANUAL -> R.string.shared_trash_hint_manual
-                            }
-                        ),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.padding(AppTheme.spacing.md)
-                    )
-                }
-                Spacer(Modifier.height(AppTheme.spacing.sm))
-            }
-        }
         if (items.isEmpty()) {
+            item { EmptyState(title = stringResource(R.string.shared_trash_empty)) }
+        } else {
             item {
                 Text(
-                    stringResource(R.string.shared_trash_empty),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    text = stringResource(
+                        when (retention) {
+                            TrashRetention.ON_NEXT_APP_START -> R.string.shared_trash_hint_next_app_start
+                            TrashRetention.MANUAL -> R.string.shared_trash_hint_manual
+                        }
+                    ),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .border(1.dp, MaterialTheme.colorScheme.outlineVariant, MaterialTheme.shapes.medium)
+                        .padding(AppTheme.spacing.md),
                 )
             }
-        } else {
             items(items, key = { it.id }) { entry ->
-                Card(modifier = Modifier.fillMaxWidth()) {
-                    Row(
-                        modifier = Modifier.padding(AppTheme.spacing.md),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Column(modifier = Modifier.weight(1f)) {
-                            Text(entry.label, style = MaterialTheme.typography.titleMedium)
-                            Text(
-                                entry.startedAt.toDateString(),
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                ListCard(
+                    title = entry.label,
+                    subtitle = entry.startedAt.toDateString(),
+                    trailing = {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            TextActionButton(
+                                text = stringResource(R.string.shared_trash_restore),
+                                onClick = { onRestore(entry.id) },
                             )
-                        }
-                        TextButton(onClick = { onRestore(entry.id) }) {
-                            Text(stringResource(R.string.shared_trash_restore))
-                        }
-                        if (onDeleteForever != null) {
-                            IconButton(onClick = { pendingDeleteId = entry.id }) {
-                                Icon(
-                                    Icons.Default.DeleteForever,
-                                    contentDescription = stringResource(R.string.shared_delete_forever_action),
-                                    tint = MaterialTheme.colorScheme.error
-                                )
+                            if (onDeleteForever != null) {
+                                IconButton(onClick = { pendingDeleteId = entry.id }) {
+                                    Icon(
+                                        Icons.Default.DeleteForever,
+                                        contentDescription = stringResource(R.string.shared_delete_forever_action),
+                                        tint = MaterialTheme.colorScheme.error,
+                                    )
+                                }
                             }
                         }
-                    }
-                }
+                    },
+                )
             }
         }
         item { Spacer(Modifier.height(AppTheme.spacing.lg)) }
@@ -142,18 +125,23 @@ fun SoftDeleteConfirmationDialog(
             TrashRetention.MANUAL -> R.string.shared_soft_delete_retention_manual
         }
     )
-    AlertDialog(
+    AppDialog(
         onDismissRequest = onDismiss,
-        title = { Text(stringResource(R.string.shared_soft_delete_title)) },
-        text = { Text("$moved $retentionText") },
-        confirmButton = {
-            TextButton(onClick = { onConfirm(pendingIds) }) {
-                Text(stringResource(R.string.shared_soft_delete_confirm))
-            }
+        title = stringResource(R.string.shared_soft_delete_title),
+        text = "$moved $retentionText",
+        actions = {
+            SecondaryButton(
+                text = stringResource(R.string.shared_soft_delete_confirm),
+                onClick = { onConfirm(pendingIds) },
+                modifier = Modifier.fillMaxWidth(),
+                destructive = true,
+            )
+            TextActionButton(
+                text = stringResource(R.string.shared_trash_cancel),
+                onClick = onDismiss,
+                modifier = Modifier.fillMaxWidth(),
+            )
         },
-        dismissButton = {
-            TextButton(onClick = onDismiss) { Text(stringResource(R.string.shared_trash_cancel)) }
-        }
     )
 }
 
@@ -163,20 +151,22 @@ fun DeleteForeverConfirmationDialog(
     onDismiss: () -> Unit,
     message: String? = null,
 ) {
-    AlertDialog(
+    AppDialog(
         onDismissRequest = onDismiss,
-        title = { Text(stringResource(R.string.shared_delete_forever_title)) },
-        text = { Text(message ?: stringResource(R.string.shared_delete_forever_message)) },
-        confirmButton = {
-            TextButton(onClick = onConfirm) {
-                Text(
-                    stringResource(R.string.shared_delete_forever_action),
-                    color = MaterialTheme.colorScheme.error
-                )
-            }
+        title = stringResource(R.string.shared_delete_forever_title),
+        text = message ?: stringResource(R.string.shared_delete_forever_message),
+        actions = {
+            SecondaryButton(
+                text = stringResource(R.string.shared_delete_forever_action),
+                onClick = onConfirm,
+                modifier = Modifier.fillMaxWidth(),
+                destructive = true,
+            )
+            TextActionButton(
+                text = stringResource(R.string.shared_trash_cancel),
+                onClick = onDismiss,
+                modifier = Modifier.fillMaxWidth(),
+            )
         },
-        dismissButton = {
-            TextButton(onClick = onDismiss) { Text(stringResource(R.string.shared_trash_cancel)) }
-        }
     )
 }

@@ -1,15 +1,24 @@
 package com.kevin.shared.ui.session
 
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import com.kevin.shared.R
+import com.kevin.shared.format.DurationStyle
+import com.kevin.shared.format.formatElapsed
+import com.kevin.shared.ui.components.ListCard
+import com.kevin.shared.ui.components.ListCardValue
+import com.kevin.shared.ui.components.Metric
+import com.kevin.shared.ui.components.PrimaryButton
+import com.kevin.shared.ui.components.SecondaryButton
+import com.kevin.shared.ui.components.StatCell
+import com.kevin.shared.ui.components.StatGrid
+import com.kevin.shared.ui.components.TextActionButton
+import com.kevin.shared.ui.dialog.AppDialog
 import com.kevin.shared.ui.theme.AppTheme
 import java.text.DateFormat
 import java.util.Date
@@ -30,53 +39,50 @@ fun CategoryFilterRow(
         horizontalArrangement = Arrangement.spacedBy(AppTheme.spacing.sm)
     ) {
         categories.forEach { category ->
+            val isSelected = selected.isEmpty() || category in selected
             FilterChip(
-                selected = selected.isEmpty() || category in selected,
+                selected = isSelected,
                 onClick = { onToggle(category) },
-                label = { Text(category) }
+                label = { Text(category) },
+                shape = AppTheme.pillShape,
+                colors = FilterChipDefaults.filterChipColors(
+                    containerColor = Color.Transparent,
+                    labelColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    selectedContainerColor = AppTheme.colors.accentTint,
+                    selectedLabelColor = MaterialTheme.colorScheme.onSurface,
+                ),
+                border = FilterChipDefaults.filterChipBorder(
+                    enabled = true,
+                    selected = isSelected,
+                    borderColor = MaterialTheme.colorScheme.outlineVariant,
+                    selectedBorderColor = MaterialTheme.colorScheme.primary,
+                    borderWidth = 1.dp,
+                    selectedBorderWidth = 1.dp,
+                ),
             )
         }
     }
 }
 
-fun durationString(seconds: Long): String {
-    val h = seconds / 3600
-    val m = (seconds % 3600) / 60
-    val s = seconds % 60
-    return if (h > 0) "%02d:%02d:%02d".format(h, m, s)
-    else "%02d:%02d".format(m, s)
-}
+/** Prefer [formatElapsed] with an explicit [DurationStyle] in new code. Kept for app call sites. */
+fun durationString(seconds: Long): String = formatElapsed(seconds, DurationStyle.Compact)
 
 fun Long.toDateString(): String =
     DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.getDefault()).format(Date(this))
 
 @Composable
 fun SummaryCard(stats: List<Pair<String, String>>) {
-    Card(modifier = Modifier.fillMaxWidth()) {
-        Row(
-            modifier = Modifier
-                .padding(AppTheme.spacing.md)
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly
-        ) {
-            stats.forEach { (label, value) -> SummaryItem(label, value) }
-        }
-    }
+    StatGrid(
+        cells = stats.map { (label, value) -> StatCell(label = label, value = value) },
+        columns = stats.size.coerceAtLeast(1),
+    )
 }
 
 @Composable
 fun SummaryItem(label: String, value: String, modifier: Modifier = Modifier) {
-    Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(value, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-        Text(
-            label,
-            style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
-    }
+    Metric(label = label, value = value, modifier = modifier)
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SessionListItem(
     label: String,
@@ -87,45 +93,25 @@ fun SessionListItem(
     onClick: () -> Unit,
     onLongClick: () -> Unit
 ) {
-    val containerColor = if (isSelected)
-        MaterialTheme.colorScheme.primaryContainer
-    else
-        MaterialTheme.colorScheme.surface
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .combinedClickable(onClick = onClick, onLongClick = onLongClick),
-        colors = CardDefaults.cardColors(containerColor = containerColor)
-    ) {
-        Row(modifier = Modifier.padding(AppTheme.spacing.md), verticalAlignment = Alignment.CenterVertically) {
-            if (isSelectionMode) {
-                Checkbox(
-                    checked = isSelected,
-                    onCheckedChange = { onClick() },
-                    modifier = Modifier.padding(end = AppTheme.spacing.sm)
-                )
-            }
-            Column(modifier = Modifier.weight(1f)) {
-                Text(label, style = MaterialTheme.typography.titleMedium)
+    ListCard(
+        title = label,
+        subtitle = startedAt.toDateString(),
+        selected = isSelected,
+        selectionMode = isSelectionMode,
+        onClick = onClick,
+        onLongClick = onLongClick,
+        trailing = {
+            if (endedAt != null) {
+                ListCardValue(value = durationString((endedAt - startedAt) / 1000))
+            } else {
                 Text(
-                    startedAt.toDateString(),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-                endedAt?.let { end ->
-                    Text(
-                        stringResource(R.string.shared_session_duration, durationString((end - startedAt) / 1000)),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                } ?: Text(
-                    stringResource(R.string.shared_session_in_progress),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    text = stringResource(R.string.shared_session_in_progress).uppercase(),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = AppTheme.colors.recording,
                 )
             }
-        }
-    }
+        },
+    )
 }
 
 @Composable
@@ -134,20 +120,27 @@ fun LeaveSessionDialog(
     onDiscard: () -> Unit,
     onDismiss: () -> Unit
 ) {
-    AlertDialog(
+    AppDialog(
         onDismissRequest = onDismiss,
-        title = { Text(stringResource(R.string.shared_leave_session_title)) },
-        text = { Text(stringResource(R.string.shared_leave_session_message)) },
-        confirmButton = {
-            TextButton(onClick = onSave) { Text(stringResource(R.string.shared_leave_session_save)) }
+        title = stringResource(R.string.shared_leave_session_title),
+        text = stringResource(R.string.shared_leave_session_message),
+        actions = {
+            PrimaryButton(
+                text = stringResource(R.string.shared_leave_session_save),
+                onClick = onSave,
+                modifier = Modifier.fillMaxWidth(),
+            )
+            SecondaryButton(
+                text = stringResource(R.string.shared_leave_session_discard),
+                onClick = onDiscard,
+                modifier = Modifier.fillMaxWidth(),
+                destructive = true,
+            )
+            TextActionButton(
+                text = stringResource(R.string.shared_leave_session_keep_recording),
+                onClick = onDismiss,
+                modifier = Modifier.fillMaxWidth(),
+            )
         },
-        dismissButton = {
-            Row {
-                TextButton(onClick = onDiscard) {
-                    Text(stringResource(R.string.shared_leave_session_discard), color = MaterialTheme.colorScheme.error)
-                }
-                TextButton(onClick = onDismiss) { Text(stringResource(R.string.shared_leave_session_keep_recording)) }
-            }
-        }
     )
 }
