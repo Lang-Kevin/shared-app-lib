@@ -46,6 +46,7 @@ fun LineChart(
     contentDescription: String? = null,
     colors: ChartColors = ChartDefaults.colors(),
     maxPoints: Int = ChartDefaults.MaxPoints,
+    decimationMode: DecimationMode = DecimationMode.Mean,
 ) {
     val measurer = rememberTextMeasurer()
     val labelStyle = ChartDefaults.labelStyle()
@@ -69,7 +70,7 @@ fun LineChart(
         val padV = ChartDefaults.PillPaddingV.toPx()
 
         val visible = visibleIndices(series.size, window.start, window.endInclusive, series::xAt)
-        val points = decimate(visible, maxPoints, series::xAt, series::yAt)
+        val points = decimate(visible, maxPoints, series::xAt, series::yAt, decimationMode)
         val yRange = zoneChartRange(points.map { it.y }, zones, targetZone, dynamicScale)
         fun px(x: Float) = xToPx(x, window, 0f, w)
         fun py(y: Float) = yToPx(y, yRange, top, plotH)

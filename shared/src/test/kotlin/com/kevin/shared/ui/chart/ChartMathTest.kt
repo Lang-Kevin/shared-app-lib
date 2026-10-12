@@ -143,7 +143,7 @@ class ChartMathTest {
     @Test
     fun `decimate keeps small ranges raw`() {
         val ys = listOf(1f, nan, 3f)
-        val pts = decimate(0..2, 600, idx) { ys[it] }
+        val pts = decimate(0..2, 600, idx, { ys[it] })
         assertEquals(3, pts.size)
         assertTrue(pts[1].y.isNaN())
         assertEquals(ChartPoint(2f, 3f), pts[2])
@@ -167,7 +167,7 @@ class ChartMathTest {
 
     @Test
     fun `decimate turns chunk with NaN into gap`() {
-        val pts = decimate(0..999, 100, idx) { if (it == 55) nan else it.toFloat() }
+        val pts = decimate(0..999, 100, idx, { if (it == 55) nan else it.toFloat() })
         val gap = pts.single { it.x == 54.5f }
         assertTrue(gap.y.isNaN())
         assertEquals(1, pts.count { it.y.isNaN() })
@@ -177,6 +177,39 @@ class ChartMathTest {
     fun `decimate empty and single`() {
         assertTrue(decimate(IntRange.EMPTY, 600, idx, ys1000).isEmpty())
         assertEquals(listOf(ChartPoint(5f, 5f)), decimate(5..5, 600, idx, ys1000))
+    }
+
+    private val spiky: (Int) -> Float = { if (it == 505) 200f else if (it == 503) -50f else 100f }
+
+    @Test
+    fun `decimate default mode equals Mean`() {
+        assertEquals(decimate(0..999, 100, idx, spiky), decimate(0..999, 100, idx, spiky, DecimationMode.Mean))
+    }
+
+    @Test
+    fun `decimate Max keeps bucket peak`() {
+        val pts = decimate(0..999, 100, idx, spiky, DecimationMode.Max)
+        assertTrue(pts.contains(ChartPoint(505f, 200f)))
+        assertTrue(pts.size <= 102)
+        assertEquals(ChartPoint(999f, 999f).x, pts.last().x)
+    }
+
+    @Test
+    fun `decimate MinMax keeps both extremes in time order`() {
+        val pts = decimate(0..999, 100, idx, spiky, DecimationMode.MinMax)
+        val lo = pts.indexOf(ChartPoint(503f, -50f))
+        val hi = pts.indexOf(ChartPoint(505f, 200f))
+        assertTrue(lo >= 0 && hi == lo + 1)
+        assertTrue("size ${pts.size}", pts.size <= 103)
+        assertTrue(pts.zipWithNext().all { (p, q) -> p.x <= q.x })
+    }
+
+    @Test
+    fun `decimate Max and MinMax preserve gaps`() {
+        for (m in listOf(DecimationMode.Max, DecimationMode.MinMax)) {
+            val pts = decimate(0..999, 100, idx, { if (it == 55) nan else it.toFloat() }, m)
+            assertEquals(1, pts.count { it.y.isNaN() })
+        }
     }
 
     // ---- lastFiniteIndex ----

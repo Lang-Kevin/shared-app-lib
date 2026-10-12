@@ -89,25 +89,31 @@ internal fun visibleIndices(size: Int, from: Float, to: Float, xAt: (Int) -> Flo
     return if (a <= b) a..b else IntRange.EMPTY
 }
 
+/** Per-chunk reduction: [Mean] (default), [Max] keeps the peak sample, [MinMax] both extremes in time order. */
+enum class DecimationMode { Mean, Max, MinMax }
+
 /**
  * [range] reduced to about [maxPoints] points (hr `LiveScreen.kt:589-616`): means over chunks
  * anchored at absolute multiples of the chunk size (stable while a live window scrolls), the
  * last sample of [range] always raw. A chunk with a non-finite y becomes a NaN point (keeps gaps).
- * At most maxPoints + 2 points.
+ * At most maxPoints + 2 points (MinMax: + 3).
  */
 internal fun decimate(
     range: IntRange,
     maxPoints: Int,
     xAt: (Int) -> Float,
     yAt: (Int) -> Float,
+    mode: DecimationMode = DecimationMode.Mean,
 ): List<ChartPoint> {
     if (range.isEmpty()) return emptyList()
     val n = range.last - range.first + 1
     val limit = maxPoints.coerceAtLeast(2)
     if (n <= limit) return range.map { ChartPoint(xAt(it), yAt(it)) }
-    val chunk = (n + limit - 1) / limit
+    // MinMax emits two points per chunk, so it uses half as many chunks (bound stays maxPoints + 2).
+    val chunk = (n + (if (mode == DecimationMode.MinMax) limit / 2 else limit) - 1) /
+        (if (mode == DecimationMode.MinMax) limit / 2 else limit)
     val body = range.last - 1
-    val out = ArrayList<ChartPoint>(limit + 2)
+    val out = ArrayList<ChartPoint>(limit + 3)
     var c = (range.first / chunk) * chunk
     while (c <= body) {
         val a = maxOf(c, range.first)
@@ -115,13 +121,23 @@ internal fun decimate(
         var sx = 0.0
         var sy = 0.0
         var gap = false
+        var lo = a
+        var hi = a
         for (i in a..b) {
             val y = yAt(i)
             if (!y.isFinite()) gap = true else sy += y
             sx += xAt(i)
+            if (y < yAt(lo)) lo = i
+            if (y > yAt(hi)) hi = i
         }
         val cnt = b - a + 1
-        out += ChartPoint((sx / cnt).toFloat(), if (gap) Float.NaN else (sy / cnt).toFloat())
+        if (gap || mode == DecimationMode.Mean) {
+            out += ChartPoint((sx / cnt).toFloat(), if (gap) Float.NaN else (sy / cnt).toFloat())
+        } else if (mode == DecimationMode.Max || lo == hi) {
+            out += ChartPoint(xAt(hi), yAt(hi))
+        } else {
+            for (i in if (lo < hi) listOf(lo, hi) else listOf(hi, lo)) out += ChartPoint(xAt(i), yAt(i))
+        }
         c += chunk
     }
     out += ChartPoint(xAt(range.last), yAt(range.last))

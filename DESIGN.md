@@ -186,6 +186,7 @@ Chart rules:
 - Colors come only from `ChartDefaults.colors()`.
 - x is in data units: `LiveWindow.toWindow` (Live) or `ChartViewport.toWindow` (Detail).
 - Gaps are non-finite values.
+- `LineChart(decimationMode = ...)`: `Mean` (default) smooths; `Max` keeps bucket peaks, `MinMax` both extremes (use for heart rate so peaks are not flattened). Gaps survive all modes.
 - Charts draw edge to edge, so gesture px map to fractions with `plotFraction(x, 0f, width)`.
 - All text is passed in by the caller.
 

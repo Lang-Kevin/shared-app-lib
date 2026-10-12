@@ -2,6 +2,9 @@
 
 ## [0.5.1] — 2026-10-12
 
+### Added
+- `DecimationMode { Mean, Max, MinMax }` and `LineChart(decimationMode)`; default `Mean` is unchanged, `Max`/`MinMax` keep peaks
+
 ### Fixed
 - `AppColors.mediaScrim` is 0.25 alpha (was 0.28), within the 25% HUD scrim limit; `CameraHud` clamp kept as a guard
 - `DateStyle.WeekdayTime` follows the locale's 12h/24h convention (en-US "Mon 4:42 PM", de "Mo. 16:42"); was always 24h
