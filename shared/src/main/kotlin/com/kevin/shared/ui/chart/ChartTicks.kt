@@ -1,6 +1,7 @@
 package com.kevin.shared.ui.chart
 
-import java.util.Locale
+import com.kevin.shared.format.DurationStyle
+import com.kevin.shared.format.formatElapsed
 import kotlin.math.ceil
 import kotlin.math.floor
 
@@ -40,11 +41,7 @@ private fun ticksFor(fromSec: Float, toSec: Float, step: Int): List<Float> {
 /** "m:ss" below one hour (e.g. "0:30", "12:05"), "h:mm:ss" from one hour. hr `ChartTicks.kt:41-47`. */
 internal fun formatTickLabel(sec: Float): String {
     val total = if (sec.isNaN() || sec < 0f) 0L else Math.round(sec).toLong()
-    val h = total / 3600
-    val m = (total % 3600) / 60
-    val s = total % 60
-    return if (h > 0) String.format(Locale.ROOT, "%d:%02d:%02d", h, m, s)
-    else String.format(Locale.ROOT, "%d:%02d", m, s)
+    return formatElapsed(total, DurationStyle.Clock)
 }
 
 /**

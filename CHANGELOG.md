@@ -22,7 +22,7 @@
   - Absolute-anchored, gap-preserving decimation.
   - Scrub, tooltip, zone-segment and bar geometry.
 - `Modifier.chartZoomPan`: zoom, pan, double tap and long-press scrub, ported from hr-tracker.
-- Media and overlay components (`com.kevin.shared.ui.media`, `com.kevin.shared.ui.overlay`): `MediaText`/`MediaReading` (text on video with the token shadow, no boxes), `ShutterButton` (optional progress arc), `FramingGuide` (A2 dimming, error colour, hint slot that flips above the foot line), `CameraHud` (A2 layout: instant idle/recording slot swap, <=25% bottom scrim, inset-aware, reports its bottom band height), `MediaIconButton`, `MediaTextButton`, `TutorialSpotlight` (from hr, on tokens; fixes overlay offset, rotation and card sizing), `PermissionGate` with `permissionGateMode` and `openAppSettings` (permanent denial leads to settings). No new dependencies; all strings are parameters.
+- Media and overlay components (`com.kevin.shared.ui.media`, `com.kevin.shared.ui.overlay`): `MediaText`/`MediaReading` (text on video with the token shadow, no boxes), `ShutterButton` (optional progress arc), `FramingGuide` (A2 dimming, error colour, hint slot that flips above the foot line), `CameraHud` (A2 layout: instant idle/recording slot swap, <=25% bottom scrim, inset-aware, reports its bottom band height), `MediaIconButton`, `MediaTextButton`, `TutorialSpotlight` (from hr, on tokens; fixes overlay offset, rotation and card sizing), `PermissionGate` with `permissionGateMode` and `openAppSettings` (permanent denial leads to settings). Spotlight and gate primary actions are `PrimaryButton`s; Skip is a `TextActionButton`. No new dependencies; all strings are parameters.
 
 ### Changed
 - **Visual:** `StatItem` labels are uppercase and values Regular; new trailing parameter `unit` (default `null`)
@@ -31,7 +31,6 @@
 - **Visual:** `TargetZoneDialog` picks the zone with a `SegmentedControl` plus a zone-colour strip, replacing the zone-filled chips
 - **Visual:** `BleStatusCard` always has a hairline border; the `SelectionHeader` count is uppercase
 - `durationString` delegates to `formatElapsed`; negative input now gives `00:00`
-- `TutorialSpotlight` uses `PrimaryButton` (internal `AccentPillButton` removed)
 
 ## [0.4.0] — 2026-10-12
 

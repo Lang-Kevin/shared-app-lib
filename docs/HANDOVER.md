@@ -1,18 +1,23 @@
 # Handover — Night Drive design system + redesign
 
-Updated: 2026-10-12 · Branch: `design-system-foundation` (not pushed)
+Updated: 2026-10-12 · Branch: `ds-integration` (local, not pushed; contains `design-system-foundation`)
 
 ## Status
 
 | # | Sub-project | Status |
 |---|---|---|
-| 1 | Foundation (tokens, Brand, typography, DESIGN.md, checker) → 0.4.0 | T1–T8 committed; T8 review + T9 QA running |
-| 2 | Basics & dialogs + formatters + UiText | Plan being written (@architect) → `plans/2026-10-12-ds-basics.md`, branch `ds-basics` |
-| 3 | Chart toolkit | Plan being written (@architect) → `plans/2026-10-12-ds-charts.md`, branch `ds-charts` |
-| 4 | Overlays & media chrome (Record A2 HUD) | Plan being written (@architect) → `plans/2026-10-12-ds-media.md`, branch `ds-media` |
-| 5 | hr-tracker migration + redesign | Waits for 2–4 |
-| 6 | jump-tracker migration + redesign | Waits for 2–4 |
+| 1 | Foundation (tokens, Brand, typography, DESIGN.md, checker) → 0.4.0 | Done, QA PASS |
+| 2 | Basics & dialogs + formatters + UiText | Done (`f98a8c9`…`ecef49e`, branch `ds-basics`) → released in 0.5.0 |
+| 3 | Chart toolkit | Done (`20498a2`…`fb49d76`, branch `ds-charts`) → 0.5.0 |
+| 4 | Overlays & media chrome (Record A2 HUD) | Done (`1cd2813`…`c9177ea`, branch `ds-media`) → 0.5.0 |
+| — | Integration `ds-integration` | Merged (`87e4b85`, `b3832ba`, `72012c9`) + `0320db4` (0.5.0, PrimaryButton swap). Integration QA PASS, review APPROVE; review warnings being fixed |
+| 5 | hr-tracker migration + redesign | Plan being written (@architect) |
+| 6 | jump-tracker migration + redesign | Plan being written (@architect) |
 | 7 | Remove deprecated SharedColors vals | Waits for 5, 6 |
+
+**Decision (PO):** SP2–4 ship together as one release **0.5.0** (not 0.5/0.6/0.7).
+
+Integration QA (ds-integration @ `0320db4`): lib 244 tests 0 fail, lint + checker clean; hr + jump `assembleDebug testDebugUnitTest` BUILD SUCCESSFUL, 0 errors (deprecated `w:` counts not comparable — incremental build); EN/DE parity 7 keys.
 
 ## Done
 
@@ -44,7 +49,7 @@ Updated: 2026-10-12 · Branch: `design-system-foundation` (not pushed)
   - `..\shared-android-lib-ds-media` (branch `ds-media`)
 
   Each worktree gets a copy of `local.properties`. The main checkout stays on `design-system-foundation`. SP4's "one sub-project at a time" constraint is dropped.
-- **App QA.** The plans' app-QA steps (SP2 T18, SP3 T11, SP4 T8) run only the lib gate and the scope diff in their worktree. The app builds run once, on an integration branch `ds-integration` in the main checkout (design-system-foundation + ds-basics + ds-charts + ds-media merged in that order). Versions 0.5.0 / 0.6.0 / 0.7.0 are assigned there.
+- **App QA.** The plans' app-QA steps (SP2 T18, SP3 T11, SP4 T8) run only the lib gate and the scope diff in their worktree. The app builds run once, on an integration branch `ds-integration` in the main checkout (design-system-foundation + ds-basics + ds-charts + ds-media merged in that order). ~~Versions 0.5.0 / 0.6.0 / 0.7.0 are assigned there.~~ Superseded: single 0.5.0.
 - **SP2 T14–16** (restyle of existing lib components) stay in. The apps' CI pin protects them, and the redesign is the goal.
 - **SP2:** accept the new swipe behaviour (slide-out at 40%, no deprecated overload). The locale stays a required parameter; SP5/SP6 pick it. `CategoryFilterRow` "empty = all" goes to SP5.
 - **SP3:** keep `BarChart`. Decimation uses the mean (SP5 may add a max mode). Mean-line mode is decided in SP5.
@@ -57,8 +62,8 @@ Updated: 2026-10-12 · Branch: `design-system-foundation` (not pushed)
 
 ## In flight
 
-- Workflow run `wf_5be2eb23-506` executes SP2 (T1–17), SP3 (T1–10) and SP4 (T1–7) in parallel worktrees. Each task goes implement (Sonnet implementer) → reviewer → up to 2 fix rounds, then lib QA per branch. App builds wait for `ds-integration`.
-  - Resume with `Workflow({scriptPath: ~/.claude/projects/C--Code-Android-shared-android-lib/c00c4422-…/workflows/scripts/night-drive-sp2-4-wf_5be2eb23-506.js, resumeFromRunId: "wf_5be2eb23-506"})`.
+- Workflow `wf_5be2eb23-506` (SP2–4, 34 tasks) completed: all tasks APPROVED, per-branch lib QA PASS. Worktrees `..\shared-android-lib-ds-{basics,charts,media}` can be removed after acceptance.
+- Review follow-ups on ds-integration: `formatTickLabel` → `formatElapsed(Clock)`, TutorialSpotlight Skip → `TextActionButton`, CHANGELOG/DESIGN.md wording.
 - @architect is writing the SP5 plan → `hr_tracker_app\docs\superpowers\plans\2026-10-12-hr-night-drive.md` and the SP6 plan → `jump_tracker_app\docs\superpowers\plans\2026-10-12-jump-night-drive.md`.
 
 ## Key documents

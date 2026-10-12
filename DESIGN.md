@@ -189,6 +189,8 @@ Chart rules:
 - Charts draw edge to edge, so gesture px map to fractions with `plotFraction(x, 0f, width)`.
 - All text is passed in by the caller.
 
+Dialog rule: every lib dialog uses `AppDialog`, with a 78% scrim and full-width stacked actions in the order primary, destructive (`error`), dismiss (text).
+
 ### Formatters, text and input parsing
 
 Pure JVM: usable from ViewModels and services. `Locale` and `DurationStyle` are always passed explicitly.
@@ -200,8 +202,6 @@ Pure JVM: usable from ViewModels and services. `Locale` and `DurationStyle` are 
 | `formatDate`, `DateStyle`, `pickerMillisToLocalDate`, `LocalDate.toPickerMillis()` | `format/Dates.kt` |
 | `UiText` (resource, plural, raw; `resolve()` in Compose or with a `Context`) | `text/UiText.kt` |
 | `parseNumberInput`, `NumberInput` (`,` as decimal separator, range check before HALF_UP rounding) | `ui/input/NumberInput.kt` |
-
-Dialog rule: every lib dialog uses `AppDialog`, with a 78% scrim and full-width stacked actions in the order primary, destructive (`error`), dismiss (text).
 
 ### Media and overlays
 
@@ -224,8 +224,8 @@ Dialog rule: every lib dialog uses `AppDialog`, with a 78% scrim and full-width 
 No timer, resolution or camera switch while recording. Slots swap instantly; there is no animation between them. Pass `CameraHud(onBottomBandHeight)` into `FramingGuide(bottomInset)` so the hint never sits under the controls.
 
 **Overlays:**
-- `TutorialSpotlight` dims with `scrimStrong` and cuts a 14dp-radius hole around the anchor. The card goes on the side with room. Seen-state persistence stays in the app.
-- `PermissionGate` is stateless. The app requests permissions (accompanist) and picks the action from `permissionGateMode(granted, shouldShowRationale, requestedOnce)`; `OpenSettings` → `openAppSettings(context)`.
+- `TutorialSpotlight` dims with `scrimStrong` and cuts a 14dp-radius hole around the anchor. The card goes on the side with room. Actions: `PrimaryButton`, Skip as `TextActionButton`. Seen-state persistence stays in the app.
+- `PermissionGate` is stateless; its action is a `PrimaryButton`. The app requests permissions (accompanist) and picks the action from `permissionGateMode(granted, shouldShowRationale, requestedOnce)`; `OpenSettings` → `openAppSettings(context)`.
 
 **Strings:** every label, content description and button text in these components is a parameter. The lib ships no strings for them; the apps pass localized resources.
 

@@ -21,7 +21,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -54,6 +53,7 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 import com.kevin.shared.ui.components.PrimaryButton
+import com.kevin.shared.ui.components.TextActionButton
 import com.kevin.shared.ui.theme.AppTheme
 
 data class TutorialStep(val key: String, val title: String, val text: String)
@@ -255,9 +255,7 @@ private fun SpotlightCard(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            TextButton(onClick = onSkip) {
-                Text(skipLabel, color = MaterialTheme.colorScheme.onSurfaceVariant)
-            }
+            TextActionButton(skipLabel, onSkip)
             PrimaryButton(text = actionLabel, onClick = onAction)
         }
     }
