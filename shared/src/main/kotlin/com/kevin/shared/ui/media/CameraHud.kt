@@ -29,7 +29,7 @@ import com.kevin.shared.ui.theme.AppTheme
 /** §7.3 A2: scrim over the bottom 20% only. */
 internal const val HudScrimHeightFraction = 0.20f
 
-/** §7.3 A2: scrim ≤ 25%. The token mediaScrim is 0.28 (§4.4), so the HUD clamps it. */
+/** §7.3 A2: scrim ≤ 25%. The token mediaScrim is 0.25 (§4.4); the HUD still clamps defensively. */
 internal const val HudScrimMaxAlpha = 0.25f
 
 internal val HudTouchTarget: Dp = 48.dp

@@ -65,7 +65,7 @@ Neutrals (`Brand.kt`, internal): NdBackground #000000, NdSurface #0B0B0D, NdOutl
 | warning | #FFB74D |
 | highlight | #FFC850 |
 | onMedia | #FFFFFF |
-| mediaScrim | black at 28% |
+| mediaScrim | black at 25% |
 | mediaTextShadow | black 75%, offset (0, 1), blur 3 |
 | scrimStrong | black at 78% |
 | gridLine | white at 7% |
@@ -207,7 +207,7 @@ Pure JVM: usable from ViewModels and services. `Locale` and `DurationStyle` are 
 
 **Over video** (spec §4.1, §7.3 A2):
 - Text sits on the image with `AppTheme.colors.mediaTextShadow`. Use `MediaText`, never a box or pill behind text. Accent-coloured text uses `emphasized = true` (stronger shadow).
-- Scrims are edges only and <=25%. `CameraHud` draws a gradient over the bottom 20% and clamps the `mediaScrim` token (0.28) to 0.25.
+- Scrims are edges only and <=25%. `CameraHud` draws a gradient over the bottom 20% and clamps the `mediaScrim` token (0.25) to the 0.25 limit.
 - Missing values show `MediaReadingPlaceholder` (`–`) with no unit; the slot keeps its width.
 
 **A2 camera layout** (`CameraHud`):

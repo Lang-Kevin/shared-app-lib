@@ -39,7 +39,7 @@ internal fun Brand.toAppColors(): AppColors = AppColors(
     warning = Color(0xFFFFB74D),
     highlight = Color(0xFFFFC850),
     onMedia = Color.White,
-    mediaScrim = Color.Black.copy(alpha = 0.28f),
+    mediaScrim = Color.Black.copy(alpha = 0.25f),
     mediaTextShadow = Shadow(Color.Black.copy(alpha = 0.75f), offset = Offset(0f, 1f), blurRadius = 3f),
     scrimStrong = Color.Black.copy(alpha = 0.78f),
     gridLine = Color.White.copy(alpha = 0.07f),

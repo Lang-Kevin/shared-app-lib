@@ -46,7 +46,7 @@ class BrandTest {
         assertEquals(Color(0xFFFFB74D), c.warning)
         assertEquals(Color(0xFFFFC850), c.highlight)
         assertEquals(Color.White, c.onMedia)
-        assertEquals(Color.Black.copy(alpha = 0.28f), c.mediaScrim)
+        assertEquals(Color.Black.copy(alpha = 0.25f), c.mediaScrim)
         assertEquals(Color.Black.copy(alpha = 0.78f), c.scrimStrong)
         assertEquals(Color.White.copy(alpha = 0.07f), c.gridLine)
         assertEquals(Color(0xE60B0B0D), c.tooltipContainer)
