@@ -4,6 +4,7 @@
 
 ### Added
 - `DecimationMode { Mean, Max, MinMax }` and `LineChart(decimationMode)`; default `Mean` is unchanged, `Max`/`MinMax` keep peaks
+- `BleStatusCard(deviceName: String? = null, detail: String? = null)`: optional device name and detail line (battery, signal) under the status line; defaults unchanged
 
 ### Fixed
 - `AppColors.mediaScrim` is 0.25 alpha (was 0.28), within the 25% HUD scrim limit; `CameraHud` clamp kept as a guard

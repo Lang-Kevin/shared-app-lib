@@ -31,7 +31,9 @@ fun BleStatusCard(
     connectionState: ConnectionState,
     autoConnect: Boolean,
     onDisconnect: () -> Unit,
-    onToggleAutoConnect: () -> Unit
+    onToggleAutoConnect: () -> Unit,
+    deviceName: String? = null,
+    detail: String? = null
 ) {
     val statusText = when (connectionState) {
         is ConnectionState.Reconnecting -> stringResource(R.string.shared_ble_status_reconnecting)
@@ -80,12 +82,16 @@ fun BleStatusCard(
                     .background(dotColor, CircleShape)
                     .semantics { contentDescription = statusLabel })
                 Spacer(Modifier.width(AppTheme.spacing.sm))
-                Text(
-                    statusLabel,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = statusColor,
-                    modifier = Modifier.weight(1f)
-                )
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(statusLabel, style = MaterialTheme.typography.bodyMedium, color = statusColor)
+                    listOfNotNull(deviceName, detail).forEach {
+                        Text(
+                            it,
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                }
                 if (connectionState !is ConnectionState.Disconnected) {
                     TextActionButton(text = stringResource(R.string.shared_ble_disconnect), onClick = onDisconnect)
                 }
