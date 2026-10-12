@@ -29,7 +29,7 @@ Full `--rerun-tasks` gates, sequential: hr `feat/night-drive` @ `f005f1f`: BUILD
 - Lib: `ds-integration` pushed, fast-forwarded to `master` @ `f57bc7e`; CI tag `v0.5.0` created.
 - Apps pinned to `f57bc7e` (hr `e0a8d3d`, jump `97a8262`), branches pushed. PRs: hr-tracker #29, jump-tracker-app #15. jump PR also carries the user's local `84bc2c6` + merge `960a204`.
 - Open: device check (hr v7→v8 migration on existing data, DE; jump record HUD 19.5:9 + 16:9, PiP, swipe), then merge the PRs.
-Known: lib `DateStyle.WeekdayTime` is always 24h (EN users lose 12h). Lib follow-up candidates: `BleStatusCard(deviceName, detail)`, `mediaScrim` 0.28 vs ≤25%, jump HeroValue/AccentTag/AccentDivider/InlineBar, hr Detail decimation smoothing peaks. hr orphan strings (`history_load_legend_*`, some Readiness/RestingHr) to clean.
+Known: lib `DateStyle.WeekdayTime` is always 24h (EN users lose 12h). Lib follow-up candidates: `BleStatusCard(deviceName, detail)`, `mediaScrim` 0.28 vs ≤25%, hr Detail decimation smoothing peaks. hr orphan strings (`history_load_legend_*`, some Readiness/RestingHr) to clean.
 
 ## Done
 

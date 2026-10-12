@@ -164,6 +164,7 @@ Lib components on tokens (grows with sub-projects 2–4):
 | `ListCard`, `ListCardValue` | `ui/components/ListCard.kt` |
 | `EmptyState` | `ui/components/EmptyState.kt` |
 | `SwipeToDelete` | `ui/components/SwipeToDelete.kt` |
+| `HeroValue`, `AccentTag`, `AccentDivider`, `InlineBar` (fraction clamped to 0..1) | `ui/components/NightDriveComponents.kt` |
 | `AppDialog`, `DialogScrim` | `ui/dialog/AppDialog.kt` |
 | `TextInputDialog`, `SingleChoiceDialog` | `ui/dialog/InputDialogs.kt` |
 | `ProgressDialog` | `ui/dialog/ProgressDialog.kt` |

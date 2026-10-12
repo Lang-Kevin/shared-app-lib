@@ -5,6 +5,7 @@
 ### Added
 - `DecimationMode { Mean, Max, MinMax }` and `LineChart(decimationMode)`; default `Mean` is unchanged, `Max`/`MinMax` keep peaks
 - `BleStatusCard(deviceName: String? = null, detail: String? = null)`: optional device name and detail line (battery, signal) under the status line; defaults unchanged
+- Night Drive components in `ui/components` (ported from jump): `HeroValue(label, value, unit, style)`, `AccentTag(text)`, `AccentDivider()`, `InlineBar(fraction, color)` (fraction clamped to 0..1)
 
 ### Fixed
 - `AppColors.mediaScrim` is 0.25 alpha (was 0.28), within the 25% HUD scrim limit; `CameraHud` clamp kept as a guard
