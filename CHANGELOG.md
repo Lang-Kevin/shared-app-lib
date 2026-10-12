@@ -1,5 +1,10 @@
 # Changelog — shared-android-lib
 
+## [0.5.1] — 2026-10-12
+
+### Fixed
+- `DateStyle.WeekdayTime` follows the locale's 12h/24h convention (en-US "Mon 4:42 PM", de "Mo. 16:42"); was always 24h
+
 ## [0.5.0] — 2026-10-12
 
 ### Added

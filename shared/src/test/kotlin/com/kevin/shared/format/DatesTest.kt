@@ -25,7 +25,14 @@ class DatesTest {
 
     @Test fun weekdayFollowsLocale() {
         assertEquals("Mon, 12.10.2026", formatDate(monday, DateStyle.WeekdayDate, Locale.US, utc))
-        assertEquals("Mon 16:42", formatDate(monday, DateStyle.WeekdayTime, Locale.US, utc))
+    }
+
+    @Test fun weekdayTimeIsLocale12hOr24h() {
+        // normalize NBSP / narrow NBSP before AM/PM (JDK-dependent)
+        val us = formatDate(monday, DateStyle.WeekdayTime, Locale.US, utc).replace(Regex("[  ]"), " ")
+        assertEquals("Mon 4:42 PM", us)
+        val de = formatDate(monday, DateStyle.WeekdayTime, Locale.GERMANY, utc)
+        assertEquals(true, de.endsWith(" 16:42"))
     }
 
     @Test fun zoneMovesTheDay() {
