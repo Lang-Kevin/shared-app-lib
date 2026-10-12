@@ -1,6 +1,6 @@
 # Handover — Night Drive design system + redesign
 
-Updated: 2026-10-12 · Branch: `ds-integration` (0.5.0 on master; 0.5.1 local, ahead 7, not pushed)
+Updated: 2026-10-12 · Branch: `master` @ `e48af46` (0.5.1, tag `v0.5.1`); `ds-integration` deleted
 
 ## Status
 
@@ -30,7 +30,7 @@ Full `--rerun-tasks` gates, sequential: hr `feat/night-drive` @ `f005f1f`: BUILD
 - Apps pinned to `f57bc7e` (hr `e0a8d3d`, jump `97a8262`), branches pushed. PRs: hr-tracker #29, jump-tracker-app #15. jump PR also carries the user's local `84bc2c6` + merge `960a204`.
 - Open: device check (hr v7→v8 migration on existing data, DE; jump record HUD 19.5:9 + 16:9, PiP, swipe), then merge the PRs.
 
-## Follow-ups → 0.5.1 (2026-10-12, local, NOT pushed)
+## Follow-ups → 0.5.1 (2026-10-12, released)
 
 Workflow `wf_15360ae9-7d0`, all tasks review APPROVE. Final QA PASS (`--rerun-tasks`, sequential): lib 249 tests, hr 167, jump 454; 0 failures, lint 0 errors, checkers exit 0, hr EN/DE parity OK.
 
@@ -48,12 +48,9 @@ Workflow `wf_15360ae9-7d0`, all tasks review APPROVE. Final QA PASS (`--rerun-ta
 | | `8580461` | Detail chart `DecimationMode.Max`, BleStatusCard detail |
 | jump `feat/night-drive` | `32abf27` | `JumpComponents.kt` → lib components |
 
-Pending (needs user go-ahead):
-1. Push lib `ds-integration`, FF `master` → CI tag `v0.5.1`.
-2. Bump both apps' `code/shared-app-lib.ref` to the new master SHA (hr/jump new commits don't compile in CI against `f57bc7e`), push both `feat/night-drive` (updates PRs #29, #15).
-3. Cleanup: remote `ds-integration`, local `backup/ds-integration-pre-rewrite`, worktree `..\shared-android-lib-followups` + branch `lib-followups`, worktrees `..\shared-android-lib-ds-{basics,charts,media}`.
-4. Optional hr review warnings: `docs/SPEC.md:265` stale (battery read once), no `changelog.d` entry, 0xFF sentinel shows 100%, no `Log.w` on battery read failure.
-5. Cosmetic: LiveScreen still Mean decimation, `InlineBar` NaN guard, `BleStatusCard` blank strings/no ellipsis, weak DE test assert, NBSP literals in `DatesTest`.
+Released: lib `master` FF → `e48af46`, CI tag `v0.5.1`. Pins bumped to `e48af46`: hr `0e4b501`, jump `89b7e13`. hr review fixes `8ae3c52` (battery 0xFF = unknown, Log.w on read/notify failure, SPEC + changelog.d). Both `feat/night-drive` pushed (PRs #29, #15). Cleanup done: remote + local `ds-integration`, `backup/ds-integration-pre-rewrite`, `lib-followups` + worktree; `ds-*` worktrees were already gone. Main checkout is on `master`.
+
+Open cosmetic: LiveScreen still Mean decimation, `InlineBar` NaN guard, `BleStatusCard` blank strings/no ellipsis, weak DE test assert, NBSP literals in `DatesTest`; hr: no notify after a failed battery read.
 
 User-owned: device check → merge PRs → re-run lib CI on master (job "apps (hr-tracker, master)" red until hr #29 merges). jump PR #15 may need a rebase once jump `main` `d86a5b6` (other session) is pushed.
 
