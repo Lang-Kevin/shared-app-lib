@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Generic actions for lib dialogs, fields and rows -->
+    <string name="shared_action_ok">OK</string>
+    <string name="shared_action_cancel">Abbrechen</string>
+    <string name="shared_action_save">Speichern</string>
+    <string name="shared_action_confirm">Bestätigen</string>
+    <string name="shared_action_apply">Anwenden</string>
+    <string name="shared_action_delete">Löschen</string>
+
+    <!-- Date range filter dialog -->
+    <string name="shared_date_range_title">Nach Datum filtern</string>
+</resources>
