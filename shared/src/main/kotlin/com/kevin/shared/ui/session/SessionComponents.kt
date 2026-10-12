@@ -10,6 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import com.kevin.shared.R
+import com.kevin.shared.format.DurationStyle
+import com.kevin.shared.format.formatElapsed
 import com.kevin.shared.ui.theme.AppTheme
 import java.text.DateFormat
 import java.util.Date
@@ -39,13 +41,8 @@ fun CategoryFilterRow(
     }
 }
 
-fun durationString(seconds: Long): String {
-    val h = seconds / 3600
-    val m = (seconds % 3600) / 60
-    val s = seconds % 60
-    return if (h > 0) "%02d:%02d:%02d".format(h, m, s)
-    else "%02d:%02d".format(m, s)
-}
+/** Prefer [formatElapsed] with an explicit [DurationStyle] in new code. Kept for app call sites. */
+fun durationString(seconds: Long): String = formatElapsed(seconds, DurationStyle.Compact)
 
 fun Long.toDateString(): String =
     DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.getDefault()).format(Date(this))
