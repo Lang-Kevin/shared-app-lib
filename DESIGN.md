@@ -175,6 +175,12 @@ Lib components on tokens (grows with sub-projects 2–4):
 | `ZoneDistributionBar`, `TimeInZoneSection` (time in zone; History mini zone bar) | `ui/chart/TimeInZone.kt` |
 | `ChartViewport`, `LiveWindow`, `nearestIndex`, `plotFraction`, `Modifier.chartZoomPan` (zoom/pan/scrub state + gestures) | `ui/chart/ChartViewport.kt`, `ui/chart/ChartGeometry.kt`, `ui/chart/ChartGestures.kt` |
 | `ChartDefaults`, `ChartColors` (chart roles from tokens, dimensions) | `ui/chart/ChartColors.kt` |
+| `MediaText`, `MediaReading` | `ui/media/MediaText.kt`, `ui/media/MediaReading.kt` |
+| `ShutterButton` | `ui/media/ShutterButton.kt` |
+| `FramingGuide` | `ui/media/FramingGuide.kt` |
+| `CameraHud`, `MediaIconButton`, `MediaTextButton` | `ui/media/CameraHud.kt`, `ui/media/MediaControls.kt` |
+| `TutorialSpotlight`, `TutorialAnchors`, `Modifier.tutorialAnchor` | `ui/overlay/TutorialSpotlight.kt` |
+| `PermissionGate`, `permissionGateMode`, `openAppSettings` | `ui/overlay/PermissionGate.kt` |
 
 Chart rules:
 - Colors come only from `ChartDefaults.colors()`.
@@ -196,6 +202,32 @@ Pure JVM: usable from ViewModels and services. `Locale` and `DurationStyle` are 
 | `parseNumberInput`, `NumberInput` (`,` as decimal separator, range check before HALF_UP rounding) | `ui/input/NumberInput.kt` |
 
 Dialog rule: every lib dialog uses `AppDialog`, with a 78% scrim and full-width stacked actions in the order primary, destructive (`error`), dismiss (text).
+
+### Media and overlays
+
+**Over video** (spec §4.1, §7.3 A2):
+- Text sits on the image with `AppTheme.colors.mediaTextShadow`. Use `MediaText`, never a box or pill behind text. Accent-coloured text uses `emphasized = true` (stronger shadow).
+- Scrims are edges only and <=25%. `CameraHud` draws a gradient over the bottom 20% and clamps the `mediaScrim` token (0.28) to 0.25.
+- Missing values show `MediaReadingPlaceholder` (`–`) with no unit; the slot keeps its width.
+
+**A2 camera layout** (`CameraHud`):
+
+| Slot | Idle | Recording |
+|---|---|---|
+| top start (`navigation`) | close | app's choice |
+| top centre (`phase`) | phase text (`titleMedium`), uppercase, shadowed | phase text |
+| bottom start | `idleStart`: resolution (`MediaTextButton`) | `recordingStart`: Last (`MediaReading`) |
+| bottom centre | `ShutterButton` (white disc) | `ShutterButton` (stop square in `recording`) |
+| bottom end | `idleEnd`: camera switch (`MediaIconButton`) | `recordingEnd`: Best (`MediaReading`, `accentLabel = true`) |
+| guide | `FramingGuide`, alpha 1.0 | in frame: alpha 0.55; out of frame: stays alpha 1.0 in the error colour; `FramingGuideDefaults.color(outOfFrame)` |
+
+No timer, resolution or camera switch while recording. Slots swap instantly; there is no animation between them. Pass `CameraHud(onBottomBandHeight)` into `FramingGuide(bottomInset)` so the hint never sits under the controls.
+
+**Overlays:**
+- `TutorialSpotlight` dims with `scrimStrong` and cuts a 14dp-radius hole around the anchor. The card goes on the side with room. Seen-state persistence stays in the app.
+- `PermissionGate` is stateless. The app requests permissions (accompanist) and picks the action from `permissionGateMode(granted, shouldShowRationale, requestedOnce)`; `OpenSettings` → `openAppSettings(context)`.
+
+**Strings:** every label, content description and button text in these components is a parameter. The lib ships no strings for them; the apps pass localized resources.
 
 ## 9. Checker
 
