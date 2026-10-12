@@ -40,7 +40,7 @@ fun SelectionHeader(
             )
         }
         Text(
-            text = pluralStringResource(R.plurals.shared_selection_count, count, count),
+            text = pluralStringResource(R.plurals.shared_selection_count, count, count).uppercase(),
             style = MaterialTheme.typography.titleMedium,
             modifier = Modifier.weight(1f)
         )

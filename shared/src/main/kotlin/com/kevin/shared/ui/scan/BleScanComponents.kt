@@ -1,7 +1,6 @@
 package com.kevin.shared.ui.scan
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -23,6 +22,8 @@ import com.kevin.shared.ble.ConnectionState
 import com.kevin.shared.domain.DeviceType
 import com.kevin.shared.domain.DiscoveredDevice
 import com.kevin.shared.domain.SavedDevice
+import com.kevin.shared.ui.components.ListCard
+import com.kevin.shared.ui.components.TextActionButton
 import com.kevin.shared.ui.theme.AppTheme
 
 @Composable
@@ -50,8 +51,10 @@ fun BleStatusCard(
         connectionState is ConnectionState.Error -> MaterialTheme.colorScheme.error
         else -> MaterialTheme.colorScheme.onSurfaceVariant
     }
-    val cardBorder = if (connectionState is ConnectionState.Ready)
-        BorderStroke(1.dp, MaterialTheme.colorScheme.primary) else null
+    val cardBorder = BorderStroke(
+        1.dp,
+        if (connectionState is ConnectionState.Ready) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline
+    )
     val cardBg = if (connectionState is ConnectionState.Error)
         MaterialTheme.colorScheme.error.copy(alpha = 0.12f)
     else
@@ -84,12 +87,16 @@ fun BleStatusCard(
                     modifier = Modifier.weight(1f)
                 )
                 if (connectionState !is ConnectionState.Disconnected) {
-                    TextButton(onClick = onDisconnect) { Text(stringResource(R.string.shared_ble_disconnect)) }
+                    TextActionButton(text = stringResource(R.string.shared_ble_disconnect), onClick = onDisconnect)
                 }
             }
         }
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(stringResource(R.string.shared_ble_auto_connect), style = MaterialTheme.typography.bodySmall)
+            Text(
+                text = stringResource(R.string.shared_ble_auto_connect).uppercase(),
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
             Spacer(Modifier.width(AppTheme.spacing.xs))
             Switch(checked = autoConnect, onCheckedChange = { onToggleAutoConnect() })
         }
@@ -98,25 +105,12 @@ fun BleStatusCard(
 
 @Composable
 fun SavedDeviceItem(device: SavedDevice, onClick: () -> Unit, onForget: () -> Unit) {
-    Card(modifier = Modifier.fillMaxWidth(), shape = MaterialTheme.shapes.medium) {
-        Row(
-            modifier = Modifier.padding(
-                start = AppTheme.spacing.lg, top = AppTheme.spacing.sm,
-                bottom = AppTheme.spacing.sm, end = AppTheme.spacing.xs
-            ),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Column(modifier = Modifier.weight(1f).clickable(onClick = onClick)) {
-                Text(device.name, style = MaterialTheme.typography.bodyLarge)
-                Text(
-                    device.address,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
-            TextButton(onClick = onForget) { Text(stringResource(R.string.shared_ble_forget)) }
-        }
-    }
+    ListCard(
+        title = device.name,
+        subtitle = device.address,
+        onClick = onClick,
+        trailing = { TextActionButton(text = stringResource(R.string.shared_ble_forget), onClick = onForget) },
+    )
 }
 
 @Composable
@@ -133,20 +127,10 @@ fun DiscoveredDeviceItem(
         device.deviceType == DeviceType.CHEST_STRAP -> Icons.Default.Favorite to chestStrapText
         else -> Icons.Default.Bluetooth to device.address
     }
-    Card(
-        modifier = Modifier.fillMaxWidth().clickable(onClick = onClick),
-        shape = MaterialTheme.shapes.medium
-    ) {
-        Row(
-            modifier = Modifier.padding(horizontal = AppTheme.spacing.lg, vertical = AppTheme.spacing.md),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(AppTheme.spacing.md)
-        ) {
-            Icon(icon, contentDescription = subtitle)
-            Column {
-                Text(device.displayName, style = MaterialTheme.typography.bodyLarge)
-                Text(subtitle, style = MaterialTheme.typography.bodySmall)
-            }
-        }
-    }
+    ListCard(
+        title = device.displayName,
+        subtitle = subtitle,
+        onClick = onClick,
+        leading = { Icon(icon, contentDescription = subtitle, tint = MaterialTheme.colorScheme.onSurfaceVariant) },
+    )
 }
