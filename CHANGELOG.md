@@ -9,6 +9,19 @@
 - Formatters in `format` (pure JVM, explicit `Locale`/style): `formatElapsed`/`DurationStyle`, `formatDecimal`, `formatMeasure`, `formatPercent`, `NO_VALUE`, `formatDate`/`DateStyle`, `pickerMillisToLocalDate`/`toPickerMillis`
 - `UiText` in `text` (drop-in for jump's `UiText`)
 - Strings `shared_action_ok/cancel/save/confirm/apply/delete`, `shared_date_range_title` (EN + DE)
+- Chart toolkit (`ui/chart/`):
+  - `LineChart` zone chart: target band, GOAL badge, dashed accent mean line (full width or gap segments), milestone markers, last point, scrubber + tooltip, time axis.
+  - `TrendChart`: optional band with label, highlighted last point, category labels.
+  - `BarChart`: highlighted current bar.
+  - `ZoneDistributionBar` + `TimeInZoneSection`, also used as the History mini zone bar.
+  - `ChartDefaults` / `ChartColors`: token-only chart roles.
+- Pure, JVM-tested chart math:
+  - `ChartViewport` / `LiveWindow`, plus `toWindow` and the `LiveWindow.zoomBy` min/max parameters.
+  - `nearestIndex`, `plotFraction`.
+  - Tick and category-label spacing, y ranges.
+  - Absolute-anchored, gap-preserving decimation.
+  - Scrub, tooltip, zone-segment and bar geometry.
+- `Modifier.chartZoomPan`: zoom, pan, double tap and long-press scrub, ported from hr-tracker.
 
 ### Changed
 - **Visual:** `StatItem` labels are uppercase and values Regular; new trailing parameter `unit` (default `null`)
