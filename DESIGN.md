@@ -157,6 +157,32 @@ Lib components on tokens (grows with sub-projects 2–4):
 | `TargetZoneDialog` | `ui/zone/ZoneComponents.kt` |
 | `LabelPickerDialog` | `ui/LabelPickerDialog.kt` |
 | `ChartToggleButton` | `ui/chart/ChartToggleButton.kt` |
+| `PrimaryButton`, `SecondaryButton` (`destructive`), `TextActionButton` | `ui/components/Buttons.kt` |
+| `Metric`, `StatCell`, `StatGrid` | `ui/components/StatGrid.kt` |
+| `SegmentedControl` | `ui/components/SegmentedControl.kt` |
+| `AppTabRow` (replaces M3 `TabRow`) | `ui/components/AppTabRow.kt` |
+| `ListCard`, `ListCardValue` | `ui/components/ListCard.kt` |
+| `EmptyState` | `ui/components/EmptyState.kt` |
+| `SwipeToDelete` | `ui/components/SwipeToDelete.kt` |
+| `AppDialog`, `DialogScrim` | `ui/dialog/AppDialog.kt` |
+| `TextInputDialog`, `SingleChoiceDialog` | `ui/dialog/InputDialogs.kt` |
+| `ProgressDialog` | `ui/dialog/ProgressDialog.kt` |
+| `DateRangeFilterDialog` (emits inclusive `LocalDate` start/end) | `ui/dialog/DateRangeFilterDialog.kt` |
+| `NumberField` | `ui/input/NumberField.kt` |
+
+### Formatters, text and input parsing
+
+Pure JVM: usable from ViewModels and services. `Locale` and `DurationStyle` are always passed explicitly.
+
+| API | File |
+|---|---|
+| `formatElapsed`, `DurationStyle` (`Hms`, `Compact`, `Clock`) | `format/Durations.kt` |
+| `NO_VALUE`, `formatDecimal`, `formatMeasure` (NBSP before the unit), `formatPercent` | `format/Numbers.kt` |
+| `formatDate`, `DateStyle`, `pickerMillisToLocalDate`, `LocalDate.toPickerMillis()` | `format/Dates.kt` |
+| `UiText` (resource, plural, raw; `resolve()` in Compose or with a `Context`) | `text/UiText.kt` |
+| `parseNumberInput`, `NumberInput` (`,` as decimal separator, range check before HALF_UP rounding) | `ui/input/NumberInput.kt` |
+
+Dialog rule: every lib dialog uses `AppDialog`, with a 78% scrim and full-width stacked actions in the order primary, destructive (`error`), dismiss (text).
 
 ## 9. Checker
 

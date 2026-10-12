@@ -1,5 +1,23 @@
 # Changelog — shared-android-lib
 
+## [Unreleased]
+
+### Added
+- Night Drive basics in `ui/components`: `PrimaryButton`, `SecondaryButton` (`destructive`), `TextActionButton`; `Metric`, `StatGrid`/`StatCell`; `SegmentedControl`; `AppTabRow`; `ListCard`/`ListCardValue`; `EmptyState`; `SwipeToDelete` (`error` background, slides out at 40%)
+- Dialog family in `ui/dialog`: `AppDialog` shell (78% scrim, stacked full-width actions), `DialogScrim`, `TextInputDialog`, `SingleChoiceDialog`, `ProgressDialog`, `DateRangeFilterDialog` (emits inclusive `LocalDate` start/end, not epoch millis)
+- `ui/input`: `NumberField`, `parseNumberInput`/`NumberInput`
+- Formatters in `format` (pure JVM, explicit `Locale`/style): `formatElapsed`/`DurationStyle`, `formatDecimal`, `formatMeasure`, `formatPercent`, `NO_VALUE`, `formatDate`/`DateStyle`, `pickerMillisToLocalDate`/`toPickerMillis`
+- `UiText` in `text` (drop-in for jump's `UiText`)
+- Strings `shared_action_ok/cancel/save/confirm/apply/delete`, `shared_date_range_title` (EN + DE)
+
+### Changed
+- **Visual:** `StatItem` labels are uppercase and values Regular; new trailing parameter `unit` (default `null`)
+- **Visual:** `LeaveSessionDialog`, `SoftDeleteConfirmationDialog`, `DeleteForeverConfirmationDialog`, `LabelPickerDialog` and `TargetZoneDialog` use `AppDialog`: 78% scrim, full-width stacked buttons, destructive actions in `error`
+- **Visual:** `SessionListItem`, `TrashTab` rows, `SavedDeviceItem` and `DiscoveredDeviceItem` are `ListCard`s. The selected state is an accent border plus tint, replacing `primaryContainer`, and the whole saved-device card is now clickable. `SummaryCard` is a hairline `StatGrid`, `CategoryFilterRow` chips are outlined pills, and the `TrashTab` empty text is an `EmptyState`
+- **Visual:** `TargetZoneDialog` picks the zone with a `SegmentedControl` plus a zone-colour strip, replacing the zone-filled chips
+- **Visual:** `BleStatusCard` always has a hairline border; the `SelectionHeader` count is uppercase
+- `durationString` delegates to `formatElapsed`; negative input now gives `00:00`
+
 ## [0.4.0] — 2026-10-12
 
 ### Added
