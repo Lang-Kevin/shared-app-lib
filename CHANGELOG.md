@@ -1,5 +1,22 @@
 # Changelog — shared-android-lib
 
+## [Unreleased]
+
+### Added
+- Chart toolkit (`ui/chart/`):
+  - `LineChart` zone chart: target band, GOAL badge, dashed accent mean line (full width or gap segments), milestone markers, last point, scrubber + tooltip, time axis.
+  - `TrendChart`: optional band with label, highlighted last point, category labels.
+  - `BarChart`: highlighted current bar.
+  - `ZoneDistributionBar` + `TimeInZoneSection`, also used as the History mini zone bar.
+  - `ChartDefaults` / `ChartColors`: token-only chart roles.
+- Pure, JVM-tested chart math:
+  - `ChartViewport` / `LiveWindow`, plus `toWindow` and the `LiveWindow.zoomBy` min/max parameters.
+  - `nearestIndex`, `plotFraction`.
+  - Tick and category-label spacing, y ranges.
+  - Absolute-anchored, gap-preserving decimation.
+  - Scrub, tooltip, zone-segment and bar geometry.
+- `Modifier.chartZoomPan`: zoom, pan, double tap and long-press scrub, ported from hr-tracker.
+
 ## [0.4.0] — 2026-10-12
 
 ### Added

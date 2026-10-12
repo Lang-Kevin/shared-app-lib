@@ -157,6 +157,19 @@ Lib components on tokens (grows with sub-projects 2–4):
 | `TargetZoneDialog` | `ui/zone/ZoneComponents.kt` |
 | `LabelPickerDialog` | `ui/LabelPickerDialog.kt` |
 | `ChartToggleButton` | `ui/chart/ChartToggleButton.kt` |
+| `LineChart` + `LineSeries`, `ChartZone`, `ChartMarker`, `ChartReferenceLine` (zone chart: target band, GOAL badge, dashed accent mean line, milestones, last point, scrubber + tooltip, time axis) | `ui/chart/LineChart.kt`, `ui/chart/ChartModels.kt` |
+| `TrendChart` + `TrendSeries` (optional neutral band with label, highlighted last point, category labels) | `ui/chart/TrendChart.kt` |
+| `BarChart` (highlighted current bar) | `ui/chart/BarChart.kt` |
+| `ZoneDistributionBar`, `TimeInZoneSection` (time in zone; History mini zone bar) | `ui/chart/TimeInZone.kt` |
+| `ChartViewport`, `LiveWindow`, `nearestIndex`, `plotFraction`, `Modifier.chartZoomPan` (zoom/pan/scrub state + gestures) | `ui/chart/ChartViewport.kt`, `ui/chart/ChartGeometry.kt`, `ui/chart/ChartGestures.kt` |
+| `ChartDefaults`, `ChartColors` (chart roles from tokens, dimensions) | `ui/chart/ChartColors.kt` |
+
+Chart rules:
+- Colors come only from `ChartDefaults.colors()`.
+- x is in data units: `LiveWindow.toWindow` (Live) or `ChartViewport.toWindow` (Detail).
+- Gaps are non-finite values.
+- Charts draw edge to edge, so gesture px map to fractions with `plotFraction(x, 0f, width)`.
+- All text is passed in by the caller.
 
 ## 9. Checker
 
