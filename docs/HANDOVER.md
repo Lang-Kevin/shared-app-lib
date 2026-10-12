@@ -23,13 +23,12 @@ Integration QA (ds-integration @ `0320db4`): lib 244 tests 0 fail, lint + checke
 
 Full `--rerun-tasks` gates, sequential: hr `feat/night-drive` @ `f005f1f`: BUILD SUCCESSFUL, 167 tests 0 fail, lint 0 errors, token + string checkers exit 0. jump `feat/night-drive` @ `9102569`: BUILD SUCCESSFUL, 454 tests 0 fail, lint 0 errors, checkers exit 0. Lib: 243 tests (244 − removed deprecated-vals test), lint green.
 
-## Waiting for the user
+## Released (2026-10-12)
 
-1. Go-ahead to push `ds-integration` and merge to `master` (0.5.0 → CI tag `v0.5.0`).
-2. Then bump `code/shared-app-lib.ref` to `v0.5.0` in both apps (hr T31 / jump T22 remainder), push `feat/night-drive`, open PRs.
-3. Optional: rewrite "Haiku 5.5" trailers (`ae85e2d`, `52a539a`, `e7fa983`, hr `f005f1f`).
-4. Device check: hr Room v7→v8 migration on existing data, DE locale; jump record HUD on 19.5:9 + 16:9, PiP, swipe.
-
+- Credit lines "Claude Haiku 5.5" removed (user decision) from 4 commits; lib history rewritten with `filter-branch` (backup branch `backup/ds-integration-pre-rewrite`), hr HEAD amended → `41df6d4`. SHAs in the tables below are pre-rewrite.
+- Lib: `ds-integration` pushed, fast-forwarded to `master` @ `f57bc7e`; CI tag `v0.5.0` created.
+- Apps pinned to `f57bc7e` (hr `e0a8d3d`, jump `97a8262`), branches pushed. PRs: hr-tracker #29, jump-tracker-app #15. jump PR also carries the user's local `84bc2c6` + merge `960a204`.
+- Open: device check (hr v7→v8 migration on existing data, DE; jump record HUD 19.5:9 + 16:9, PiP, swipe), then merge the PRs.
 Known: lib `DateStyle.WeekdayTime` is always 24h (EN users lose 12h). Lib follow-up candidates: `BleStatusCard(deviceName, detail)`, `mediaScrim` 0.28 vs ≤25%, jump HeroValue/AccentTag/AccentDivider/InlineBar, hr Detail decimation smoothing peaks. hr orphan strings (`history_load_legend_*`, some Readiness/RestingHr) to clean.
 
 ## Done
