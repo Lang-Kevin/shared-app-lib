@@ -11,13 +11,26 @@ Updated: 2026-10-12 · Branch: `ds-integration` (local, not pushed; contains `de
 | 3 | Chart toolkit | Done (`20498a2`…`fb49d76`, branch `ds-charts`) → 0.5.0 |
 | 4 | Overlays & media chrome (Record A2 HUD) | Done (`1cd2813`…`c9177ea`, branch `ds-media`) → 0.5.0 |
 | — | Integration `ds-integration` | Merged (`87e4b85`, `b3832ba`, `72012c9`) + `0320db4` (0.5.0, PrimaryButton swap). Integration QA PASS, review APPROVE; review warnings being fixed |
-| 5 | hr-tracker migration + redesign | Plan being written (@architect) |
-| 6 | jump-tracker migration + redesign | Plan being written (@architect) |
-| 7 | Remove deprecated SharedColors vals | Waits for 5, 6 |
+| 5 | hr-tracker migration + redesign | `feat/night-drive` in hr repo: T1–T16 approved (`a3204c5`…`7b0130a`), T17 no-op (lib Trash already restyled), T18–T32 approved (`9d1bfc2`…`e4a5197`). QA: build/tests (167; drop from 197 = deleted hr chart-toolkit tests), token/string checkers, parity OK 313 all PASS; lint failed on 10 `NonObservableLocale` → fixed in `f005f1f` (`currentLocale()` helper), review APPROVE. **Done.** Room v7→v8 migration has no unit test → device check |
+| 6 | jump-tracker migration + redesign | **Done.** `feat/night-drive` in jump repo: 22 commits (`0101362`…`9102569`) on `960a204`, 37 files. QA PASS: 454 tests, 0 deprecations, token + string checkers exit 0. Ref bump pending lib push |
+| 7 | Remove deprecated SharedColors vals | **Done.** `e7fa983` on `ds-integration` (part of 0.5.0, `### Removed (breaking)`), review APPROVE. Apps' feat branches have 0 usages; CI pins protect old branches |
 
 **Decision (PO):** SP2–4 ship together as one release **0.5.0** (not 0.5/0.6/0.7).
 
 Integration QA (ds-integration @ `0320db4`): lib 244 tests 0 fail, lint + checker clean; hr + jump `assembleDebug testDebugUnitTest` BUILD SUCCESSFUL, 0 errors (deprecated `w:` counts not comparable — incremental build); EN/DE parity 7 keys.
+
+## Final QA (2026-10-12, lib `e7fa983`)
+
+Full `--rerun-tasks` gates, sequential: hr `feat/night-drive` @ `f005f1f`: BUILD SUCCESSFUL, 167 tests 0 fail, lint 0 errors, token + string checkers exit 0. jump `feat/night-drive` @ `9102569`: BUILD SUCCESSFUL, 454 tests 0 fail, lint 0 errors, checkers exit 0. Lib: 243 tests (244 − removed deprecated-vals test), lint green.
+
+## Waiting for the user
+
+1. Go-ahead to push `ds-integration` and merge to `master` (0.5.0 → CI tag `v0.5.0`).
+2. Then bump `code/shared-app-lib.ref` to `v0.5.0` in both apps (hr T31 / jump T22 remainder), push `feat/night-drive`, open PRs.
+3. Optional: rewrite "Haiku 5.5" trailers (`ae85e2d`, `52a539a`, `e7fa983`, hr `f005f1f`).
+4. Device check: hr Room v7→v8 migration on existing data, DE locale; jump record HUD on 19.5:9 + 16:9, PiP, swipe.
+
+Known: lib `DateStyle.WeekdayTime` is always 24h (EN users lose 12h). Lib follow-up candidates: `BleStatusCard(deviceName, detail)`, `mediaScrim` 0.28 vs ≤25%, jump HeroValue/AccentTag/AccentDivider/InlineBar, hr Detail decimation smoothing peaks. hr orphan strings (`history_load_legend_*`, some Readiness/RestingHr) to clean.
 
 ## Done
 
@@ -64,7 +77,13 @@ Integration QA (ds-integration @ `0320db4`): lib 244 tests 0 fail, lint + checke
 
 - Workflow `wf_5be2eb23-506` (SP2–4, 34 tasks) completed: all tasks APPROVED, per-branch lib QA PASS. Worktrees `..\shared-android-lib-ds-{basics,charts,media}` can be removed after acceptance.
 - Review follow-ups on ds-integration: `formatTickLabel` → `formatElapsed(Clock)`, TutorialSpotlight Skip → `TextActionButton`, CHANGELOG/DESIGN.md wording.
-- @architect is writing the SP5 plan → `hr_tracker_app\docs\superpowers\plans\2026-10-12-hr-night-drive.md` and the SP6 plan → `jump_tracker_app\docs\superpowers\plans\2026-10-12-jump-night-drive.md`.
+- Review follow-ups committed in `c35ccf4`; `design-system-foundation` fast-forwarded to `c35ccf4` (local).
+- SP5 + SP6 workflows finished (results in session `tasks\w5i2otlxv.output`, `tasks\wbj3kg1yy.output`). Lib worktrees `..\shared-android-lib-ds-{basics,charts,media}` still present; remove after acceptance.
+- (History) **SP5 + SP6 ran via** workflow `wf_3646ae25-f57` (script `…/workflows/scripts/night-drive-sp5-6-wf_3646ae25-f57.js`). Each task goes implement → review → up to 2 fixes, then app QA. Both apps work on `feat/night-drive`.
+  - hr builds the lib from the main checkout. Keep it on `ds-integration` and don't touch it while the run is going.
+  - jump built the lib from a temporary worktree during the run. Its `sharedLibPath` has been restored and the worktree removed.
+  - PO decisions are recorded in each plan's "PO resolution" block. The CI pin bumps (hr T31 and jump T22) wait for the user's lib-push go-ahead.
+- (Done) @architect wrote the SP5 plan → `hr_tracker_app\docs\superpowers\plans\2026-10-12-hr-night-drive.md` and the SP6 plan → `jump_tracker_app\docs\superpowers\plans\2026-10-12-jump-night-drive.md`.
 
 ## Key documents
 

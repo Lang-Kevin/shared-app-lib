@@ -32,8 +32,8 @@
 - **Visual:** `BleStatusCard` always has a hairline border; the `SelectionHeader` count is uppercase
 - `durationString` delegates to `formatElapsed`; negative input now gives `00:00`
 
-### Removed
-- `SharedColors.kt` vals (`PrimaryPurple`, `ZoneColors`, …) deprecated in 0.4.0; use `MaterialTheme.colorScheme` / `AppTheme.colors`
+### Removed (breaking)
+- `SharedColors.kt` vals deprecated in 0.4.0 (`PrimaryPurple`, `LightPurple`, `SecondaryBlue`, `TertiaryPink`, `OnPrimary`, `ErrorRed`, `BackgroundDark`, `SurfaceDark`, `ConnectedGreen`, `ZoneColors`); use `MaterialTheme.colorScheme` / `AppTheme.colors`
 
 ## [0.4.0] — 2026-10-12
 
