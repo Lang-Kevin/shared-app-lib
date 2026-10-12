@@ -7,7 +7,7 @@ plugins {
 }
 
 group   = "com.kevin.shared"
-version = "0.4.0"
+version = "0.5.0"
 
 android {
     namespace   = "com.kevin.shared"

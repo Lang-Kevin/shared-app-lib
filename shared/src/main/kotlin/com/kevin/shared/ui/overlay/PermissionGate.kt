@@ -26,6 +26,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.kevin.shared.ui.components.PrimaryButton
 import com.kevin.shared.ui.theme.AppTheme
 
 enum class PermissionGateMode { Granted, Request, OpenSettings }
@@ -119,7 +120,7 @@ fun PermissionGate(
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     textAlign = TextAlign.Center,
                 )
-                AccentPillButton(text = actionLabel, onClick = onAction)
+                PrimaryButton(text = actionLabel, onClick = onAction)
             }
         }
     }

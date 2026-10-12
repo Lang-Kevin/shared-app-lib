@@ -53,6 +53,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
+import com.kevin.shared.ui.components.PrimaryButton
 import com.kevin.shared.ui.theme.AppTheme
 
 data class TutorialStep(val key: String, val title: String, val text: String)
@@ -257,7 +258,7 @@ private fun SpotlightCard(
             TextButton(onClick = onSkip) {
                 Text(skipLabel, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
-            AccentPillButton(text = actionLabel, onClick = onAction)
+            PrimaryButton(text = actionLabel, onClick = onAction)
         }
     }
 }

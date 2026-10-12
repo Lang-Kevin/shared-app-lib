@@ -1,6 +1,6 @@
 # Changelog — shared-android-lib
 
-## [Unreleased]
+## [0.5.0] — 2026-10-12
 
 ### Added
 - Night Drive basics in `ui/components`: `PrimaryButton`, `SecondaryButton` (`destructive`), `TextActionButton`; `Metric`, `StatGrid`/`StatCell`; `SegmentedControl`; `AppTabRow`; `ListCard`/`ListCardValue`; `EmptyState`; `SwipeToDelete` (`error` background, slides out at 40%)
@@ -31,6 +31,7 @@
 - **Visual:** `TargetZoneDialog` picks the zone with a `SegmentedControl` plus a zone-colour strip, replacing the zone-filled chips
 - **Visual:** `BleStatusCard` always has a hairline border; the `SelectionHeader` count is uppercase
 - `durationString` delegates to `formatElapsed`; negative input now gives `00:00`
+- `TutorialSpotlight` uses `PrimaryButton` (internal `AccentPillButton` removed)
 
 ## [0.4.0] — 2026-10-12
 
