@@ -1,6 +1,6 @@
 # Handover — Night Drive design system + redesign
 
-Updated: 2026-10-12 · Branch: `ds-integration` (local, not pushed; contains `design-system-foundation`)
+Updated: 2026-10-12 · Branch: `ds-integration` (0.5.0 on master; 0.5.1 local, ahead 7, not pushed)
 
 ## Status
 
@@ -29,7 +29,33 @@ Full `--rerun-tasks` gates, sequential: hr `feat/night-drive` @ `f005f1f`: BUILD
 - Lib: `ds-integration` pushed, fast-forwarded to `master` @ `f57bc7e`; CI tag `v0.5.0` created.
 - Apps pinned to `f57bc7e` (hr `e0a8d3d`, jump `97a8262`), branches pushed. PRs: hr-tracker #29, jump-tracker-app #15. jump PR also carries the user's local `84bc2c6` + merge `960a204`.
 - Open: device check (hr v7→v8 migration on existing data, DE; jump record HUD 19.5:9 + 16:9, PiP, swipe), then merge the PRs.
-Known: lib `DateStyle.WeekdayTime` is always 24h (EN users lose 12h). Lib follow-up candidates: `BleStatusCard(deviceName, detail)`, `mediaScrim` 0.28 vs ≤25%, hr Detail decimation smoothing peaks. hr orphan strings (`history_load_legend_*`, some Readiness/RestingHr) to clean.
+
+## Follow-ups → 0.5.1 (2026-10-12, local, NOT pushed)
+
+Workflow `wf_15360ae9-7d0`, all tasks review APPROVE. Final QA PASS (`--rerun-tasks`, sequential): lib 249 tests, hr 167, jump 454; 0 failures, lint 0 errors, checkers exit 0, hr EN/DE parity OK.
+
+| Repo / branch | Commit | What |
+|---|---|---|
+| lib `ds-integration` | `101d07a` | `DateStyle.WeekdayTime` locale 12h/24h |
+| | `fcd4c0e` | `mediaScrim` 0.25 |
+| | `a1688bf` | `DecimationMode {Mean, Max, MinMax}` |
+| | `87497b6` | `BleStatusCard(deviceName, detail)` |
+| | `fd05370`, `08a9a4b` | `HeroValue`/`AccentTag`/`AccentDivider`/`InlineBar` (from jump) |
+| | `72479cd` | version 0.5.1, CHANGELOG |
+| hr `feat/night-drive` | `dfc4e61` | 20 orphan strings removed (EN+DE) |
+| | `b53a221` | TrendCards `currentLocale()` |
+| | `19d5485` | Battery Service read, clamp to 100 |
+| | `8580461` | Detail chart `DecimationMode.Max`, BleStatusCard detail |
+| jump `feat/night-drive` | `32abf27` | `JumpComponents.kt` → lib components |
+
+Pending (needs user go-ahead):
+1. Push lib `ds-integration`, FF `master` → CI tag `v0.5.1`.
+2. Bump both apps' `code/shared-app-lib.ref` to the new master SHA (hr/jump new commits don't compile in CI against `f57bc7e`), push both `feat/night-drive` (updates PRs #29, #15).
+3. Cleanup: remote `ds-integration`, local `backup/ds-integration-pre-rewrite`, worktree `..\shared-android-lib-followups` + branch `lib-followups`, worktrees `..\shared-android-lib-ds-{basics,charts,media}`.
+4. Optional hr review warnings: `docs/SPEC.md:265` stale (battery read once), no `changelog.d` entry, 0xFF sentinel shows 100%, no `Log.w` on battery read failure.
+5. Cosmetic: LiveScreen still Mean decimation, `InlineBar` NaN guard, `BleStatusCard` blank strings/no ellipsis, weak DE test assert, NBSP literals in `DatesTest`.
+
+User-owned: device check → merge PRs → re-run lib CI on master (job "apps (hr-tracker, master)" red until hr #29 merges). jump PR #15 may need a rebase once jump `main` `d86a5b6` (other session) is pushed.
 
 ## Done
 
