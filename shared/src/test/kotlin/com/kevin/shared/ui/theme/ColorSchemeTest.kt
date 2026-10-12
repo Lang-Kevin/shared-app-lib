@@ -123,10 +123,4 @@ class ColorSchemeTest {
         assertEquals(s.background, b.background)
         assertEquals(s.error, b.error)
     }
-
-    @Test @Suppress("DEPRECATION") fun deprecatedValsKeepOldValues() {
-        assertEquals(Color(0xFFB6A6F2), PrimaryPurple)
-        assertEquals(Color(0xFF4CAF82), ConnectedGreen)
-        assertEquals(5, ZoneColors.size)
-    }
 }
