@@ -55,6 +55,12 @@ Updated: 2026-10-12 · Branch: `design-system-foundation` (not pushed)
   - HUD scrim clamp is 0.25
   - `AccentPillButton` is replaced by SP2 `PrimaryButton` at integration
 
+## In flight
+
+- Workflow run `wf_5be2eb23-506` executes SP2 (T1–17), SP3 (T1–10) and SP4 (T1–7) in parallel worktrees. Each task goes implement (Sonnet implementer) → reviewer → up to 2 fix rounds, then lib QA per branch. App builds wait for `ds-integration`.
+  - Resume with `Workflow({scriptPath: ~/.claude/projects/C--Code-Android-shared-android-lib/c00c4422-…/workflows/scripts/night-drive-sp2-4-wf_5be2eb23-506.js, resumeFromRunId: "wf_5be2eb23-506"})`.
+- @architect is writing the SP5 plan → `hr_tracker_app\docs\superpowers\plans\2026-10-12-hr-night-drive.md` and the SP6 plan → `jump_tracker_app\docs\superpowers\plans\2026-10-12-jump-night-drive.md`.
+
 ## Key documents
 
 - Spec: `docs/superpowers/specs/2026-10-11-design-system-foundation-design.md`
