@@ -19,7 +19,7 @@ jobs:
         with:
           distribution: temurin
           java-version: "21"
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@v6
       - name: Hardcoded UI strings
         run: python3 tools/check_hardcoded_strings.py shared/src/main/kotlin
       - name: Design token checker tests
@@ -95,7 +95,7 @@ jobs:
         with:
           distribution: temurin
           java-version: "21"
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@v6
         if: env.CAN_CHECKOUT == 'true'
       - name: Build and unit tests
         if: env.CAN_CHECKOUT == 'true'
